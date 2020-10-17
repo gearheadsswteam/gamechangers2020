@@ -9,12 +9,11 @@ public class Intakesystem {
         this.intakeMotor = intakeMotor;
     }
 
-
-    public void startInTake(){
+    public void startInTake() {
         intakeMotor.setPower(0.5);
     }
 
-    public void stopInTake(){
+    public void stopInTake() {
         intakeMotor.setPower(0);
     }
 }

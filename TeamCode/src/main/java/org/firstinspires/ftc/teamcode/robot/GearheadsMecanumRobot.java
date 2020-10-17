@@ -4,11 +4,16 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.teamcode.robot.actionparts.Intakesystem;
+import org.firstinspires.ftc.teamcode.robot.actionparts.RingFlipperSystem;
+import org.firstinspires.ftc.teamcode.robot.actionparts.ShootingSystem;
 
 
 /**
@@ -29,21 +34,21 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 public class GearheadsMecanumRobot{
 
+    public Intakesystem intakesystem;
+    public ShootingSystem shootingSystem;
+    public RingFlipperSystem ringFlipperSystem;
+
     public BNO055IMU imu;
-    public Servo skystoneGrabServo;
-    public Servo leftFoundationServo;
-    public Servo rightFoundationServo;
-    public Servo clawServoRight;
-    public Servo clawServoLeft;
+    public Servo leftFlipper;
+    public Servo rightFlipper;
+    //drive train
     public DcMotor fl_motor;
     public DcMotor fr_motor;
     public DcMotor rl_motor;
     public DcMotor rr_motor;
-    public DigitalChannel limitSwitchUp;
-    public DigitalChannel limitSwitchDown;
-    public DcMotor elevatorDrive;
-    public ColorSensor sensorColor;
-    public DistanceSensor sensorDistance;
+    public DcMotor intakeMotor;
+    public DcMotor shootingMotor;
+
 
 
 
@@ -62,56 +67,36 @@ public class GearheadsMecanumRobot{
     public GearheadsMecanumRobot(LinearOpMode opMode){
         this.curOpMode = opMode;
 
-    }
-
-
-    private void initServo(){
-        clawServoRight = hwMap.get (Servo.class, "servoTestRight");
-        clawServoRight.setDirection(Servo.Direction.FORWARD);
-
-        clawServoLeft = hwMap.get (Servo.class, "servoTestLeft");
-        clawServoRight.setDirection(Servo.Direction.REVERSE);
 
     }
 
-    private void initFoundationServo(){
-        leftFoundationServo = hwMap.get (Servo.class, "leftFoundationServo");
-        //leftFoundationServo.setPosition(FoundationGrabber.INIT_POSITION);
 
-        rightFoundationServo = hwMap.get (Servo.class, "rightFoundationServo");
-        //rightFoundationServo.setPosition(FoundationGrabber.INIT_POSITION);
+    private void initIntakeSystem(){
+        intakeMotor = hwMap.get (DcMotor.class, "intakeMotor");
+        intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intakeMotor.setDirection(DcMotor.Direction.FORWARD);
+
+        intakesystem = new Intakesystem(intakeMotor);
+    }
+    private void initShootingSystem(){
+        shootingMotor = hwMap.get(DcMotor.class, "shootingMotor");
+        shootingMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        shootingMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        shootingMotor.setDirection(DcMotor.Direction.FORWARD);
+
+        shootingSystem = new ShootingSystem(shootingMotor);
     }
 
-    private void initSkyStoneServo(){
-        skystoneGrabServo = hwMap.get (Servo.class, "skystoneServo");
-        //skystoneGrabServo.setPosition(0.65);
+
+    private void initRingFlipSystem(){
+         leftFlipper = hwMap.get(Servo.class, "leftFlipper");
+        leftFlipper.setDirection(Servo.Direction.REVERSE);
+         rightFlipper = hwMap.get(Servo.class, "rightFlipper");
+        rightFlipper.setDirection(Servo.Direction.FORWARD);
+
+        ringFlipperSystem = new RingFlipperSystem(curOpMode,leftFlipper, rightFlipper);
     }
-
-    private void initLimitSwitch(){
-        limitSwitchUp = hwMap.get(DigitalChannel.class,"limitSwitchUp");
-        limitSwitchUp.setMode(DigitalChannel.Mode.INPUT);
-
-        limitSwitchDown = hwMap.get(DigitalChannel.class,"limitSwitchDown");
-        limitSwitchDown.setMode(DigitalChannel.Mode.INPUT);
-    }
-
-    private void initElevator(){
-        elevatorDrive = hwMap.get(DcMotor.class, "motorElevator");
-        elevatorDrive.setPower(0);
-
-        elevatorDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        elevatorDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-    }
-
-    private void initColorSensor(){
-        // get a reference to the color sensor.
-        sensorColor = hwMap.get(ColorSensor.class, "colorSensor");
-
-        // get a reference to the distance sensor that shares the same name.
-        //sensorDistance = hwMap.get(DistanceSensor.class, "colorSensor");
-
-    }
-
 
     private void initGyro(boolean calibrate){
         imu = hwMap.get(BNO055IMU.class, "testGyro");
@@ -170,12 +155,9 @@ public class GearheadsMecanumRobot{
         hwMap = ahwMap;
 
         initDriveMotors();
-        initServo();
-        initSkyStoneServo();
-        initFoundationServo();
-        initColorSensor();
-        initLimitSwitch();
-        initElevator();
+        initShootingSystem();
+        initIntakeSystem();
+        initRingFlipSystem();
         initGyro(true);
     }
 
@@ -185,12 +167,9 @@ public class GearheadsMecanumRobot{
         hwMap = ahwMap;
 
         initDriveMotors();
-        initServo();
-        initSkyStoneServo();
-        initFoundationServo();
-        initColorSensor();
-        initLimitSwitch();
-        initElevator();
+        initShootingSystem();
+        initIntakeSystem();
+        initRingFlipSystem();
         initGyro(false);
     }
 }

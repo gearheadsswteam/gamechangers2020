@@ -10,11 +10,11 @@ public class ShootingSystem {
     }
 
 
-    public void startShooterMotor(){
+    public void startShooterMotor() {
         shootingMotor.setPower(0.5);
     }
 
-    public void stopShooterMotor(){
+    public void stopShooterMotor() {
         shootingMotor.setPower(0);
     }
 }

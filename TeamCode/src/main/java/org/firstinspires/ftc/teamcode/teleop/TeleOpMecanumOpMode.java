@@ -9,10 +9,12 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.teamcode.robot.actionparts.Intakesystem;
+import org.firstinspires.ftc.teamcode.robot.actionparts.ShootingSystem;
 import org.firstinspires.ftc.teamcode.robot.drivetrain.mecanum.MecanumDrive;
 import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobot;
 import org.firstinspires.ftc.teamcode.robot.actionparts.ClawControl;
-import org.firstinspires.ftc.teamcode.robot.actionparts.FoundationGrabber;
+import org.firstinspires.ftc.teamcode.robot.actionparts.RingFlipperSystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.SkystoneArmServo;
 
 
@@ -22,6 +24,9 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
 
     /* Declare OpMode members. */
     private GearheadsMecanumRobot robot;   // Use gearheads robot hardware
+    public Intakesystem intakesystem;
+    public ShootingSystem shootingSystem;
+    public RingFlipperSystem ringFlipperSystem;
 
     private MecanumDrive mecanum;
     private BNO055IMU gyro;
@@ -31,11 +36,13 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
     private double sidePower;
 
     private SkystoneArmServo skystoneArmServo;
-    private FoundationGrabber foundationGrabber;
+    private RingFlipperSystem foundationGrabber;
 
     public TeleOpMecanumOpMode() {
         robot = new GearheadsMecanumRobot(this);
-        foundationGrabber = new FoundationGrabber(this, robot);
+        intakesystem = robot.intakesystem;
+        shootingSystem = robot.shootingSystem;
+        ringFlipperSystem = robot.ringFlipperSystem;
     }
 
     @Override
@@ -49,27 +56,25 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
         double gripPosition;
         gripPosition = ClawControl.MIDDLE_POSITION;        // set grip to middle open
 
-        initializeClaw(ClawControl.MIN_POSITION);
+
         while (opModeIsActive()) {
             adjustForFOV();
             dampenSpeed();
             //Move The robot
             moveRobot();
+            operateIntake();
+            operateShooter();
 
-            gripPosition = operateClaw(gripPosition);
-            operateElevator();
-            operateFoundationGrabber();
-            operateSkyStoneGrabber();
         }
     }
 
     private void operateFoundationGrabber() {
         if (gamepad1.x) {
-            foundationGrabber.grabFoundation();
+            foundationGrabber.flipRings();
         }
 
         if (gamepad1.y) {
-            foundationGrabber.ungrabFoundation();
+            foundationGrabber.unflipRings();
         }
 
     }
@@ -100,8 +105,7 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
         DcMotor rr_motor = robot.rr_motor;
 
         mecanum = new MecanumDrive(fl_motor, fr_motor, rl_motor, rr_motor, gyro);
-        skystoneArmServo = new SkystoneArmServo(this, robot.skystoneGrabServo);
-        initializeClaw(ClawControl.MIN_POSITION);
+
     }
 
     private void adjustForFOV() {
@@ -138,20 +142,25 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
     }
 
 
-    private void operateSkyStoneGrabber() {
+    private void operateIntake() {
         if (gamepad2.a) {
-            skystoneArmServo.grabSkyStone();
+            intakesystem.startInTake();
         }
-        if (gamepad2.b) {
-            skystoneArmServo.dropSkyStone();
+        if (gamepad2.x) {
+            intakesystem.stopInTake();
         }
     }
 
-    private void noAdjustForFOV() {
-        turn = gamepad1.right_stick_x;
-        forwardPower = gamepad1.left_stick_x;
-        sidePower = gamepad1.left_stick_y;
+    private void operateShooter() {
+        if (gamepad2.y) {
+            shootingSystem.startShooterMotor();
+        }
+        if (gamepad2.b) {
+            shootingSystem.stopShooterMotor();
+        }
     }
+
+
 
     private void moveRobot() {
         //Joystick Movement
@@ -160,71 +169,6 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
 
         //Push data
         pushTelemetry();
-    }
-
-    private void operateElevator() {
-        //Elevator
-        this.telemetry.addData("Limit up ", robot.limitSwitchUp.getState());
-        this.telemetry.addData("Limit down ", robot.limitSwitchDown.getState());
-        this.telemetry.update();
-
-        double elevatorDrive;
-        elevatorDrive = 0.8 * gamepad2.left_stick_y;
-
-        elevatorDrive = dampenElevatorSpeed(elevatorDrive);
-
-        if (elevatorDrive > 0) {
-            if (robot.limitSwitchUp.getState()) {
-                robot.elevatorDrive.setPower(elevatorDrive);
-            } else {
-                robot.elevatorDrive.setPower(0);
-                printLimitSwitchState();
-            }
-        }
-
-        if (elevatorDrive < 0) {
-            elevatorDrive = gamepad2.left_stick_y;
-            if (robot.limitSwitchDown.getState()) {
-                robot.elevatorDrive.setPower(elevatorDrive);
-            } else {
-                robot.elevatorDrive.setPower(0);
-                printLimitSwitchState();
-            }
-        }
-
-        if (elevatorDrive == 0) {
-            robot.elevatorDrive.setPower(elevatorDrive);
-        }
-    }
-
-    private double initializeClaw(double gripPosition) {
-        robot.clawServoRight.setPosition(Range.clip(gripPosition, ClawControl.MIN_POSITION, ClawControl.MAX_POSITION));
-        robot.clawServoLeft.setPosition(Range.clip(gripPosition, ClawControl.MIN_POSITION, ClawControl.MAX_POSITION));
-        printClawState(gripPosition);
-        return gripPosition;
-    }
-
-
-    private double operateClaw(double gripPosition) {
-        // open the gripper on X button if not already at most open position.
-        if (gamepad2.y && gripPosition < ClawControl.MAX_POSITION)
-            gripPosition = gripPosition + .05;
-
-        // close the gripper on Y button if not already at the closed position.
-        if (gamepad2.x && gripPosition > ClawControl.MAX_CLOSE)
-            gripPosition = gripPosition - .05;
-
-        robot.clawServoRight.setPosition(Range.clip(gripPosition, ClawControl.MIN_POSITION, ClawControl.MAX_POSITION));
-        robot.clawServoLeft.setPosition(Range.clip(gripPosition, ClawControl.MIN_POSITION, ClawControl.MAX_POSITION));
-        printClawState(gripPosition);
-        return gripPosition;
-    }
-
-    private void printLimitSwitchState() {
-        this.telemetry.addData("Limit up pressed ", !robot.limitSwitchUp.getState());
-        this.telemetry.addData("Limit down pressed ", !robot.limitSwitchDown.getState());
-        this.telemetry.addData("Elevator stopped ", "done");
-        this.telemetry.update();
     }
 
     private void printClawState(double gripPosition) {
