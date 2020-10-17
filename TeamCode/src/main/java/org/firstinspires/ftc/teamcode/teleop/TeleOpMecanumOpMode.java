@@ -4,7 +4,6 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -13,9 +12,7 @@ import org.firstinspires.ftc.teamcode.robot.actionparts.Intakesystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.ShootingSystem;
 import org.firstinspires.ftc.teamcode.robot.drivetrain.mecanum.MecanumDrive;
 import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobot;
-import org.firstinspires.ftc.teamcode.robot.actionparts.ClawControl;
 import org.firstinspires.ftc.teamcode.robot.actionparts.RingFlipperSystem;
-import org.firstinspires.ftc.teamcode.robot.actionparts.SkystoneArmServo;
 
 
 @TeleOp(name = "Mecanum TeleOp Mode", group = "Mecanum")
@@ -24,9 +21,10 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
 
     /* Declare OpMode members. */
     private GearheadsMecanumRobot robot;   // Use gearheads robot hardware
-    public Intakesystem intakesystem;
-    public ShootingSystem shootingSystem;
-    public RingFlipperSystem ringFlipperSystem;
+
+    private Intakesystem intakesystem;
+    private ShootingSystem shootingSystem;
+    private RingFlipperSystem ringFlipperSystem;
 
     private MecanumDrive mecanum;
     private BNO055IMU gyro;
@@ -35,9 +33,9 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
     private double forwardPower;
     private double sidePower;
 
-    private SkystoneArmServo skystoneArmServo;
-    private RingFlipperSystem foundationGrabber;
-
+    /**
+     * Constructor
+     */
     public TeleOpMecanumOpMode() {
         robot = new GearheadsMecanumRobot(this);
         intakesystem = robot.intakesystem;
@@ -53,31 +51,22 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
 
         initOpMode();
 
-        double gripPosition;
-        gripPosition = ClawControl.MIDDLE_POSITION;        // set grip to middle open
-
-
         while (opModeIsActive()) {
             adjustForFOV();
             dampenSpeed();
             //Move The robot
             moveRobot();
+
+            //Operate Ring functions
             operateIntake();
+            operateRingFlipSystem();
             operateShooter();
-
         }
     }
 
-    private void operateFoundationGrabber() {
-        if (gamepad1.x) {
-            foundationGrabber.flipRings();
-        }
-
-        if (gamepad1.y) {
-            foundationGrabber.unflipRings();
-        }
-
-    }
+    /**
+     * Initialize the opmode
+     */
 
     private void initOpMode() {
         // Wait for the game to start (driver presses PLAY)
@@ -105,9 +94,11 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
         DcMotor rr_motor = robot.rr_motor;
 
         mecanum = new MecanumDrive(fl_motor, fr_motor, rl_motor, rr_motor, gyro);
-
     }
 
+    /**
+     * Adjust teleop driving with FOV mode
+     */
     private void adjustForFOV() {
         double angle = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
 
@@ -119,6 +110,9 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
         turn = gamepad1.right_stick_x;
     }
 
+    /**
+     * Dampen the Robot driving movements if right trigger is pressed
+     */
     private void dampenSpeed() {
         float speedDamper = gamepad1.right_trigger;
 
@@ -131,17 +125,22 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
         turn = turn * (1 - speedDamper);
     }
 
-    private double dampenElevatorSpeed(double elevatorActualSpeed) {
-        float speedDamper = gamepad2.right_trigger;
-
-        if (speedDamper == 1) {
-            speedDamper = (float) 0.8;
+    /**
+     * Operate the Flipping system
+     */
+    private void operateRingFlipSystem() {
+        if (gamepad1.x) {
+            ringFlipperSystem.flipRings();
         }
 
-        return elevatorActualSpeed * (1 - speedDamper);
+        if (gamepad1.y) {
+            ringFlipperSystem.unflipRings();
+        }
     }
 
-
+    /**
+     * Operate intake system
+     */
     private void operateIntake() {
         if (gamepad2.a) {
             intakesystem.startInTake();
@@ -151,6 +150,9 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
         }
     }
 
+    /**
+     * Operate shooter
+     */
     private void operateShooter() {
         if (gamepad2.y) {
             shootingSystem.startShooterMotor();
@@ -160,27 +162,16 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
         }
     }
 
-
-
+    /**
+     * Drive the robot
+     */
     private void moveRobot() {
         //Joystick Movement
         mecanum.move(forwardPower, sidePower, turn);
-
-
         //Push data
         pushTelemetry();
     }
 
-    private void printClawState(double gripPosition) {
-        this.telemetry.addData("Claw val = ", gripPosition);
-        this.telemetry.update();
-    }
-
-    private void printNav(double angle) {
-        this.telemetry.addData("gamepad1.right_stick_x = ", gamepad1.right_stick_x);
-        this.telemetry.addData("angle = ", angle);
-        this.telemetry.update();
-    }
 
     public void pushTelemetry() {
         telemetry.addData("Gyro Heading", gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
