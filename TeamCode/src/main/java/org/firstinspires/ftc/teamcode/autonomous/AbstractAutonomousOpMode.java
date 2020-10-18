@@ -42,7 +42,7 @@ public abstract class AbstractAutonomousOpMode extends LinearOpMode {
          * Initialize the drive system variables.
          * The init() method of the hardware class does all the work here
          */
-        robot.init(hardwareMap);
+        robot.initAutonomous(hardwareMap);
         gyro = robot.imu;
 
         while (!gyro.isGyroCalibrated()) {

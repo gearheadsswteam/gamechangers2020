@@ -10,6 +10,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.robot.actionparts.Intakesystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.ShootingSystem;
+import org.firstinspires.ftc.teamcode.robot.actionparts.WobblegoalArm;
 import org.firstinspires.ftc.teamcode.robot.drivetrain.mecanum.MecanumDrive;
 import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobot;
 import org.firstinspires.ftc.teamcode.robot.actionparts.RingFlipperSystem;
@@ -22,9 +23,11 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
     /* Declare OpMode members. */
     private GearheadsMecanumRobot robot;   // Use gearheads robot hardware
 
+    //Different action systems used by the Robot
     private Intakesystem intakesystem;
     private ShootingSystem shootingSystem;
     private RingFlipperSystem ringFlipperSystem;
+    private WobblegoalArm wobblegoalArm;
 
     private MecanumDrive mecanum;
     private BNO055IMU gyro;
@@ -61,6 +64,7 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
             operateIntake();
             operateRingFlipSystem();
             operateShooter();
+            operateWobblegoalArmSystem();
         }
     }
 
@@ -126,15 +130,32 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
     }
 
     /**
-     * Operate the Flipping system
+     * Operate the wobble post arm system
      */
-    private void operateRingFlipSystem() {
-        if (gamepad1.x) {
-            ringFlipperSystem.flipRings();
+    private void operateWobblegoalArmSystem() {
+        if (gamepad1.b) {
+            wobblegoalArm.grabWobbleGoal();
+        }
+
+        if (gamepad1.a) {
+            wobblegoalArm.ungrabWobbleGoal();
         }
 
         if (gamepad1.y) {
-            ringFlipperSystem.unflipRings();
+            wobblegoalArm.liftWobbleGoal();
+        }
+
+        if (gamepad1.x) {
+            wobblegoalArm.liftWobbleGoal();
+        }
+    }
+
+    /**
+     * Operate the ring Flipping system
+     */
+    private void operateRingFlipSystem() {
+        if (gamepad2.right_bumper) {
+            ringFlipperSystem.pushRing();
         }
     }
 
@@ -142,7 +163,7 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
      * Operate intake system
      */
     private void operateIntake() {
-        if (gamepad2.a) {
+        if (gamepad2.y) {
             intakesystem.startInTake();
         }
         if (gamepad2.x) {
@@ -154,10 +175,10 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
      * Operate shooter
      */
     private void operateShooter() {
-        if (gamepad2.y) {
+        if (gamepad2.b) {
             shootingSystem.startShooterMotor();
         }
-        if (gamepad2.b) {
+        if (gamepad2.a) {
             shootingSystem.stopShooterMotor();
         }
     }
@@ -173,7 +194,7 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
     }
 
 
-    public void pushTelemetry() {
+    private void pushTelemetry() {
         telemetry.addData("Gyro Heading", gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
         telemetry.addData("Drive Data", mecanum.getDataString());
         telemetry.update();
