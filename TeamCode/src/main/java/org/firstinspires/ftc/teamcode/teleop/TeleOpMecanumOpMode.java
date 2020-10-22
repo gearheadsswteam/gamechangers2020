@@ -41,9 +41,7 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
      */
     public TeleOpMecanumOpMode() {
         robot = new GearheadsMecanumRobot(this);
-        intakesystem = robot.intakesystem;
-        shootingSystem = robot.shootingSystem;
-        ringFlipperSystem = robot.ringFlipperSystem;
+
     }
 
     @Override
@@ -87,6 +85,10 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
         robot.initTeleOp(hardwareMap);
 
         gyro = robot.imu;
+        intakesystem = robot.intakesystem;
+        shootingSystem = robot.shootingSystem;
+        ringFlipperSystem = robot.ringFlipperSystem;
+        wobblegoalArm = robot.wobblegoalArm;
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -146,7 +148,7 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
         }
 
         if (gamepad1.x) {
-            wobblegoalArm.liftWobbleGoal();
+            wobblegoalArm.setWobbleGoal();
         }
     }
 

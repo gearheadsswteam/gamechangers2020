@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.robot.actionparts.Intakesystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.RingFlipperSystem;
@@ -122,6 +121,7 @@ public class GearheadsMecanumRobot {
 
     /**
      * Initializes the Gyro
+     *
      * @param calibrate
      */
     private void initGyro(boolean calibrate) {
@@ -188,14 +188,15 @@ public class GearheadsMecanumRobot {
         initGyro(false);
     }
 
-    private void init(HardwareMap ahwMap){
+    private void init(HardwareMap ahwMap) {
         // Save reference to Hardware map
         hwMap = ahwMap;
 
         initDriveMotors();
+        initDriveMotors();
         initShootingSystem();
         initIntakeSystem();
-        initRingFlipSystem();
+        //initRingFlipSystem();
         initWobbleArmSystem();
     }
 }
