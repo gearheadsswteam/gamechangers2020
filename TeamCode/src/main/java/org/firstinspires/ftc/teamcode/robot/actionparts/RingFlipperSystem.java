@@ -18,8 +18,8 @@ public class RingFlipperSystem {
     //Positions of the servos
     public static double LEFT_RESET_POSITION = 0.2;
     public static double LEFT_PUSH_POSITION = 0.5;
-    public static double RIGHT_RESET_POSITION = 0.2;
-    public static double RIGHT_PUSH_POSITION = 0.5;
+    public static double RIGHT_RESET_POSITION = 0.1;
+    public static double RIGHT_PUSH_POSITION = 0.15;
 
 
     LinearOpMode curOpMode;
@@ -60,9 +60,10 @@ public class RingFlipperSystem {
      */
     private void operateServoToPushPosition() {
         // open the gripper on X button if not already at most open position.
-        leftServo.setPosition(Range.clip(LEFT_PUSH_POSITION, RingFlipperSystem.MIN_POSITION, RingFlipperSystem.MAX_POSITION));
+        //leftServo.setPosition(Range.clip(LEFT_PUSH_POSITION, RingFlipperSystem.MIN_POSITION, RingFlipperSystem.MAX_POSITION));
+        printSkystoneServoState("BEFORE PUSH");
         rightServo.setPosition(Range.clip(RIGHT_PUSH_POSITION, RingFlipperSystem.MIN_POSITION, RingFlipperSystem.MAX_POSITION));
-        printSkystoneServoState();
+        printSkystoneServoState("AFTER PUSH");
     }
 
     /**
@@ -72,15 +73,18 @@ public class RingFlipperSystem {
      */
     private void operateServoToResetPosition() {
         // open the gripper on X button if not already at most open position.
-        leftServo.setPosition(Range.clip(LEFT_RESET_POSITION, RingFlipperSystem.MIN_POSITION, RingFlipperSystem.MAX_POSITION));
+        //leftServo.setPosition(Range.clip(LEFT_RESET_POSITION, RingFlipperSystem.MIN_POSITION, RingFlipperSystem.MAX_POSITION));
+        printSkystoneServoState("BEFORE RESET");
         rightServo.setPosition(Range.clip(RIGHT_RESET_POSITION, RingFlipperSystem.MIN_POSITION, RingFlipperSystem.MAX_POSITION));
-        printSkystoneServoState();
+        printSkystoneServoState("AFTER RESET");
     }
 
 
-    private void printSkystoneServoState() {
+    private void printSkystoneServoState(String data) {
+        curOpMode.telemetry.addData("=======" + data,"");
         curOpMode.telemetry.addData("leftFoundationServo val = ", leftServo.getPosition());
         curOpMode.telemetry.addData("rightFoundationServo val = ", rightServo.getPosition());
         curOpMode.telemetry.update();
+        curOpMode.sleep(500);
     }
 }

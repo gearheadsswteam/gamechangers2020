@@ -3,7 +3,7 @@ rem connect the robot phone to laptop via USB
 rem connect laptop wirelessly to the robot phone's wifi direct SSID
 
 cd \
-cd C:\Users\212027833\AppData\Local\Android\Sdk\platform-tools
+cd C:\Users\Sidharth\AppData\Local\Android\Sdk\platform-tools
 
 rem these commands work over USB
 adb disconnect

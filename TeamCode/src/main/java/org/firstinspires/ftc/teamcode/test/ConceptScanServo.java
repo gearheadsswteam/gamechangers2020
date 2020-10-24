@@ -51,8 +51,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 //@Disabled
 public class ConceptScanServo extends LinearOpMode {
 
-    static final double INCREMENT   = 0.01;     // amount to slew servo each CYCLE_MS cycle
-    static final int    CYCLE_MS    =   50;     // period of each cycle
+    static final double INCREMENT   = 0.02;     // amount to slew servo each CYCLE_MS cycle
+    static final int    CYCLE_MS    =   500;     // period of each cycle
     static final double MAX_POS     =  1.0;     // Maximum rotational position
     static final double MIN_POS     =  0.0;     // Minimum rotational position
 
@@ -67,7 +67,7 @@ public class ConceptScanServo extends LinearOpMode {
 
         // Connect to servo (Assume PushBot Left Hand)
         // Change the text in quotes to match any servo name on your robot.
-        servo = hardwareMap.get(Servo.class, "servoTestRight");
+        servo = hardwareMap.get(Servo.class, "rightFlipper");
 
         // Wait for the start button
         telemetry.addData(">", "Press Gamepad 1 X to scan Servo...unpress it to stop" );
@@ -77,7 +77,15 @@ public class ConceptScanServo extends LinearOpMode {
 
         // Scan servo till stop pressed.
         while(opModeIsActive()){
-            rampUp = gamepad1.x;//If x is pressed only then ramp up
+            position = servo.getPosition();
+            // Display the current value
+            telemetry.addData("Servo Initial Position", "%5.2f", position);
+
+            telemetry.update();
+            sleep(5000);
+
+
+            // ed only then ramp up
 
             // slew the servo, according to the rampUp (direction) variable.
             if (rampUp) {

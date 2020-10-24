@@ -28,7 +28,7 @@ public class Intakesystem {
      * Start the intake system
      */
     public void startInTake() {
-        intakeMotor.setPower(0.5);
+        intakeMotor.setPower(1);
     }
 
     /**

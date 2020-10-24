@@ -79,7 +79,7 @@ public class GearheadsMecanumRobot {
      * Initializes the ring shooting system
      */
 
-    private void initShootingSystem() {
+    private void initShootingSystem0() {
         DcMotor shootingMotor = hwMap.get(DcMotor.class, "shootingMotor");
         shootingMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         shootingMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -89,16 +89,18 @@ public class GearheadsMecanumRobot {
         shootingSystem.initialize();
     }
 
-    private void initShootingSystem1() {
+    private void initShootingSystem() {
+        //GReen Shooter
         DcMotor shootingMotorRight = hwMap.get(DcMotor.class, "shootingMotorRight");
         shootingMotorRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         shootingMotorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         shootingMotorRight.setDirection(DcMotor.Direction.FORWARD);
 
+        //Blue motor
         DcMotor shootingMotorLeft = hwMap.get(DcMotor.class, "shootingMotorLeft");
         shootingMotorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         shootingMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        shootingMotorLeft.setDirection(DcMotor.Direction.REVERSE);
+        shootingMotorLeft.setDirection(DcMotor.Direction.FORWARD);
 
         shootingSystem = new ShootingSystem(shootingMotorRight, shootingMotorLeft);
         shootingSystem.initialize();
@@ -111,9 +113,9 @@ public class GearheadsMecanumRobot {
 
     private void initRingFlipSystem() {
         Servo leftFlipper = hwMap.get(Servo.class, "leftFlipper");
-        leftFlipper.setDirection(Servo.Direction.REVERSE);
+        leftFlipper.setDirection(Servo.Direction.FORWARD);
         Servo rightFlipper = hwMap.get(Servo.class, "rightFlipper");
-        rightFlipper.setDirection(Servo.Direction.FORWARD);
+        rightFlipper.setDirection(Servo.Direction.REVERSE);
 
         ringFlipperSystem = new RingFlipperSystem(curOpMode, leftFlipper, rightFlipper);
         ringFlipperSystem.initialize();
@@ -211,9 +213,8 @@ public class GearheadsMecanumRobot {
         initDriveMotors();
         initIntakeSystem();
         initShootingSystem();
-        //initShootingSystem1();
         initRingFlipSystem();
-        initWobbleArmSystem();
+        //initWobbleArmSystem();
     }
 }
 
