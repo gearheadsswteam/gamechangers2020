@@ -7,14 +7,24 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  */
 public class ShootingSystem {
     //DC motor used by the Shooting system
-    public DcMotor shootingMotor;
+    public DcMotor shootingMotorRight;
+    public DcMotor shootingMotorLeft;
 
     /**
      * Constructor
      * @param shootingMotor
      */
     public ShootingSystem(DcMotor shootingMotor) {
-        this.shootingMotor = shootingMotor;
+        this.shootingMotorRight = shootingMotor;
+    }
+
+    /**
+     * Constructor
+     * @param shootingMotor
+     */
+    public ShootingSystem(DcMotor shootingMotorRight, DcMotor shootingMotorLeft) {
+        this.shootingMotorRight = shootingMotorRight;
+        this.shootingMotorLeft = shootingMotorLeft;
     }
 
     /**
@@ -28,13 +38,23 @@ public class ShootingSystem {
      * Starts the ring shooting motor
      */
     public void startShooterMotor() {
-        shootingMotor.setPower(0.5);
+        if(shootingMotorRight != null) {
+            shootingMotorRight.setPower(1);
+        }
+        if(shootingMotorLeft != null) {
+            shootingMotorLeft.setPower(1);
+        }
     }
 
     /**
      * Stops the ring shooting motor
      */
     public void stopShooterMotor() {
-        shootingMotor.setPower(0);
+        if(shootingMotorRight != null) {
+            shootingMotorRight.setPower(0);
+        }
+        if(shootingMotorLeft != null) {
+            shootingMotorLeft.setPower(0);
+        }
     }
 }

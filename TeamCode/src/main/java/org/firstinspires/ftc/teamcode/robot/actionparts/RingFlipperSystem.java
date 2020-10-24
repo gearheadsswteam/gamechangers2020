@@ -4,8 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobot;
-
 /**
  * Class the represents the Ring flip system
  */
@@ -15,9 +13,14 @@ public class RingFlipperSystem {
     public Servo leftServo;
     public Servo rightServo;
 
-    //Positions of the servos
     public static double  MIN_POSITION = 0.0, MAX_POSITION = 1, MIDDLE_POSITION = 0.5;
-    public static double  INIT_POSITION = 0.0, PUSH_POSITION = 0.18, RESET_POSITION = 0.0;
+
+    //Positions of the servos
+    public static double LEFT_RESET_POSITION = 0.2;
+    public static double LEFT_PUSH_POSITION = 0.5;
+    public static double RIGHT_RESET_POSITION = 0.2;
+    public static double RIGHT_PUSH_POSITION = 0.5;
+
 
     LinearOpMode curOpMode;
 
@@ -44,23 +47,36 @@ public class RingFlipperSystem {
      * Push a ring to the shooter
      */
     public void pushRing(){
-        operateServo(PUSH_POSITION);
-        curOpMode.sleep(100);
-        operateServo(RESET_POSITION);
+        operateServoToPushPosition();
+        curOpMode.sleep(200);
+        operateServoToResetPosition();
+    }
+
+
+    /**
+     * Operates the servos to push the rings
+     *
+     * @return
+     */
+    private void operateServoToPushPosition() {
+        // open the gripper on X button if not already at most open position.
+        leftServo.setPosition(Range.clip(LEFT_PUSH_POSITION, RingFlipperSystem.MIN_POSITION, RingFlipperSystem.MAX_POSITION));
+        rightServo.setPosition(Range.clip(RIGHT_PUSH_POSITION, RingFlipperSystem.MIN_POSITION, RingFlipperSystem.MAX_POSITION));
+        printSkystoneServoState();
     }
 
     /**
      * Operates the servos to push the rings
-     * @param gripPosition
+     *
      * @return
      */
-    private double operateServo(double gripPosition) {
+    private void operateServoToResetPosition() {
         // open the gripper on X button if not already at most open position.
-        leftServo.setPosition(Range.clip(gripPosition, RingFlipperSystem.MIN_POSITION, RingFlipperSystem.MAX_POSITION));
-        rightServo.setPosition(Range.clip(gripPosition, RingFlipperSystem.MIN_POSITION, RingFlipperSystem.MAX_POSITION));
+        leftServo.setPosition(Range.clip(LEFT_RESET_POSITION, RingFlipperSystem.MIN_POSITION, RingFlipperSystem.MAX_POSITION));
+        rightServo.setPosition(Range.clip(RIGHT_RESET_POSITION, RingFlipperSystem.MIN_POSITION, RingFlipperSystem.MAX_POSITION));
         printSkystoneServoState();
-        return gripPosition;
     }
+
 
     private void printSkystoneServoState() {
         curOpMode.telemetry.addData("leftFoundationServo val = ", leftServo.getPosition());

@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/FtcRobotController/FtcRobotController.iml" filepath="$PROJECT_DIR$/.idea/modules/FtcRobotController/FtcRobotController.iml" group="gamechangers2020/FtcRobotController" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TeamCode/TeamCode.iml" filepath="$PROJECT_DIR$/.idea/modules/TeamCode/TeamCode.iml" group="gamechangers2020/TeamCode" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/FtcRobotController/FtcRobotController.iml" filepath="$PROJECT_DIR$/.idea/modules/FtcRobotController/FtcRobotController.iml" group="gamechangers/FtcRobotController" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TeamCode/TeamCode.iml" filepath="$PROJECT_DIR$/.idea/modules/TeamCode/TeamCode.iml" group="gamechangers/TeamCode" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gamechangers.iml" filepath="$PROJECT_DIR$/.idea/modules/gamechangers.iml" group="gamechangers" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/gamechangers2020.iml" filepath="$PROJECT_DIR$/.idea/modules/gamechangers2020.iml" group="gamechangers2020" />
     </modules>
   </component>

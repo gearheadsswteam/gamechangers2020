@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.robot;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -68,7 +69,7 @@ public class GearheadsMecanumRobot {
         DcMotor intakeMotor = hwMap.get(DcMotor.class, "intakeMotor");
         intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        intakeMotor.setDirection(DcMotor.Direction.FORWARD);
+        intakeMotor.setDirection(DcMotor.Direction.REVERSE);
 
         intakesystem = new Intakesystem(intakeMotor);
         intakesystem.initialize();
@@ -85,6 +86,21 @@ public class GearheadsMecanumRobot {
         shootingMotor.setDirection(DcMotor.Direction.FORWARD);
 
         shootingSystem = new ShootingSystem(shootingMotor);
+        shootingSystem.initialize();
+    }
+
+    private void initShootingSystem1() {
+        DcMotor shootingMotorRight = hwMap.get(DcMotor.class, "shootingMotorRight");
+        shootingMotorRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        shootingMotorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        shootingMotorRight.setDirection(DcMotor.Direction.FORWARD);
+
+        DcMotor shootingMotorLeft = hwMap.get(DcMotor.class, "shootingMotorLeft");
+        shootingMotorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        shootingMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        shootingMotorLeft.setDirection(DcMotor.Direction.REVERSE);
+
+        shootingSystem = new ShootingSystem(shootingMotorRight, shootingMotorLeft);
         shootingSystem.initialize();
     }
 
@@ -193,10 +209,10 @@ public class GearheadsMecanumRobot {
         hwMap = ahwMap;
 
         initDriveMotors();
-        initDriveMotors();
-        initShootingSystem();
         initIntakeSystem();
-        //initRingFlipSystem();
+        initShootingSystem();
+        //initShootingSystem1();
+        initRingFlipSystem();
         initWobbleArmSystem();
     }
 }
