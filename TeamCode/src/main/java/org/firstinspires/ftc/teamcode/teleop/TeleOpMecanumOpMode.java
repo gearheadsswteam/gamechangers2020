@@ -162,6 +162,19 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
     }
 
     /**
+     * Operate the ring Flipping system
+     */
+//    private void operateRingFlipSystem() {
+//        if (gamepad2.left_bumper) {
+//            ringFlipperSystem.pushPosition();
+//        }
+//
+//        if (gamepad2.right_bumper) {
+//            ringFlipperSystem.resetPosition();
+//        }
+//    }
+
+    /**
      * Operate intake system
      */
     private void operateIntake() {

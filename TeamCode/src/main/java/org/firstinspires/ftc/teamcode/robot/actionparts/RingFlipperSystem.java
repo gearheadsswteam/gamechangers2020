@@ -18,8 +18,10 @@ public class RingFlipperSystem {
     //Positions of the servos
     public static double LEFT_RESET_POSITION = 0.2;
     public static double LEFT_PUSH_POSITION = 0.5;
-    public static double RIGHT_RESET_POSITION = 0.1;
-    public static double RIGHT_PUSH_POSITION = 0.15;
+
+    //0.4 (PUSH) to 0.6 (RESET) is the range: 0.49 is the stop position
+    public static double RIGHT_RESET_POSITION = 0.6; //0.49 is stop position
+    public static double RIGHT_PUSH_POSITION = 0.4;
 
 
     LinearOpMode curOpMode;
@@ -50,6 +52,20 @@ public class RingFlipperSystem {
         operateServoToPushPosition();
         curOpMode.sleep(200);
         operateServoToResetPosition();
+    }
+
+    /**
+     * Push a ring to the shooter
+     */
+    public void resetPosition(){
+        operateServoToResetPosition();
+    }
+
+    /**
+     * Push a ring to the shooter
+     */
+    public void pushPosition(){
+        operateServoToPushPosition();
     }
 
 

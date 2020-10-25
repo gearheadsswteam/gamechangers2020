@@ -214,7 +214,7 @@ public class GearheadsMecanumRobot {
         initIntakeSystem();
         initShootingSystem();
         initRingFlipSystem();
-        //initWobbleArmSystem();
+        initWobbleArmSystem();
     }
 }
 
