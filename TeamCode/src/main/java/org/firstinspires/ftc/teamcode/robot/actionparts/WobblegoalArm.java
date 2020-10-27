@@ -15,9 +15,7 @@ public class WobblegoalArm {
 
     //Servo positions
     private static double WOBBLE_GRAB_POSTION = 0.5;
-    private static double WOBBLE_UNGRAB_POSTION = 0;
-    private static double WOBBLE_LIFT_POSTION = 0.5;
-    private static double WOBBLE_SET_POSTION = 0;
+    private static double WOBBLE_UNGRAB_POSTION = 0.7;
 
     /**
      * Constructor
@@ -40,14 +38,18 @@ public class WobblegoalArm {
      * Grabs the wobble goal
      */
     public void grabWobbleGoal(){
-        grabServo.setPosition(WOBBLE_GRAB_POSTION);
+        double position = grabServo.getPosition();
+        position = position + 0.05;
+        grabServo.setPosition(position);
     }
 
     /**
      * Ungrabs the wobble goal
      */
     public void ungrabWobbleGoal(){
-        grabServo.setPosition(WOBBLE_UNGRAB_POSTION);
+        double position = grabServo.getPosition();
+        position = position - 0.05;
+        grabServo.setPosition(position);
     }
 
     /**
@@ -55,13 +57,17 @@ public class WobblegoalArm {
       */
 
     public void liftWobbleGoal(){
-        liftServo.setPosition(WOBBLE_LIFT_POSTION);
+        double position = liftServo.getPosition();
+        position = position + 0.05;
+        liftServo.setPosition(position);
     }
 
     /**
      * Sets the wobble goal post down
      */
     public void setWobbleGoal(){
-        liftServo.setPosition(WOBBLE_SET_POSTION);
+        double position = liftServo.getPosition();
+        position = position - 0.05;
+        liftServo.setPosition(position);
     }
 }

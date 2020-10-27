@@ -16,12 +16,11 @@ public class RingFlipperSystem {
     public static double  MIN_POSITION = 0.0, MAX_POSITION = 1, MIDDLE_POSITION = 0.5;
 
     //Positions of the servos
-    public static double LEFT_RESET_POSITION = 0.2;
-    public static double LEFT_PUSH_POSITION = 0.5;
+    public static double LEFT_RESET_POSITION = 0;
+    public static double LEFT_PUSH_POSITION = 0.6;
 
-    //0.4 (PUSH) to 0.6 (RESET) is the range: 0.49 is the stop position
-    public static double RIGHT_RESET_POSITION = 0.6; //0.49 is stop position
-    public static double RIGHT_PUSH_POSITION = 0.4;
+    public static double RIGHT_RESET_POSITION = 0;
+    public static double RIGHT_PUSH_POSITION = 0.6;
 
 
     LinearOpMode curOpMode;
@@ -50,6 +49,10 @@ public class RingFlipperSystem {
      */
     public void pushRing(){
         operateServoToPushPosition();
+
+        //perhaps use to stop the servcs from overshooting
+        //leftServo.getController().pwmDisable();
+
         curOpMode.sleep(200);
         operateServoToResetPosition();
     }
@@ -76,7 +79,7 @@ public class RingFlipperSystem {
      */
     private void operateServoToPushPosition() {
         // open the gripper on X button if not already at most open position.
-        //leftServo.setPosition(Range.clip(LEFT_PUSH_POSITION, RingFlipperSystem.MIN_POSITION, RingFlipperSystem.MAX_POSITION));
+        leftServo.setPosition(Range.clip(LEFT_PUSH_POSITION, RingFlipperSystem.MIN_POSITION, RingFlipperSystem.MAX_POSITION));
         printSkystoneServoState("BEFORE PUSH");
         rightServo.setPosition(Range.clip(RIGHT_PUSH_POSITION, RingFlipperSystem.MIN_POSITION, RingFlipperSystem.MAX_POSITION));
         printSkystoneServoState("AFTER PUSH");
@@ -89,7 +92,7 @@ public class RingFlipperSystem {
      */
     private void operateServoToResetPosition() {
         // open the gripper on X button if not already at most open position.
-        //leftServo.setPosition(Range.clip(LEFT_RESET_POSITION, RingFlipperSystem.MIN_POSITION, RingFlipperSystem.MAX_POSITION));
+        leftServo.setPosition(Range.clip(LEFT_RESET_POSITION, RingFlipperSystem.MIN_POSITION, RingFlipperSystem.MAX_POSITION));
         printSkystoneServoState("BEFORE RESET");
         rightServo.setPosition(Range.clip(RIGHT_RESET_POSITION, RingFlipperSystem.MIN_POSITION, RingFlipperSystem.MAX_POSITION));
         printSkystoneServoState("AFTER RESET");
