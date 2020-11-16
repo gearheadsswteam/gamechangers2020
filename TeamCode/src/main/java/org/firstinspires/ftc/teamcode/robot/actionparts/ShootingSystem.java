@@ -46,6 +46,16 @@ public class ShootingSystem {
         }
     }
 
+    public void operateShooterMotor(double power) {
+        if(shootingMotorRight != null) {
+            shootingMotorRight.setPower(power);
+        }
+        if(shootingMotorLeft != null) {
+            shootingMotorLeft.setPower(power);
+        }
+    }
+
+
     /**
      * Stops the ring shooting motor
      */

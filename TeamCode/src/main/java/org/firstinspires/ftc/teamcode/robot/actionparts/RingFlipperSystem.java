@@ -49,11 +49,7 @@ public class RingFlipperSystem {
      */
     public void pushRing(){
         operateServoToPushPosition();
-
-        //perhaps use to stop the servcs from overshooting
-        //leftServo.getController().pwmDisable();
-
-        curOpMode.sleep(200);
+        curOpMode.sleep(100);
         operateServoToResetPosition();
     }
 

@@ -123,8 +123,8 @@ public class MyOdometryOpmode extends LinearOpMode {
 
             double robotMovementAngle = Math.toDegrees(Math.atan2(distanceToXTarget, distanceToYTarget));
 
-            double robot_movemwent_X_component = calculateX(robotMovementAngle, robotPower);
-            double robot_movemwent_Y_component = calculateY(robotMovementAngle, robotPower);
+            double robot_movement_X_component = calculateX(robotMovementAngle, robotPower);
+            double robot_movement_Y_component = calculateY(robotMovementAngle, robotPower);
             double pivotCorrection = desiredRobotOrientation - globalPositionUpdate.returnOrientation();
 
             //TODO - Rishi

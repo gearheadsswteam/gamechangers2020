@@ -42,13 +42,6 @@ public class Intakesystem {
      * Start the intake system
      */
     public void startReverseInTake() {
-        intakeMotor.setPower(-0.5);
-    }
-
-    /**
-     * Stop the intake system
-     */
-    public void stopReverseInTake() {
-        intakeMotor.setPower(0);
+        intakeMotor.setPower(-1.0);
     }
 }

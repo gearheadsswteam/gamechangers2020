@@ -36,6 +36,7 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
     private double forwardPower;
     private double sidePower;
 
+
     /**
      * Constructor
      */
@@ -62,6 +63,7 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
             operateIntake();
             operateRingFlipSystem();
             operateShooter();
+            operateShooterAngleAdjust();
             operateWobblegoalArmSystem();
         }
     }
@@ -152,25 +154,13 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
         }
     }
 
-    /**
-     * Operate the ring Flipping system
-     */
-//    private void operateRingFlipSystem() {
-//        if (gamepad2.right_bumper) {
-//            ringFlipperSystem.pushRing();
-//        }
-//    }
 
     /**
      * Operate the ring Flipping system
      */
     private void operateRingFlipSystem() {
-        if (gamepad2.left_bumper) {
-            ringFlipperSystem.pushPosition();
-        }
-
-        if (gamepad2.right_bumper) {
-            ringFlipperSystem.resetPosition();
+        if(gamepad2.x){
+            ringFlipperSystem.pushRing();
         }
     }
 
@@ -178,11 +168,14 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
      * Operate intake system
      */
     private void operateIntake() {
-        if (gamepad2.y) {
+        if (gamepad2.a) {
             intakesystem.startInTake();
         }
-        if (gamepad2.x) {
+        if (gamepad2.b) {
             intakesystem.stopInTake();
+        }
+        if (gamepad2.y) {
+            intakesystem.startReverseInTake();
         }
     }
 
@@ -190,11 +183,15 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
      * Operate shooter
      */
     private void operateShooter() {
-        if (gamepad2.b) {
-            shootingSystem.startShooterMotor();
-        }
-        if (gamepad2.a) {
-            shootingSystem.stopShooterMotor();
+        float right_trigger = gamepad2.right_trigger;
+        shootingSystem.operateShooterMotor(right_trigger);
+    }
+
+    private void operateShooterAngleAdjust(){
+        if (gamepad2.dpad_up) {
+
+        }else if (gamepad2.dpad_down) {
+
         }
     }
 
