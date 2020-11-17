@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 /**
  * Class that represnts the wobble arm grab system
  */
-public class WobblegoalArmRight implements WobbleGoalArm{
+public class WobblegoalArmRight implements WobbleGoalArm {
 
     //The Servo to lift the arm up and down
     private Servo liftServo;
@@ -19,6 +19,7 @@ public class WobblegoalArmRight implements WobbleGoalArm{
 
     /**
      * Constructor
+     *
      * @param liftServo
      * @param grabServo
      */
@@ -30,14 +31,14 @@ public class WobblegoalArmRight implements WobbleGoalArm{
     /**
      * Initialize the Wobble arm system
      */
-    public void initialize(){
+    public void initialize() {
 
     }
 
     /**
      * Grabs the wobble goal
      */
-    public void grabWobbleGoal(){
+    public void grabWobbleGoal() {
         double position = grabServo.getPosition();
         position = position + 0.05;
         grabServo.setPosition(position);
@@ -46,7 +47,7 @@ public class WobblegoalArmRight implements WobbleGoalArm{
     /**
      * Ungrabs the wobble goal
      */
-    public void ungrabWobbleGoal(){
+    public void ungrabWobbleGoal() {
         double position = grabServo.getPosition();
         position = position - 0.05;
         grabServo.setPosition(position);
@@ -54,9 +55,9 @@ public class WobblegoalArmRight implements WobbleGoalArm{
 
     /**
      * Lifts the wobble goal post
-      */
+     */
 
-    public void liftWobbleGoal(){
+    public void liftWobbleGoal() {
         double position = liftServo.getPosition();
         position = position + 0.05;
         liftServo.setPosition(position);
@@ -65,9 +66,35 @@ public class WobblegoalArmRight implements WobbleGoalArm{
     /**
      * Sets the wobble goal post down
      */
-    public void setWobbleGoal(){
+    public void setWobbleGoal() {
         double position = liftServo.getPosition();
         position = position - 0.05;
         liftServo.setPosition(position);
+    }
+
+    /**
+     * The position to move the arm to
+     *
+     * @param rightArmState
+     */
+    public void operateArm(int rightArmState) {
+        switch (rightArmState) {
+            case 0:
+                liftServo.setPosition(0.450);
+                grabServo.setPosition(0);
+                break;
+            case 1:
+                liftServo.setPosition(0.600);
+                grabServo.setPosition(0);
+                break;
+            case 2:
+                liftServo.setPosition(0.600);
+                grabServo.setPosition(0.390);
+                break;
+            case 3:
+                liftServo.setPosition(0.450);
+                grabServo.setPosition(0.390);
+                break;
+        }
     }
 }

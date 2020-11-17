@@ -10,31 +10,25 @@ import com.qualcomm.robotcore.util.Range;
 public class RingFlipperSystem {
 
     //Servos used by this system
-    public Servo leftServo;
-    public Servo rightServo;
-
-    public static double  MIN_POSITION = 0.0, MAX_POSITION = 1, MIDDLE_POSITION = 0.5;
+    private Servo flipperServo;
 
     //Positions of the servos
-    public static double LEFT_RESET_POSITION = 0;
-    public static double LEFT_PUSH_POSITION = 0.6;
+    private static double FLIPPER_RESET_POSITION = 0.450;
+    private static double FLIPPER_PUSH_POSITION = 0.270;
+    private static double MIN_POSITION = 0.25;
+    private static double MAX_POSITION = 0.50;
 
-    public static double RIGHT_RESET_POSITION = 0;
-    public static double RIGHT_PUSH_POSITION = 0.6;
-
-
-    LinearOpMode curOpMode;
+    private LinearOpMode curOpMode;
 
     /**
      * Constructor
      * @param opMode
-     * @param leftRobotServo
-     * @param rightRobotServo
+     * @param flipper
+     *
      */
-    public RingFlipperSystem(LinearOpMode opMode, Servo leftRobotServo,Servo rightRobotServo){
+    public RingFlipperSystem(LinearOpMode opMode, Servo flipper){
         curOpMode = opMode;
-        leftServo = leftRobotServo;
-        rightServo = rightRobotServo;
+        this.flipperServo = flipper;
     }
 
     /**
@@ -49,7 +43,7 @@ public class RingFlipperSystem {
      */
     public void pushRing(){
         operateServoToPushPosition();
-        curOpMode.sleep(100);
+        curOpMode.sleep(300);
         operateServoToResetPosition();
     }
 
@@ -75,10 +69,7 @@ public class RingFlipperSystem {
      */
     private void operateServoToPushPosition() {
         // open the gripper on X button if not already at most open position.
-        leftServo.setPosition(Range.clip(LEFT_PUSH_POSITION, RingFlipperSystem.MIN_POSITION, RingFlipperSystem.MAX_POSITION));
-        printSkystoneServoState("BEFORE PUSH");
-        rightServo.setPosition(Range.clip(RIGHT_PUSH_POSITION, RingFlipperSystem.MIN_POSITION, RingFlipperSystem.MAX_POSITION));
-        printSkystoneServoState("AFTER PUSH");
+        flipperServo.setPosition(Range.clip(FLIPPER_PUSH_POSITION, RingFlipperSystem.MIN_POSITION, RingFlipperSystem.MAX_POSITION));
     }
 
     /**
@@ -88,17 +79,13 @@ public class RingFlipperSystem {
      */
     private void operateServoToResetPosition() {
         // open the gripper on X button if not already at most open position.
-        leftServo.setPosition(Range.clip(LEFT_RESET_POSITION, RingFlipperSystem.MIN_POSITION, RingFlipperSystem.MAX_POSITION));
-        printSkystoneServoState("BEFORE RESET");
-        rightServo.setPosition(Range.clip(RIGHT_RESET_POSITION, RingFlipperSystem.MIN_POSITION, RingFlipperSystem.MAX_POSITION));
-        printSkystoneServoState("AFTER RESET");
+        flipperServo.setPosition(Range.clip(FLIPPER_RESET_POSITION, RingFlipperSystem.MIN_POSITION, RingFlipperSystem.MAX_POSITION));
     }
 
 
     private void printSkystoneServoState(String data) {
         curOpMode.telemetry.addData("=======" + data,"");
-        curOpMode.telemetry.addData("leftFoundationServo val = ", leftServo.getPosition());
-        curOpMode.telemetry.addData("rightFoundationServo val = ", rightServo.getPosition());
+        curOpMode.telemetry.addData("flipperServo val = ", flipperServo.getPosition());
         curOpMode.telemetry.update();
         curOpMode.sleep(500);
     }

@@ -8,14 +8,13 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobot;
 import org.firstinspires.ftc.teamcode.robot.actionparts.Intakesystem;
+import org.firstinspires.ftc.teamcode.robot.actionparts.RingFlipperSystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.ShootingSystem;
-import org.firstinspires.ftc.teamcode.robot.actionparts.WobbleGoalArm;
 import org.firstinspires.ftc.teamcode.robot.actionparts.WobblegoalArmLeft;
 import org.firstinspires.ftc.teamcode.robot.actionparts.WobblegoalArmRight;
 import org.firstinspires.ftc.teamcode.robot.drivetrain.mecanum.MecanumDrive;
-import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobot;
-import org.firstinspires.ftc.teamcode.robot.actionparts.RingFlipperSystem;
 
 
 @TeleOp(name = "Mecanum TeleOp Mode", group = "Mecanum")
@@ -31,6 +30,12 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
     private RingFlipperSystem ringFlipperSystem;
     private WobblegoalArmRight wobblegoalArmRight;
     private WobblegoalArmLeft wobblegoalArmLeft;
+
+    int leftArmState = 0;
+    int rightArmState = 0;
+
+    private boolean leftTriggerUp = true;
+    private boolean rightTriggerUp = true;
 
     private MecanumDrive mecanum;
     private BNO055IMU gyro;
@@ -141,27 +146,22 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
      * Operate the wobble post arm system
      */
     private void operateWobblegoalArmSystem() {
-        WobbleGoalArm wobbleGoalArm = wobblegoalArmRight;
+        if (gamepad1.left_trigger > 0.5 && leftTriggerUp) {
+            leftArmState = (leftArmState + 1) % 4;
+            leftTriggerUp = false;
+        } else if (gamepad1.left_trigger <= 0.5) {
+            leftTriggerUp = true;
+        }
+        wobblegoalArmLeft.operateArm(leftArmState);
 
-        if(gamepad1.left_bumper){
-            wobbleGoalArm = wobblegoalArmLeft;
+        if (gamepad1.right_trigger > 0.5 && rightTriggerUp) {
+            rightArmState = (rightArmState + 1) % 4;
+            rightTriggerUp = false;
+        } else if (gamepad1.right_trigger <= 0.5) {
+            rightTriggerUp = true;
         }
 
-        if (gamepad1.b) {
-            wobbleGoalArm.grabWobbleGoal();
-        }
-
-        if (gamepad1.a) {
-            wobbleGoalArm.ungrabWobbleGoal();
-        }
-
-        if (gamepad1.y) {
-            wobbleGoalArm.liftWobbleGoal();
-        }
-
-        if (gamepad1.x) {
-            wobbleGoalArm.setWobbleGoal();
-        }
+        wobblegoalArmRight.operateArm(rightArmState);
     }
 
 
@@ -169,7 +169,7 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
      * Operate the ring Flipping system
      */
     private void operateRingFlipSystem() {
-        if(gamepad2.x){
+        if (gamepad2.x) {
             ringFlipperSystem.pushRing();
         }
     }
@@ -197,10 +197,10 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
         shootingSystem.operateShooterMotor(right_trigger);
     }
 
-    private void operateShooterAngleAdjust(){
+    private void operateShooterAngleAdjust() {
         if (gamepad2.dpad_up) {
 
-        }else if (gamepad2.dpad_down) {
+        } else if (gamepad2.dpad_down) {
 
         }
     }

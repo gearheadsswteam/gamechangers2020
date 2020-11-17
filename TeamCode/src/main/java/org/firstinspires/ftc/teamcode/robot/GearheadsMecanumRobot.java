@@ -113,12 +113,10 @@ public class GearheadsMecanumRobot {
      */
 
     private void initRingFlipSystem() {
-        Servo leftFlipper = hwMap.get(Servo.class, "leftFlipper");
-        leftFlipper.setDirection(Servo.Direction.FORWARD);
-        Servo rightFlipper = hwMap.get(Servo.class, "rightFlipper");
-        rightFlipper.setDirection(Servo.Direction.REVERSE);
+        Servo flipperServo = hwMap.get(Servo.class, "flipper");
+        flipperServo.setDirection(Servo.Direction.FORWARD);
 
-        ringFlipperSystem = new RingFlipperSystem(curOpMode, leftFlipper, rightFlipper);
+        ringFlipperSystem = new RingFlipperSystem(curOpMode, flipperServo);
         ringFlipperSystem.initialize();
     }
 
