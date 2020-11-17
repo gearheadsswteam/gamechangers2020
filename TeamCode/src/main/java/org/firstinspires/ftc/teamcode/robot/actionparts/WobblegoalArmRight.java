@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 /**
  * Class that represnts the wobble arm grab system
  */
-public class WobblegoalArm {
+public class WobblegoalArmRight implements WobbleGoalArm{
 
     //The Servo to lift the arm up and down
     private Servo liftServo;
@@ -22,7 +22,7 @@ public class WobblegoalArm {
      * @param liftServo
      * @param grabServo
      */
-    public WobblegoalArm(Servo liftServo, Servo grabServo) {
+    public WobblegoalArmRight(Servo liftServo, Servo grabServo) {
         this.liftServo = liftServo;
         this.grabServo = grabServo;
     }

@@ -3,14 +3,14 @@ package org.firstinspires.ftc.teamcode.robot;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.robot.actionparts.Intakesystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.RingFlipperSystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.ShootingSystem;
-import org.firstinspires.ftc.teamcode.robot.actionparts.WobblegoalArm;
+import org.firstinspires.ftc.teamcode.robot.actionparts.WobblegoalArmLeft;
+import org.firstinspires.ftc.teamcode.robot.actionparts.WobblegoalArmRight;
 
 
 /**
@@ -35,7 +35,8 @@ public class GearheadsMecanumRobot {
     public Intakesystem intakesystem;
     public ShootingSystem shootingSystem;
     public RingFlipperSystem ringFlipperSystem;
-    public WobblegoalArm wobblegoalArm;
+    public WobblegoalArmRight wobblegoalArmRight;
+    public WobblegoalArmLeft wobblegoalArmLeft;
 
     //Gyro
     public BNO055IMU imu;
@@ -126,14 +127,23 @@ public class GearheadsMecanumRobot {
      */
 
     private void initWobbleArmSystem() {
-        Servo liftServo = hwMap.get(Servo.class, "liftServo");
-        liftServo.setDirection(Servo.Direction.FORWARD);
+        Servo armRightServo = hwMap.get(Servo.class, "armRight");
+        armRightServo.setDirection(Servo.Direction.FORWARD);
 
-        Servo grabServo = hwMap.get(Servo.class, "grabServo");
-        grabServo.setDirection(Servo.Direction.FORWARD);
+        Servo clawRightServo = hwMap.get(Servo.class, "clawRight");
+        clawRightServo.setDirection(Servo.Direction.FORWARD);
 
-        wobblegoalArm = new WobblegoalArm(liftServo, grabServo);
-        wobblegoalArm.initialize();
+        wobblegoalArmRight = new WobblegoalArmRight(armRightServo, clawRightServo);
+        wobblegoalArmRight.initialize();
+
+        Servo armLeftServo = hwMap.get(Servo.class, "armLeft");
+        armLeftServo.setDirection(Servo.Direction.FORWARD);
+
+        Servo clawLeftServo = hwMap.get(Servo.class, "clawLeft");
+        clawLeftServo.setDirection(Servo.Direction.FORWARD);
+
+        wobblegoalArmLeft = new WobblegoalArmLeft(armRightServo, clawRightServo);
+        wobblegoalArmLeft.initialize();
     }
 
 

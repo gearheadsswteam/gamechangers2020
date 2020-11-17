@@ -10,7 +10,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.robot.actionparts.Intakesystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.ShootingSystem;
-import org.firstinspires.ftc.teamcode.robot.actionparts.WobblegoalArm;
+import org.firstinspires.ftc.teamcode.robot.actionparts.WobbleGoalArm;
+import org.firstinspires.ftc.teamcode.robot.actionparts.WobblegoalArmLeft;
+import org.firstinspires.ftc.teamcode.robot.actionparts.WobblegoalArmRight;
 import org.firstinspires.ftc.teamcode.robot.drivetrain.mecanum.MecanumDrive;
 import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobot;
 import org.firstinspires.ftc.teamcode.robot.actionparts.RingFlipperSystem;
@@ -27,7 +29,8 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
     private Intakesystem intakesystem;
     private ShootingSystem shootingSystem;
     private RingFlipperSystem ringFlipperSystem;
-    private WobblegoalArm wobblegoalArm;
+    private WobblegoalArmRight wobblegoalArmRight;
+    private WobblegoalArmLeft wobblegoalArmLeft;
 
     private MecanumDrive mecanum;
     private BNO055IMU gyro;
@@ -90,7 +93,8 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
         intakesystem = robot.intakesystem;
         shootingSystem = robot.shootingSystem;
         ringFlipperSystem = robot.ringFlipperSystem;
-        wobblegoalArm = robot.wobblegoalArm;
+        wobblegoalArmRight = robot.wobblegoalArmRight;
+        wobblegoalArmLeft = robot.wobblegoalArmLeft;
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -137,20 +141,26 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
      * Operate the wobble post arm system
      */
     private void operateWobblegoalArmSystem() {
+        WobbleGoalArm wobbleGoalArm = wobblegoalArmRight;
+
+        if(gamepad1.left_bumper){
+            wobbleGoalArm = wobblegoalArmLeft;
+        }
+
         if (gamepad1.b) {
-            wobblegoalArm.grabWobbleGoal();
+            wobbleGoalArm.grabWobbleGoal();
         }
 
         if (gamepad1.a) {
-            wobblegoalArm.ungrabWobbleGoal();
+            wobbleGoalArm.ungrabWobbleGoal();
         }
 
         if (gamepad1.y) {
-            wobblegoalArm.liftWobbleGoal();
+            wobbleGoalArm.liftWobbleGoal();
         }
 
         if (gamepad1.x) {
-            wobblegoalArm.setWobbleGoal();
+            wobbleGoalArm.setWobbleGoal();
         }
     }
 
