@@ -21,6 +21,8 @@ import org.firstinspires.ftc.teamcode.robot.drivetrain.mecanum.MecanumDrive;
 //@Disabled
 public class TeleOpMecanumOpMode extends LinearOpMode {
 
+    //Reference for Josh's code: https://docs.google.com/document/d/1nJ-Rro6GFyXt1vbN69c-Y5u8U8c_oHpr-_ET3eomAbA/edit
+
     /* Declare OpMode members. */
     private GearheadsMecanumRobot robot;   // Use gearheads robot hardware
 
@@ -63,7 +65,9 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
 
         while (opModeIsActive()) {
             adjustForFOV();
-            dampenSpeed();
+
+            //TODO: Rishi: Dampening needs different controls
+            //dampenSpeed();
             //Move The robot
             moveRobot();
 
