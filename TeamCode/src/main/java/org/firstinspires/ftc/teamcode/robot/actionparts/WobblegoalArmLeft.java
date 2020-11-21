@@ -73,27 +73,27 @@ public class WobblegoalArmLeft implements WobbleGoalArm{
 
     /**
      * The position to move the arm to
+     *
      * @param leftArmState
      */
-    public void operateArm(int leftArmState){
+    public void operateArm(int leftArmState) {
         switch (leftArmState) {
             case 0:
-                liftServo.setPosition(0.560);
-                grabServo.setPosition(0.550);
+                liftServo.setPosition(0.450);
+                grabServo.setPosition(0);
                 break;
             case 1:
-                liftServo.setPosition(0.410);
-                grabServo.setPosition(0.550);
+                liftServo.setPosition(0.600);
+                grabServo.setPosition(0);
                 break;
             case 2:
-                liftServo.setPosition(0.410);
-                grabServo.setPosition(0.220);
+                liftServo.setPosition(0.600);
+                grabServo.setPosition(0.390);
                 break;
             case 3:
-                liftServo.setPosition(0.560);
-                grabServo.setPosition(0.220);
+                liftServo.setPosition(0.450);
+                grabServo.setPosition(0.390);
                 break;
         }
-
     }
 }

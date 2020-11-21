@@ -128,7 +128,7 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
 
         sidePower = tempForwardPower * Math.cos(angle) + tempSidePower * Math.sin(angle);
         forwardPower = -tempForwardPower * Math.sin(angle) + tempSidePower * Math.cos(angle);
-        turn = gamepad1.right_stick_x;
+        turn = -gamepad1.right_stick_x;
     }
 
     /**

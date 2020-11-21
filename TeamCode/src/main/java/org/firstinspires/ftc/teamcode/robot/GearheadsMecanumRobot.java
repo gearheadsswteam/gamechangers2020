@@ -82,13 +82,13 @@ public class GearheadsMecanumRobot {
         DcMotor shootingMotorRight = hwMap.get(DcMotor.class, "shootRight");
         shootingMotorRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         shootingMotorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        shootingMotorRight.setDirection(DcMotor.Direction.FORWARD);
+        shootingMotorRight.setDirection(DcMotor.Direction.REVERSE);
 
         //Blue motor
         DcMotor shootingMotorLeft = hwMap.get(DcMotor.class, "shootLeft");
         shootingMotorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         shootingMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        shootingMotorLeft.setDirection(DcMotor.Direction.FORWARD);
+        shootingMotorLeft.setDirection(DcMotor.Direction.REVERSE);
 
         shootingSystem = new ShootingSystem(shootingMotorRight, shootingMotorLeft);
         shootingSystem.initialize();
@@ -127,7 +127,7 @@ public class GearheadsMecanumRobot {
         Servo clawLeftServo = hwMap.get(Servo.class, "clawLeft");
         clawLeftServo.setDirection(Servo.Direction.FORWARD);
 
-        wobblegoalArmLeft = new WobblegoalArmLeft(armRightServo, clawRightServo);
+        wobblegoalArmLeft = new WobblegoalArmLeft(armLeftServo, clawLeftServo);
         wobblegoalArmLeft.initialize();
     }
 
@@ -186,10 +186,10 @@ public class GearheadsMecanumRobot {
 
 
         //This is based on how motors have been mounted
-        fr_motor.setDirection(DcMotor.Direction.REVERSE);
-        rr_motor.setDirection(DcMotor.Direction.REVERSE);
-        fl_motor.setDirection(DcMotor.Direction.FORWARD);
-        rl_motor.setDirection(DcMotor.Direction.FORWARD);
+        fr_motor.setDirection(DcMotor.Direction.FORWARD);
+        rr_motor.setDirection(DcMotor.Direction.FORWARD);
+        fl_motor.setDirection(DcMotor.Direction.REVERSE);
+        rl_motor.setDirection(DcMotor.Direction.REVERSE);
 
         fr_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rr_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
