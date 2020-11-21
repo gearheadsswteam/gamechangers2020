@@ -11,10 +11,10 @@ public class ExampleAutonomousMode extends AbstractAutonomousOpMode {
 
     @Override
     protected void executeOpMode() {
-        autonomousRobotMover.moveRobotForwardDistance(1, 150);
+        autonomousRobotMover.moveRobotForwardDistance(0.3, 20);
 
         sleep(2000);
 
-        autonomousRobotMover.moveRobotBackwardDistance(1, 150);
+        autonomousRobotMover.moveRobotBackwardDistance(0.3, 20);
     }
 }

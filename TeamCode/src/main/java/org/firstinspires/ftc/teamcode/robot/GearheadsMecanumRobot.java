@@ -67,7 +67,7 @@ public class GearheadsMecanumRobot {
      * Initializes the intake system
      */
     private void initIntakeSystem() {
-        DcMotor intakeMotor = hwMap.get(DcMotor.class, "intakeMotor");
+        DcMotor intakeMotor = hwMap.get(DcMotor.class, "intake");
         intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         intakeMotor.setDirection(DcMotor.Direction.REVERSE);
@@ -76,29 +76,16 @@ public class GearheadsMecanumRobot {
         intakesystem.initialize();
     }
 
-    /**
-     * Initializes the ring shooting system
-     */
-
-    private void initShootingSystem0() {
-        DcMotor shootingMotor = hwMap.get(DcMotor.class, "shootingMotor");
-        shootingMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        shootingMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        shootingMotor.setDirection(DcMotor.Direction.FORWARD);
-
-        shootingSystem = new ShootingSystem(shootingMotor);
-        shootingSystem.initialize();
-    }
 
     private void initShootingSystem() {
         //GReen Shooter
-        DcMotor shootingMotorRight = hwMap.get(DcMotor.class, "shootingMotorRight");
+        DcMotor shootingMotorRight = hwMap.get(DcMotor.class, "shootRight");
         shootingMotorRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         shootingMotorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         shootingMotorRight.setDirection(DcMotor.Direction.FORWARD);
 
         //Blue motor
-        DcMotor shootingMotorLeft = hwMap.get(DcMotor.class, "shootingMotorLeft");
+        DcMotor shootingMotorLeft = hwMap.get(DcMotor.class, "shootLeft");
         shootingMotorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         shootingMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         shootingMotorLeft.setDirection(DcMotor.Direction.FORWARD);
@@ -151,7 +138,7 @@ public class GearheadsMecanumRobot {
      * @param calibrate
      */
     private void initGyro(boolean calibrate) {
-        imu = hwMap.get(BNO055IMU.class, "testGyro");
+        imu = hwMap.get(BNO055IMU.class, "gyro");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
 
         parameters.mode = BNO055IMU.SensorMode.IMU;
@@ -182,6 +169,15 @@ public class GearheadsMecanumRobot {
      * Initializes the drive train
      */
     private void initDriveMotors() {
+        /**
+         * Josh = orig
+         * 0 br = fl
+         * 1 bl = fr
+         * 2 fr = rl
+         * 3 fl = rr
+         */
+
+
         //DRIVING
         fl_motor = hwMap.dcMotor.get("motor_fl");
         fr_motor = hwMap.dcMotor.get("motor_fr");
