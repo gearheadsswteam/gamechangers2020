@@ -9,8 +9,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.odometry.OdometryUtil;
 import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobot;
 import org.firstinspires.ftc.teamcode.robot.actionparts.SkystoneDetector;
+import org.firstinspires.ftc.teamcode.robot.utils.Movement;
+import org.firstinspires.ftc.teamcode.robot.utils.Position;
 import org.firstinspires.ftc.teamcode.vuforia.Robot_Navigation;
 
 public class AutonomousMecanumMover {
@@ -98,6 +101,42 @@ public class AutonomousMecanumMover {
      */
     public void moveRobotBackwardByTime(double time, double speed) {
         moveRobotForwardOrBackwardByTime(time, speed);
+    }
+
+    /**
+     * Moves the robot from one (X,y) position to (X1, Y1) position
+     * @param speed speed at which the movement is to be done
+     * @param currPosition starting position
+     * @param targetPosition target position
+     */
+    public void moveRobotToPosition(double speed, Position currPosition, Position targetPosition){
+        Movement movementNeeded = new Movement(currPosition, targetPosition, speed);
+        double neededX = movementNeeded.getNormalizedX();
+        double neededY = movementNeeded.getNormalizedY();
+
+        double x = neededX;
+        double y = neededY;
+
+        mecanum.move(x, y, 0);
+
+        runtime.reset();
+        resetAngle();
+        pidDrive.initPIDController();
+
+        //TODO: add OdometryUtil implementation
+        while (curOpMode.opModeIsActive() && (!OdometryUtil.hasReached(targetPosition))) {
+            double correction = checkDirection();
+            // Compensate for gyro angle.
+            Vector2d input = new Vector2d(x, y);
+            input.rotate(-correction);
+
+            mecanum.move(input.x, input.y, 0);
+        }
+        // turn the motors off.
+        mecanum.stopRobot();
+
+        pushTelemetry();
+        resetAngle();
     }
 
     /**
