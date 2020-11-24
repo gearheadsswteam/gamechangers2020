@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.robot.drivetrain.mecanum.MecanumDrive;
  */
 public abstract class AbstractAutonomousOpMode extends LinearOpMode {
     // Use gearheads robot hardware
-    private GearheadsMecanumRobot robot;
+    GearheadsMecanumRobot robot;
     //The drive system
     private MecanumDrive mecanum;
     // Use gyro
