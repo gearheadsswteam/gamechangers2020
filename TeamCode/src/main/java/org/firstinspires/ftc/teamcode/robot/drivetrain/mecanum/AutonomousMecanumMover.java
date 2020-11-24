@@ -59,11 +59,7 @@ public class AutonomousMecanumMover {
         mecanum = mecanumDrive;
     }
 
-    public void moveRobot(double inchesToMoveX, double inchesToMoveY, double rotation){
-        //TODO - Rishi
-        //Add new method similar to moveRobotForwardDistamceConditionally and/or moveRobotBackwardDistamceConditionally
-        //Add new method encodeForwardDrive() and/or encoderBackwardDrive() which takes robot orientation
-    }
+
 
     /**
      * Moves the robot forward for specific time
