@@ -1,15 +1,12 @@
 package org.firstinspires.ftc.teamcode.autonomous;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
 import org.firstinspires.ftc.teamcode.robot.utils.Position;
 
+@Autonomous(name = "RingCase0AutonomousOpMode", group = "Mecannum")
+
 public class RingCase0AutonomousOpMode extends AbstractAutonomousOpMode{
-    Position initialPosition = new Position(4,0,0);
-    Position wobbleGoal_1_Position = new Position(4,0,0);
-    Position wobbleDropPosition = new Position(5,4,0);
-    Position shootingPosition = new Position(5,4,0);
-    Position ringPickupPosition = new Position(5,4,0);
-    Position wobbleGoal_2_Position = new Position(4,0,0);
-    Position parkPosition = new Position(4,0,0);
 
     @Override
     protected void initOpModeAfterStart() {
@@ -19,35 +16,58 @@ public class RingCase0AutonomousOpMode extends AbstractAutonomousOpMode{
     @Override
     protected void executeOpMode() {
         moveFirstWobbleGoal();
+        gotoShootingPosition();
         shootPreloadedRings();
         grabRings();
-        shootGrabbedRings();
+        shootPreloadedRings();
+        //gotoToSecondWobbleGoal();
         moveSecondWobbleGoal();
         park();
     }
 
     private void moveFirstWobbleGoal(){
+        autonomousRobotMover.rotateLeft(15, 0.1);
+        autonomousRobotMover.moveRobotBackwardDistance(0.3,40);
+    }
 
-        autonomousRobotMover.moveRobotToPosition(1,initialPosition,wobbleDropPosition);
+    private void gotoShootingPosition(){
+        autonomousRobotMover.moveRobotForwardDistance(0.3,6);
+        autonomousRobotMover.rotateRight(15, 0.1);
+        autonomousRobotMover.moveRobotLeftDistance(0.2,9);
+        autonomousRobotMover.moveRobotLeftDistance(0.2,9);
+    }
+
+    private void gotoToSecondWobbleGoal(){
+
     }
 
     private void shootPreloadedRings(){
-        autonomousRobotMover.moveRobotForwardDistance(0.5, 12);
+        autonomousRobotMover.robot.shootingSystem.operateShooterMotor(1);
+        sleep(500);
+        autonomousRobotMover.robot.ringFlipperSystem.pushRing();
+        sleep(500);
+        autonomousRobotMover.robot.ringFlipperSystem.pushRing();
+        sleep(500);
+        autonomousRobotMover.robot.ringFlipperSystem.pushRing();
+        sleep(500);
+        autonomousRobotMover.robot.shootingSystem.stopShooterMotor();
     }
 
     private void grabRings(){
-
+        autonomousRobotMover.moveRobotForwardDistance(0.3,10);
+        autonomousRobotMover.robot.intakesystem.startInTake();
+        sleep(5000);
+        autonomousRobotMover.robot.intakesystem.stopInTake();
+        autonomousRobotMover.moveRobotBackwardDistance(0.3,10);
     }
 
-    private void shootGrabbedRings(){
 
-    }
 
     private void moveSecondWobbleGoal(){
 
     }
 
     private void park(){
-
+        autonomousRobotMover.moveRobotBackwardDistance(0.5,6);
     }
 }
