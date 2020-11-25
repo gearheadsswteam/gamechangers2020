@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.autonomous.AbstractAutonomousOpMode;
@@ -9,6 +10,7 @@ import org.firstinspires.ftc.teamcode.odometry.RobotPositionFinderFactory;
 import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobot;
 
 @Autonomous(name = "Mecannum: OdometryTestOpMode", group = "Mecannum")
+@Disabled
 public class OdometryTestOpMode extends AbstractAutonomousOpMode {
     private GEarheadsOdometryPositionFinder globalPositionUpdate;
 
