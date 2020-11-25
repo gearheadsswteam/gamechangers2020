@@ -111,7 +111,7 @@ public class AutonomousMecanumMover {
         double neededY = movementNeeded.getNormalizedY();
 
         double x = neededX;
-        double y = neededY;
+        double y = -neededY;
 
         mecanum.move(x, y, 0);
 
