@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -11,7 +12,7 @@ import org.firstinspires.ftc.teamcode.robot.drivetrain.mecanum.MecanumDrive;
 
 
 @Autonomous(name = "Mecannum: AbstractAutonomousOpMode", group = "Mecannum")
-
+@Disabled
 /*
   This is the baseclass for all autonomous op modes for Meccunum robot
  */
