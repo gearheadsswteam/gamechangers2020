@@ -29,9 +29,13 @@
 
 package org.firstinspires.ftc.teamcode.test;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.teamcode.autonomous.AbstractAutonomousOpMode;
 
 /**
  * This OpMode scans a single servo back and forwards until Stop is pressed.
@@ -48,7 +52,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 @TeleOp(name = "Concept: Scan Servo", group = "Concept")
-//@Disabled
+@Disabled
 public class ConceptScanServo extends LinearOpMode {
 
     static final double INCREMENT = 0.05;     // amount to slew servo each CYCLE_MS cycle
@@ -122,4 +126,6 @@ public class ConceptScanServo extends LinearOpMode {
             idle();
         }
     }
+
+
 }

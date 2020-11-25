@@ -27,11 +27,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.teleop;
+package org.firstinspires.ftc.teamcode.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.vuforia.CameraDevice;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -52,8 +53,8 @@ import java.util.List;
  * is explained below.
  */
 @TeleOp(name = "Concept: TensorFlow Object Detection", group = "Concept")
-@Disabled
-public class RingDetectionOpMode extends LinearOpMode {
+
+public class ConceptTensorFlowObjectDetection extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Quad";
     private static final String LABEL_SECOND_ELEMENT = "Single";
@@ -70,9 +71,7 @@ public class RingDetectionOpMode extends LinearOpMode {
      * Once you've obtained a license key, copy the string from the Vuforia web site
      * and paste it in to your code on the next line, between the double quotes.
      */
-    private static final String VUFORIA_KEY =
-            " -- YOUR NEW VUFORIA KEY GOES HERE  --- ";
-
+    private static final String VUFORIA_KEY = "AU1u1dH/////AAABmSXVAJLiAEunpk0nLRdc1E9dfFgLBnyre+8+rEAEkklf8kqLzpAmppOj06XNFsP5jRZUIip+lYGcgC/Nr9zz8NaEwZe4tSNkIMU2kvIKnBIaD/C4FhPQmzRk7ZSQMzs1NuToXTViPNC26W7h7XMjiwsmD4SbwwzUaQhaw/gSZMSdGFTBS8YCePnRl8SnReOwm/KJZSHQF68cODf4lpq7xnnmMuy7/DYymlB/VZ2Vtb4iYBkOqLTqGWQRnwbI56KJrqMNbS7T9OcuyYOhkbPRtxIMlshNHy1+L75iIwZAom94t7L+/irngbwDrBHdnx9k/4fiCN5daQm6um89M8CbnWBJjDW+Ah0PHLG0ioNxy51+";
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
      * localization engine.
@@ -156,10 +155,12 @@ public class RingDetectionOpMode extends LinearOpMode {
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
         parameters.cameraDirection = CameraDirection.BACK;
 
+
         //  Instantiate the Vuforia engine
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
         // Loading trackables is not necessary for the TensorFlow Object Detection engine.
+        CameraDevice.getInstance().setFlashTorchMode(true);
     }
 
     /**
