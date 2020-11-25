@@ -9,6 +9,6 @@ public class OdometryUtil {
     }
 
     public static boolean hasReached(Position targetPosition){
-        return true;
+        return false;
     }
 }
