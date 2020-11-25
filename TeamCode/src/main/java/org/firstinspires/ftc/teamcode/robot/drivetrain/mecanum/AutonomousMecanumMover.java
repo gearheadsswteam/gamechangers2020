@@ -33,7 +33,7 @@ public class AutonomousMecanumMover {
     /* Declare OpMode members. */
     public MecanumDrive mecanum;
     private BNO055IMU gyro;
-    private GearheadsMecanumRobot robot = null;   // Use a Gearbot's hardware
+    public GearheadsMecanumRobot robot = null;   // Use a Gearbot's hardware
     private LinearOpMode curOpMode = null;   //current opmode
     private ElapsedTime runtime = null;//used for measuring time
     private final double FORWARD_SPEED = 0.2;
@@ -323,14 +323,14 @@ public class AutonomousMecanumMover {
         resetAngle();
         degreesToRotate = Math.abs(degreesToRotate);
 
-        double angleRotated = Math.abs(rotate(-Math.abs((int) (degreesToRotate * 0.8)), power));
+        double angleRotated = Math.abs(rotate(Math.abs((int) (degreesToRotate * 0.8)), power));
         curOpMode.sleep(50);
         angleRotated = Math.abs(angleRotated);
 
 
         resetAngle();//Very important
 
-        angleRotated += Math.abs(rotate(-Math.abs((int) (degreesToRotate - angleRotated)), 0.2));
+        angleRotated += Math.abs(rotate(Math.abs((int) (degreesToRotate - angleRotated)), 0.1));
 
         curOpMode.telemetry.addData("Needed rotation ", degreesToRotate);
         curOpMode.telemetry.addData("Achieved rotation ", angleRotated);
@@ -349,13 +349,13 @@ public class AutonomousMecanumMover {
         resetAngle();
         degreesToRotate = Math.abs(degreesToRotate);
 
-        double angleRotated = Math.abs(rotate(Math.abs((int) (degreesToRotate * 0.8)), power));
+        double angleRotated = Math.abs(rotate(-Math.abs((int) (degreesToRotate * 0.8)), power));
         curOpMode.sleep(50);
         angleRotated = Math.abs(angleRotated);
 
         resetAngle();//Very important
 
-        angleRotated += Math.abs(rotate(Math.abs((int) (degreesToRotate - angleRotated)), 0.2));
+        angleRotated += Math.abs(rotate(-Math.abs((int) (degreesToRotate - angleRotated)), 0.1));
         curOpMode.telemetry.addData("Needed rotation ", degreesToRotate);
         curOpMode.telemetry.addData("Achieved rotation ", angleRotated);
         curOpMode.telemetry.update();
@@ -387,12 +387,18 @@ public class AutonomousMecanumMover {
         if (degrees < 0) {
             // On right turn we have to get off zero first.
             while (curOpMode.opModeIsActive() && getAngle() == 0) {
+                printOrientation();
             }
 
-            while (curOpMode.opModeIsActive() && getAngle() > degrees) {
+
+            while (curOpMode.opModeIsActive() && Math.abs(getAngle()) < Math.abs(degrees)) {
+                printOrientation();
+
             }
         } else    // left turn.
-            while (curOpMode.opModeIsActive() && getAngle() < degrees) {
+
+            while (curOpMode.opModeIsActive() && Math.abs(getAngle()) < Math.abs(degrees)) {
+                printOrientation();
             }
 
         // turn the motors off.
@@ -402,6 +408,11 @@ public class AutonomousMecanumMover {
         curOpMode.sleep(1000);
 
         return getAngle();
+    }
+
+    public void printOrientation(){
+        curOpMode.telemetry.addData("Angle ", getAngle());
+        curOpMode.telemetry.update();
     }
 
     /**
@@ -417,9 +428,9 @@ public class AutonomousMecanumMover {
         // clockwise (right).
 
         if (curHeading < 0) {   // turn left as it is facing right.
-            turn = -power;
-        } else if (curHeading > 0) {   // turn right as it is facing left.
             turn = power;
+        } else if (curHeading > 0) {   // turn right as it is facing left.
+            turn = -power;
         } else return;
 
         // set power to rotate.
@@ -664,7 +675,7 @@ public class AutonomousMecanumMover {
         curOpMode.telemetry.update();
 
         //If the gyro heading is not zero after stop then compensate for error.
-        //rotateToZeroHeading(0.2);
+        rotateToZeroHeading(0.2);
         resetAngle();
 
         return conditionMet;
