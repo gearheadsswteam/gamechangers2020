@@ -28,7 +28,7 @@ public class Intakesystem {
      * Start the intake system
      */
     public void startInTake() {
-        intakeMotor.setPower(1);
+        intakeMotor.setPower(-1);
     }
 
     /**
@@ -42,6 +42,6 @@ public class Intakesystem {
      * Start the intake system
      */
     public void startReverseInTake() {
-        intakeMotor.setPower(-1.0);
+        intakeMotor.setPower(1.0);
     }
 }
