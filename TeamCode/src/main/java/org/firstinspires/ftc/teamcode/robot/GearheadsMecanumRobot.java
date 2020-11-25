@@ -3,10 +3,14 @@ package org.firstinspires.ftc.teamcode.robot;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.odometry.GEarheadsOdometryPositionFinder;
+import org.firstinspires.ftc.teamcode.odometry.RobotPositionFinderFactory;
 import org.firstinspires.ftc.teamcode.robot.actionparts.Intakesystem;
+import org.firstinspires.ftc.teamcode.robot.actionparts.RingDetector;
 import org.firstinspires.ftc.teamcode.robot.actionparts.RingFlipperSystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.ShootingSystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.WobblegoalArmLeft;
@@ -46,6 +50,17 @@ public class GearheadsMecanumRobot {
     public DcMotor fr_motor;
     public DcMotor rl_motor;
     public DcMotor rr_motor;
+
+    //Odometry encoder wheels
+    public DcMotor verticalRight;
+    public DcMotor verticalLeft;
+    public DcMotor horizontal;
+
+    //Hardware map names for the encoder wheels. Again, these will change for each robot and need to be updated below
+    String verticalLeftEncoderName = "rf", verticalRightEncoderName = "lf", horizontalEncoderName = "lb";
+
+    public GEarheadsOdometryPositionFinder globalPositionUpdate;
+    public RingDetector ringDetector;
 
     public static final double COUNTS_PER_MOTOR_REV = 723.24;    // eg: 723.24 was 1478
     public static final double WHEEL_DIAMETER_INCHES = 3.93;     // For figuring circumference
@@ -131,6 +146,14 @@ public class GearheadsMecanumRobot {
         wobblegoalArmLeft.initialize();
     }
 
+    /**
+     * Starts the Ring detector
+     */
+    private void initRingDetector(){
+        ringDetector = new RingDetector(curOpMode,hwMap);
+        ringDetector.initialize();
+    }
+
 
     /**
      * Initializes the Gyro
@@ -197,11 +220,44 @@ public class GearheadsMecanumRobot {
         rl_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
+    private void initOdometryEncoders(){
+        //Assign the hardware map to the odometry wheels
+        verticalLeft = hwMap.dcMotor.get(verticalLeftEncoderName);
+        verticalRight = hwMap.dcMotor.get(verticalRightEncoderName);
+        horizontal = hwMap.dcMotor.get(horizontalEncoderName);
+
+        //Reset the encoders
+        verticalRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        verticalLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        horizontal.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        /*
+        Reverse the direction of the odometry wheels. THIS WILL CHANGE FOR EACH ROBOT. Adjust the direction (as needed) of each encoder wheel
+        such that when the verticalLeft and verticalRight encoders spin forward, they return positive values, and when the
+        horizontal encoder travels to the right, it returns positive value
+        */
+        verticalLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        verticalRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        horizontal.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        //Set the mode of the odometry encoders to RUN_WITHOUT_ENCODER
+        verticalRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        verticalLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        horizontal.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        //Create and start GlobalCoordinatePosition thread to constantly update the global coordinate positions\
+        globalPositionUpdate = RobotPositionFinderFactory.getPositionFinder(verticalLeft, verticalRight, horizontal, COUNTS_PER_INCH, 75);
+        Thread positionThread = new Thread(globalPositionUpdate);
+        positionThread.start();
+    }
+
 
     /* Initialize standard Hardware interfaces */
     public void initAutonomous(HardwareMap ahwMap) {
         init(ahwMap);
         initGyro(true);
+        //initOdometryEncoders();
+        initRingDetector();
     }
 
     /* Initialize standard Hardware interfaces */
