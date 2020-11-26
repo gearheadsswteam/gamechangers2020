@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.odometry.GEarheadsOdometryPositionFinder;
 import org.firstinspires.ftc.teamcode.odometry.RobotPositionFinderFactory;
 import org.firstinspires.ftc.teamcode.robot.actionparts.Intakesystem;
+import org.firstinspires.ftc.teamcode.robot.actionparts.PositionEncoders;
 import org.firstinspires.ftc.teamcode.robot.actionparts.RingDetector;
 import org.firstinspires.ftc.teamcode.robot.actionparts.RingFlipperSystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.ShootingSystem;
@@ -51,10 +52,15 @@ public class GearheadsMecanumRobot {
     public DcMotor rl_motor;
     public DcMotor rr_motor;
 
+
     //Odometry encoder wheels
     public DcMotor verticalRight;
     public DcMotor verticalLeft;
     public DcMotor horizontal;
+
+    public PositionEncoders positionEncoderCenter;
+    public PositionEncoders positionEncoderLeft;
+    public PositionEncoders positionEncoderRight;
 
     //Hardware map names for the encoder wheels. Again, these will change for each robot and need to be updated below
     String verticalLeftEncoderName = "rf", verticalRightEncoderName = "lf", horizontalEncoderName = "lb";
@@ -95,18 +101,24 @@ public class GearheadsMecanumRobot {
     private void initShootingSystem() {
         //GReen Shooter
         DcMotor shootingMotorRight = hwMap.get(DcMotor.class, "shootRight");
-        shootingMotorRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        shootingMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shootingMotorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         shootingMotorRight.setDirection(DcMotor.Direction.REVERSE);
 
         //Blue motor
         DcMotor shootingMotorLeft = hwMap.get(DcMotor.class, "shootLeft");
-        shootingMotorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        shootingMotorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shootingMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         shootingMotorLeft.setDirection(DcMotor.Direction.REVERSE);
 
         shootingSystem = new ShootingSystem(shootingMotorRight, shootingMotorLeft);
         shootingSystem.initialize();
+    }
+
+    private void intPositionEncoders() {
+        positionEncoderCenter = new PositionEncoders(shootingSystem.shootingMotorRight);
+        positionEncoderLeft = new PositionEncoders(shootingSystem.shootingMotorLeft);
+        positionEncoderRight = null; // Need to add this on port 1
     }
 
 
@@ -149,8 +161,8 @@ public class GearheadsMecanumRobot {
     /**
      * Starts the Ring detector
      */
-    private void initRingDetector(){
-        ringDetector = new RingDetector(curOpMode,hwMap);
+    private void initRingDetector() {
+        ringDetector = new RingDetector(curOpMode, hwMap);
         ringDetector.initialize();
     }
 
@@ -220,7 +232,7 @@ public class GearheadsMecanumRobot {
         rl_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
-    private void initOdometryEncoders(){
+    private void initOdometryEncoders() {
         //Assign the hardware map to the odometry wheels
         verticalLeft = hwMap.dcMotor.get(verticalLeftEncoderName);
         verticalRight = hwMap.dcMotor.get(verticalRightEncoderName);
@@ -257,6 +269,7 @@ public class GearheadsMecanumRobot {
         init(ahwMap);
         initGyro(true);
         //initOdometryEncoders();
+        intPositionEncoders();
         initRingDetector();
     }
 
