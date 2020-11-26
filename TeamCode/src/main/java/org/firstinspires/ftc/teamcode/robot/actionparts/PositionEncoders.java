@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class PositionEncoders {
     private DcMotor motor;
     private final double MM_PER_INCH = 25.4;
-    private final double DIAMETER_INCHES = 32/MM_PER_INCH; //TODO need to find this wheelsize
+    private final double DIAMETER_INCHES = 35/MM_PER_INCH; //TODO need to find this wheelsize
     private final double COUNTS_PER_REV = 8192;
     private final double ONE_REV_DISTANCE = 3.14*DIAMETER_INCHES;
 
