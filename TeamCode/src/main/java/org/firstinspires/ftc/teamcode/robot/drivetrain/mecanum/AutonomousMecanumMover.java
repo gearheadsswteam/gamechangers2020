@@ -60,7 +60,6 @@ public class AutonomousMecanumMover {
     }
 
 
-
     /**
      * Moves the robot forward for specific time
      *
@@ -100,12 +99,64 @@ public class AutonomousMecanumMover {
     }
 
     /**
+     * Moves robot right using position encoder method.
+      * @param speed speed to move with
+     * @param distanceT0Move horizontal distance to move
+     */
+    public void moveRobotRightUsingPositionEncoders(double speed, double distanceT0Move) {
+        moveRobotRightOrLeftUsingPositionEncoders(speed, distanceT0Move);
+    }
+
+    /**
+     * Moves robot left using position encoder method.
+     * @param speed speed to move with
+     * @param distanceT0Move horizontal distance to move
+     */
+    public void moveRobotLeftUsingPositionEncoders(double speed, double distanceT0Move) {
+        moveRobotRightOrLeftUsingPositionEncoders(-speed, distanceT0Move);
+    }
+
+
+    /**
+     * Moves robot left or right using position encoder method.
+     * @param speed speed to move with
+     * @param distanceT0Move horizontal distance to move
+     */
+    public void moveRobotRightOrLeftUsingPositionEncoders(double speed, double distanceT0Move) {
+        double x = speed;
+        double y = 0;
+
+        robot.positionEncoderCenter.resetEncoderValue();
+        mecanum.move(x, y, 0);
+
+        runtime.reset();
+        resetAngle();
+        pidDrive.initPIDController();
+
+        while (curOpMode.opModeIsActive() && (this.robot.positionEncoderCenter.distanceTravelledInInches() < distanceT0Move)) {
+            double correction = checkDirection();
+            // Compensate for gyro angle.
+            Vector2d input = new Vector2d(x, y);
+            input.rotate(-correction);
+
+            mecanum.move(input.x, input.y, 0);
+        }
+        // turn the motors off.
+        mecanum.stopRobot();
+
+        pushTelemetry();
+        resetAngle();
+    }
+
+    /**
      * Moves the robot from one (X,y) position to (X1, Y1) position
-     * @param speed speed at which the movement is to be done
-     * @param currPosition starting position
+     *
+     * @param speed          speed at which the movement is to be done
+     * @param currPosition   starting position
      * @param targetPosition target position
      */
-    public void moveRobotToPosition(double speed, Position currPosition, Position targetPosition){
+    public void moveRobotToPosition(double speed, Position currPosition, Position
+            targetPosition) {
         Movement movementNeeded = new Movement(currPosition, targetPosition, speed);
         double neededX = movementNeeded.getNormalizedX();
         double neededY = movementNeeded.getNormalizedY();
@@ -118,6 +169,7 @@ public class AutonomousMecanumMover {
         runtime.reset();
         resetAngle();
         pidDrive.initPIDController();
+
 
         //TODO: add OdometryUtil implementation
         while (curOpMode.opModeIsActive() && (!OdometryUtil.hasReached(targetPosition))) {
@@ -257,7 +309,8 @@ public class AutonomousMecanumMover {
      * @param nav   condition to be met
      */
 
-    private boolean moveRobotLeftOrRightByTimeConditionally(double time, double speed, Robot_Navigation nav) {
+    private boolean moveRobotLeftOrRightByTimeConditionally(double time,
+                                                            double speed, Robot_Navigation nav) {
         double x = speed;
         double y = 0;
         boolean conditionMet = false;
@@ -410,7 +463,7 @@ public class AutonomousMecanumMover {
         return getAngle();
     }
 
-    public void printOrientation(){
+    public void printOrientation() {
         curOpMode.telemetry.addData("Angle ", getAngle());
         curOpMode.telemetry.update();
     }
@@ -513,7 +566,8 @@ public class AutonomousMecanumMover {
         if (angle == 0)
             correction = 0;             // no adjustment.
         else
-            correction = pidDrive.performPID(angle);;        // reverse sign of angle for correction.
+            correction = pidDrive.performPID(angle);
+        ;        // reverse sign of angle for correction.
 
         //correction = correction * gain;
 
@@ -548,7 +602,6 @@ public class AutonomousMecanumMover {
     }
 
 
-
     /**
      * Move robot forward
      *
@@ -568,7 +621,8 @@ public class AutonomousMecanumMover {
      * @param inchesToMove number of inches to move
      */
 
-    public boolean moveRobotForwardDistanceConditionally(double speed, double inchesToMove, SkystoneDetector nav) {
+    public boolean moveRobotForwardDistanceConditionally(double speed,
+                                                         double inchesToMove, SkystoneDetector nav) {
         // Send telemetry message to signify robot waiting;
         curOpMode.telemetry.addData("Status", "Resetting Encoders");    //
         curOpMode.telemetry.update();
@@ -609,7 +663,8 @@ public class AutonomousMecanumMover {
      * @param speed        speed of movement. Range (0 to 1)
      * @param inchesToMove number of inches to move
      */
-    public boolean moveRobotRightDistance(double speed, double inchesToMove, SkystoneDetector nav) {
+    public boolean moveRobotRightDistance(double speed, double inchesToMove, SkystoneDetector
+            nav) {
         return moveRobotLeftOrRightDistanceConditionally(speed, inchesToMove, nav);
     }
 
@@ -639,19 +694,21 @@ public class AutonomousMecanumMover {
      * @param speed        speed of movement. Range (0 to 1)
      * @param inchesToMove number of inches to move
      */
-    public boolean moveRobotLeftDistance(double speed, double inchesToMove, SkystoneDetector nav) {
+    public boolean moveRobotLeftDistance(double speed, double inchesToMove, SkystoneDetector
+            nav) {
         return moveRobotLeftOrRightDistanceConditionally(-speed, inchesToMove, nav);
     }
 
 
     /**
      * move the robot in strafe
-     * @param speed speed at which to move
+     * @param speed        speed at which to move
      * @param inchesToMove straffing distance needed
-     * @param nav condition at which to stop
+     * @param nav          condition at which to stop
      * @return true if condition met else false
      */
-    private boolean moveRobotLeftOrRightDistanceConditionally(double speed, double inchesToMove, SkystoneDetector nav) {
+    private boolean moveRobotLeftOrRightDistanceConditionally(double speed,
+                                                              double inchesToMove, SkystoneDetector nav) {
         // Send telemetry message to signify robot waiting;
         curOpMode.telemetry.addData("Status", "Resetting Encoders");    //
         curOpMode.telemetry.update();
@@ -737,7 +794,8 @@ public class AutonomousMecanumMover {
      * @param nav          condition to meet while moving
      * @return true if condition is met else false
      */
-    public boolean moveRobotBackwardDistanceConditionally(double speed, double inchesToMove, Robot_Navigation nav) {
+    public boolean moveRobotBackwardDistanceConditionally(double speed,
+                                                          double inchesToMove, Robot_Navigation nav) {
         // Send telemetry message to signify robot waiting;
         curOpMode.telemetry.addData("Status", "Resetting Encoders");    //
         curOpMode.telemetry.update();
@@ -820,7 +878,7 @@ public class AutonomousMecanumMover {
             runtime.reset();
             pidDrive.initPIDController();
 
-            double initSpeedToRun   = 0.05;
+            double initSpeedToRun = 0.05;
             mecanum.move(x, initSpeedToRun, 0);
 
 
@@ -835,7 +893,7 @@ public class AutonomousMecanumMover {
 
             double speedToRun = initSpeedToRun;
             double SPEED_STEPS = 10;
-            double speedIncrements = targetMaxSpeed/SPEED_STEPS;
+            double speedIncrements = targetMaxSpeed / SPEED_STEPS;
             int accelStep = 1;
             double ACCEL_SLOPE_PERCENT = 0.1;
             double DECCEL_SLOPE_PERCENT = 0.15;
@@ -855,24 +913,24 @@ public class AutonomousMecanumMover {
 
                 curOpMode.telemetry.addData("distCovered ", distCovered);
 
-                if(distCovered < distToCover * ACCEL_SLOPE_PERCENT) {
-                    speedToRun = Math.min(Math.abs(speedToRun) + speedIncrements*accelStep, Math.abs(targetMaxSpeed));
+                if (distCovered < distToCover * ACCEL_SLOPE_PERCENT) {
+                    speedToRun = Math.min(Math.abs(speedToRun) + speedIncrements * accelStep, Math.abs(targetMaxSpeed));
                     speedToRun = -speedToRun;
                     accelStep++;
                     curOpMode.telemetry.addData("++ Speed => ", speedToRun);
                 }
 
                 //If in the initial 20% dist accelerate
-                if(distCovered > distToCover * ACCEL_SLOPE_PERCENT && distCovered < (distToCover *(1- DECCEL_SLOPE_PERCENT))) {
+                if (distCovered > distToCover * ACCEL_SLOPE_PERCENT && distCovered < (distToCover * (1 - DECCEL_SLOPE_PERCENT))) {
                     speedToRun = targetMaxSpeed;
                     accelStep = 1;
                     curOpMode.telemetry.addData("== Speed => ", speedToRun);
                 }
 
                 //If in the initial 20% dist accelerate
-                if(distCovered > (distToCover *(1- DECCEL_SLOPE_PERCENT))) {
+                if (distCovered > (distToCover * (1 - DECCEL_SLOPE_PERCENT))) {
                     //speedToRun = Math.max(Math.abs(targetMaxSpeed) - speedIncrements*accelStep, 0.2);
-                    speedToRun = Math.max(Math.abs(targetMaxSpeed) - Math.abs(speedIncrements*accelStep), Math.abs(0.2));
+                    speedToRun = Math.max(Math.abs(targetMaxSpeed) - Math.abs(speedIncrements * accelStep), Math.abs(0.2));
                     speedToRun = -speedToRun;
                     accelStep++;
                     curOpMode.telemetry.addData("-- speed => ", speedToRun);
@@ -1101,7 +1159,7 @@ public class AutonomousMecanumMover {
             runtime.reset();
             pidDrive.initPIDController();
 
-            double initSpeedToRun   = 0.05;
+            double initSpeedToRun = 0.05;
             mecanum.move(x, initSpeedToRun, 0);
 
 
@@ -1116,7 +1174,7 @@ public class AutonomousMecanumMover {
 
             double speedToRun = initSpeedToRun;
             double SPEED_STEPS = 10;
-            double speedIncrements = targetMaxSpeed/SPEED_STEPS;
+            double speedIncrements = targetMaxSpeed / SPEED_STEPS;
             int accelStep = 1;
             double ACCEL_SLOPE_PERCENT = 0.1;
             double DECCEL_SLOPE_PERCENT = 0.15;
@@ -1135,23 +1193,23 @@ public class AutonomousMecanumMover {
 
                 curOpMode.telemetry.addData("distCovered ", distCovered);
 
-                if(distCovered < distToCover * ACCEL_SLOPE_PERCENT) {
-                    speedToRun = Math.min(Math.abs(speedToRun) + speedIncrements*accelStep, Math.abs(targetMaxSpeed));
+                if (distCovered < distToCover * ACCEL_SLOPE_PERCENT) {
+                    speedToRun = Math.min(Math.abs(speedToRun) + speedIncrements * accelStep, Math.abs(targetMaxSpeed));
                     accelStep++;
                     curOpMode.telemetry.addData("++ Speed => ", speedToRun);
                 }
 
                 //If in the initial 20% dist accelerate
-                if(distCovered > distToCover * ACCEL_SLOPE_PERCENT && distCovered < (distToCover *(1- DECCEL_SLOPE_PERCENT))) {
+                if (distCovered > distToCover * ACCEL_SLOPE_PERCENT && distCovered < (distToCover * (1 - DECCEL_SLOPE_PERCENT))) {
                     speedToRun = targetMaxSpeed;
                     accelStep = 1;
                     curOpMode.telemetry.addData("== Speed => ", speedToRun);
                 }
 
                 //If in the initial 20% dist accelerate
-                if(distCovered > (distToCover *(1- DECCEL_SLOPE_PERCENT))) {
+                if (distCovered > (distToCover * (1 - DECCEL_SLOPE_PERCENT))) {
                     //speedToRun = Math.max(Math.abs(targetMaxSpeed) - speedIncrements*accelStep, 0.2);
-                    speedToRun = Math.max(Math.abs(targetMaxSpeed) - Math.abs(speedIncrements*accelStep), Math.abs(0.2));
+                    speedToRun = Math.max(Math.abs(targetMaxSpeed) - Math.abs(speedIncrements * accelStep), Math.abs(0.2));
                     accelStep++;
                     curOpMode.telemetry.addData("-- speed => ", speedToRun);
                 }
