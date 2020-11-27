@@ -138,9 +138,7 @@ public class AutonomousMecanumMover {
 //            // Compensate for gyro angle.
             Vector2d input = new Vector2d(x, y);
             input.rotate(-correction);
-            //TODO Rishi: Add the move call and test
-            //Need to add mecanum.move(x, y, 0);
-            //mecanum.move(x, y, -correction*0.1/6);
+            mecanum.move(x, y, 0);
         }
         // turn the motors off.
         mecanum.stopRobot();
