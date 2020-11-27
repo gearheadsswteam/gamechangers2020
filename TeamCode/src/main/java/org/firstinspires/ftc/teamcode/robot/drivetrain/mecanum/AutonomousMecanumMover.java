@@ -135,15 +135,16 @@ public class AutonomousMecanumMover {
 
         while (curOpMode.opModeIsActive() && (Math.abs(this.robot.positionEncoderCenter.distanceTravelledInInches()) < Math.abs(distanceT0Move))) {
             double correction = checkDirection();
-            // Compensate for gyro angle.
+//            // Compensate for gyro angle.
             Vector2d input = new Vector2d(x, y);
             input.rotate(-correction);
-
-            mecanum.move(input.x, input.y, 0);
+            //TODO Rishi: Add the move call and test
+            //Need to add mecanum.move(x, y, 0);
+            //mecanum.move(x, y, -correction*0.1/6);
         }
         // turn the motors off.
         mecanum.stopRobot();
-
+        rotateToZeroHeading(0.1);
         pushTelemetry();
         resetAngle();
         robot.positionEncoderCenter.resetEncoderValue();
