@@ -133,7 +133,7 @@ public class AutonomousMecanumMover {
         resetAngle();
         pidDrive.initPIDController();
 
-        while (curOpMode.opModeIsActive() && (this.robot.positionEncoderCenter.distanceTravelledInInches() < distanceT0Move)) {
+        while (curOpMode.opModeIsActive() && (Math.abs(this.robot.positionEncoderCenter.distanceTravelledInInches()) < Math.abs(distanceT0Move))) {
             double correction = checkDirection();
             // Compensate for gyro angle.
             Vector2d input = new Vector2d(x, y);
