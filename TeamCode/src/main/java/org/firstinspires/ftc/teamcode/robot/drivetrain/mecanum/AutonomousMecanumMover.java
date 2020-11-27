@@ -146,6 +146,7 @@ public class AutonomousMecanumMover {
 
         pushTelemetry();
         resetAngle();
+        robot.positionEncoderCenter.resetEncoderValue();
     }
 
     /**
