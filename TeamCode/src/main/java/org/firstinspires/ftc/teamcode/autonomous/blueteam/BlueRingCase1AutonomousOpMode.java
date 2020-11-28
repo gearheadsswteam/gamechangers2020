@@ -1,12 +1,11 @@
-package org.firstinspires.ftc.teamcode.autonomous;
+package org.firstinspires.ftc.teamcode.autonomous.blueteam;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
-import org.firstinspires.ftc.teamcode.robot.utils.Position;
+import org.firstinspires.ftc.teamcode.autonomous.AbstractAutonomousOpMode;
 
-@Autonomous(name = "RingCase0AutonomousOpMode", group = "Mecannum")
-
-public class RingCase0AutonomousOpMode extends AbstractAutonomousOpMode{
+public class BlueRingCase1AutonomousOpMode extends AbstractAutonomousOpMode {
 
     @Override
     protected void initOpModeAfterStart() {
@@ -14,7 +13,7 @@ public class RingCase0AutonomousOpMode extends AbstractAutonomousOpMode{
     }
 
     @Override
-    protected void executeOpMode() {
+    public void executeOpMode() {
         moveFirstWobbleGoal();
         gotoShootingPosition();
         shootPreloadedRings();
