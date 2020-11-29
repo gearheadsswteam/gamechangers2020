@@ -23,15 +23,15 @@ public class RedAutonomousMode extends AbstractAutonomousOpMode {
 
         if(rings == 0){
             ///execute Rings = 0 case
-            RedRingCase0AutonomousOpMode ringCase0AutonomousOpMode = new RedRingCase0AutonomousOpMode();
+            RedRingCase0AutonomousOpMode ringCase0AutonomousOpMode = new RedRingCase0AutonomousOpMode(autonomousRobotMover, this);
             ringCase0AutonomousOpMode.executeOpMode();
         }else if(rings == 1){
             ///execute Rings = 1 case
-            RedRingCase1AutonomousOpMode ringCase0AutonomousOpMode = new RedRingCase1AutonomousOpMode();
+            RedRingCase1AutonomousOpMode ringCase0AutonomousOpMode = new RedRingCase1AutonomousOpMode(autonomousRobotMover, this);
             ringCase0AutonomousOpMode.executeOpMode();
         }else if(rings == 4){
             ///execute Rings = 4 case
-            RedRingCase4AutonomousOpMode ringCase0AutonomousOpMode = new RedRingCase4AutonomousOpMode();
+            RedRingCase4AutonomousOpMode ringCase0AutonomousOpMode = new RedRingCase4AutonomousOpMode(autonomousRobotMover, this);
             ringCase0AutonomousOpMode.executeOpMode();
         }
     }
