@@ -1,11 +1,7 @@
 package org.firstinspires.ftc.teamcode.autonomous.redteam;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.autonomous.AbstractAutonomousOpMode;
 import org.firstinspires.ftc.teamcode.robot.drivetrain.mecanum.AutonomousMecanumMover;
 
 public class RedRingCase0AutonomousOpMode {
@@ -19,11 +15,12 @@ public class RedRingCase0AutonomousOpMode {
     }
 
     public void executeOpMode() {
-        //operateArm();
+        grabWobbleGoal();
 
         //Move the first wobble goal to the correct position
         moveFirstWobbleGoal();
 
+        dropWobbleGoal();
         //Move from Wobble goal drop point to shooting position
         gotoShootingPosition();
 
@@ -46,13 +43,16 @@ public class RedRingCase0AutonomousOpMode {
         park();
     }
 
-    private void operateArm(){
+    private void grabWobbleGoal(){
         autonomousRobotMover.robot.wobblegoalArmRight.grabWobbleGoal();
         currOpMode.sleep(500);
+    }
+
+    private void dropWobbleGoal() {
         autonomousRobotMover.robot.wobblegoalArmRight.setWobbleGoal();
-        currOpMode.sleep(500);
+        currOpMode.sleep(1500);
         autonomousRobotMover.robot.wobblegoalArmRight.ungrabWobbleGoal();
-        currOpMode.sleep(500);
+        currOpMode.sleep(750);
     }
 
     /**
