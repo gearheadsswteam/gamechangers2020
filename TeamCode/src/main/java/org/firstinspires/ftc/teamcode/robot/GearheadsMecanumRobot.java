@@ -269,7 +269,7 @@ public class GearheadsMecanumRobot {
         init(ahwMap);
         initGyro(true);
         //initOdometryEncoders();
-        intPositionEncoders();
+        //intPositionEncoders();
         initRingDetector();
     }
 

@@ -15,39 +15,25 @@ public class RedRingCase0AutonomousOpMode {
     }
 
     public void executeOpMode() {
-        grabWobbleGoal();
-
         //Move the first wobble goal to the correct position
         moveFirstWobbleGoal();
 
+        //Drop the wobble goal using arm
         dropWobbleGoal();
+
         //Move from Wobble goal drop point to shooting position
         gotoShootingPosition();
 
         //Shoot the preloaded rings in the goal
-       shootPreloadedRings();
-
-        //Grab the rings from the floor
-        //grabRings();
-
-        //Shoot the rings
-        //shootPreloadedRings();
-
-        //Go to the second wobble goal position
-        //gotoToSecondWobbleGoal();
-
-        //Move the second wobble goal
-        //moveSecondWobbleGoal();
+        shootPreloadedRings();
 
         //Park the robot
-        park();
+        //park();
     }
 
-    private void grabWobbleGoal(){
-        autonomousRobotMover.robot.wobblegoalArmRight.grabWobbleGoal();
-        currOpMode.sleep(500);
-    }
-
+    /**
+     * Drops the wobble goal on the mat
+     */
     private void dropWobbleGoal() {
         autonomousRobotMover.robot.wobblegoalArmRight.setWobbleGoal();
         currOpMode.sleep(1500);
@@ -58,36 +44,35 @@ public class RedRingCase0AutonomousOpMode {
     /**
      * Move the first wobble goal to the correct position
      */
-    private void moveFirstWobbleGoal(){
-
+    private void moveFirstWobbleGoal() {
         //Rotate robot so that it faces the wobble goal parking postion
-        autonomousRobotMover.rotateLeft(40, 0.1);
+        autonomousRobotMover.rotateLeft(5, 0.1);
         //Move towards the Wobble goal position
-        autonomousRobotMover.moveRobotBackwardDistance(0.3,35);
+        autonomousRobotMover.moveRobotBackwardDistance(0.3, 50); //was 54
     }
 
-    private void gotoShootingPosition(){
+    private void gotoShootingPosition() {
 
         //Move the robot away from wobble goal drop point
         //autonomousRobotMover.moveRobotForwardDistance(0.3,6);
 
         //Rotate right so that the robot is straight ...facing the goal post
-        autonomousRobotMover.rotateLeft(4, 0.1);//was 2
+        //autonomousRobotMover.rotateLeft(4 ,0.1);//was 2
 
         //Move or strafe left to get to shooting position
         //autonomousRobotMover.moveRobotLeftDistance(0.2,3);//was 8
-        autonomousRobotMover.moveRobotForwardDistance(0.2,6);//was 8
+        autonomousRobotMover.moveRobotForwardDistance(0.2, 6);//was 9
 
     }
 
-    private void gotoToSecondWobbleGoal(){
+    private void gotoToSecondWobbleGoal() {
 
     }
 
-    private void shootPreloadedRings(){
+    private void shootPreloadedRings() {
 
         //Start the two shooting motors
-        autonomousRobotMover.robot.shootingSystem.operateShooterMotor(1);
+        autonomousRobotMover.robot.shootingSystem.operateShooterMotor(0.3);
         ///Give time for motors to speed up
         currOpMode.sleep(2000);
 
@@ -107,21 +92,20 @@ public class RedRingCase0AutonomousOpMode {
         autonomousRobotMover.robot.shootingSystem.stopShooterMotor();
     }
 
-    private void grabRings(){
-        autonomousRobotMover.moveRobotForwardDistance(0.3,10);
+    private void grabRings() {
+        autonomousRobotMover.moveRobotForwardDistance(0.3, 10);
         autonomousRobotMover.robot.intakesystem.startInTake();
         currOpMode.sleep(5000);
         autonomousRobotMover.robot.intakesystem.stopInTake();
-        autonomousRobotMover.moveRobotBackwardDistance(0.3,10);
+        autonomousRobotMover.moveRobotBackwardDistance(0.3, 10);
     }
 
 
-
-    private void moveSecondWobbleGoal(){
+    private void moveSecondWobbleGoal() {
 
     }
 
-    private void park(){
-        autonomousRobotMover.moveRobotBackwardDistance(0.5,6);
+    private void park() {
+        autonomousRobotMover.moveRobotBackwardDistance(0.5, 6);
     }
 }

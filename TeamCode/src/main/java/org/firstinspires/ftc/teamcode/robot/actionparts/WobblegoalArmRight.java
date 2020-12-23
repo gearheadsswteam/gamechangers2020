@@ -14,8 +14,10 @@ public class WobblegoalArmRight implements WobbleGoalArm {
     private Servo grabServo;
 
     //Servo positions
-    private static double WOBBLE_GRAB_POSTION = 0.5;
-    private static double WOBBLE_UNGRAB_POSTION = 0.7;
+    private final double UP_POSITION = 0.560;
+    private final double DOWN_POSITION = 0.410;
+    private final double CLOSED_POSITION = 0.220;
+    private final double OPEN_POSITION = 0.550;
 
     /**
      * Constructor
@@ -39,18 +41,14 @@ public class WobblegoalArmRight implements WobbleGoalArm {
      * Grabs the wobble goal
      */
     public void grabWobbleGoal() {
-        double position = grabServo.getPosition();
-        position = position + 0.05;
-        grabServo.setPosition(position);
+       grabServo.setPosition(CLOSED_POSITION);
     }
 
     /**
      * Ungrabs the wobble goal
      */
     public void ungrabWobbleGoal() {
-        double position = grabServo.getPosition();
-        position = position - 0.05;
-        grabServo.setPosition(position);
+        grabServo.setPosition(OPEN_POSITION);
     }
 
     /**
@@ -58,37 +56,33 @@ public class WobblegoalArmRight implements WobbleGoalArm {
      */
 
     public void liftWobbleGoal() {
-        double position = liftServo.getPosition();
-        position = position + 0.05;
-        liftServo.setPosition(position);
+        liftServo.setPosition(UP_POSITION);
     }
 
     /**
      * Sets the wobble goal post down
      */
     public void setWobbleGoal() {
-        double position = liftServo.getPosition();
-        position = position - 0.05;
-        liftServo.setPosition(position);
+        liftServo.setPosition(DOWN_POSITION);
     }
 
     public void operateArm(int rightArmState){
         switch (rightArmState) {
             case 0:
-                liftServo.setPosition(0.560);
-                grabServo.setPosition(0.550);
+                liftServo.setPosition(UP_POSITION);
+                grabServo.setPosition(OPEN_POSITION);
                 break;
             case 1:
-                liftServo.setPosition(0.410);
-                grabServo.setPosition(0.550);
+                liftServo.setPosition(DOWN_POSITION);
+                grabServo.setPosition(OPEN_POSITION);
                 break;
             case 2:
-                liftServo.setPosition(0.410);
-                grabServo.setPosition(0.220);
+                liftServo.setPosition(DOWN_POSITION);
+                grabServo.setPosition(CLOSED_POSITION);
                 break;
             case 3:
-                liftServo.setPosition(0.560);
-                grabServo.setPosition(0.220);
+                liftServo.setPosition(UP_POSITION);
+                grabServo.setPosition(CLOSED_POSITION);
                 break;
         }
 
