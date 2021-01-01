@@ -25,8 +25,6 @@ import static java.lang.Math.*;
 public class TestAutonomous extends AbstractAutonomousOpModeRR {
 
     int ringNum;
-
-    MecanumDriveRR drive;
     Pose2d initPos = new Pose2d(0, 0, 0);
 
 
@@ -43,39 +41,39 @@ public class TestAutonomous extends AbstractAutonomousOpModeRR {
 
     @Override
     public void runOpMode() {
-        drive = new MecanumDriveRR(hardwareMap);
-        drive.setPoseEstimate(initPos);
+        mecanum = new MecanumDriveRR(hardwareMap);
+        mecanum.setPoseEstimate(initPos);
         waitForStart();
         ringNum = 4;
         if (ringNum == 4) {
             Pose2d lastPos;
-            Trajectory traj1 = drive.trajectoryBuilder(initPos,0).back(24).build();
-            drive.followTrajectory(traj1);
-            lastPos = drive.getPoseEstimate();
+            Trajectory traj1 = mecanum.trajectoryBuilder(initPos,0).back(24).build();
+            mecanum.followTrajectory(traj1);
+            lastPos = mecanum.getPoseEstimate();
             sleep(500);
 
-            Trajectory traj2 = drive.trajectoryBuilder(lastPos,0).forward(24).build();
-            drive.followTrajectory(traj2);
-            lastPos = drive.getPoseEstimate();
+            Trajectory traj2 = mecanum.trajectoryBuilder(lastPos,0).forward(24).build();
+            mecanum.followTrajectory(traj2);
+            lastPos = mecanum.getPoseEstimate();
             sleep(500);
 
-            Trajectory traj3 = drive.trajectoryBuilder(lastPos,0).forward(24).build();
-            drive.followTrajectory(traj3);
-            lastPos = drive.getPoseEstimate();
+            Trajectory traj3 = mecanum.trajectoryBuilder(lastPos,0).forward(24).build();
+            mecanum.followTrajectory(traj3);
+            lastPos = mecanum.getPoseEstimate();
             sleep(500);
-
-            Trajectory traj4 = drive.trajectoryBuilder(lastPos,0).strafeLeft(24).build();
-            drive.followTrajectory(traj4);
-            lastPos = drive.getPoseEstimate();
-            sleep(500);
-
-            Trajectory traj5 = drive.trajectoryBuilder(lastPos,0).strafeRight(24).build();
-            drive.followTrajectory(traj5);
-            sleep(500);
-
-            drive.turn(Math.toRadians(90));
-            sleep(2500);
-            drive.turn(Math.toRadians(-90));
+//
+//            Trajectory traj4 = drive.trajectoryBuilder(lastPos,0).strafeLeft(24).build();
+//            drive.followTrajectory(traj4);
+//            lastPos = drive.getPoseEstimate();
+//            sleep(500);
+//
+//            Trajectory traj5 = drive.trajectoryBuilder(lastPos,0).strafeRight(24).build();
+//            drive.followTrajectory(traj5);
+//            sleep(500);
+//
+//            drive.turn(Math.toRadians(90));
+//            sleep(2500);
+//            drive.turn(Math.toRadians(-90));
         }
     }
 }

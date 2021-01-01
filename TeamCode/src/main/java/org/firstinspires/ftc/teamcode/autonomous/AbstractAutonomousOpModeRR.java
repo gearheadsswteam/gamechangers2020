@@ -23,7 +23,7 @@ public abstract class AbstractAutonomousOpModeRR extends LinearOpMode {
     // Use gearheads robot hardware
     public GearheadsMecanumRobotRR robot;
     //The drive system
-    private MecanumDriveRR mecanum;
+    public MecanumDriveRR mecanum;
     // Use gyro
     private BNO055IMU gyro;
     // The autonomous driving software
