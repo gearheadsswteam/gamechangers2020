@@ -81,15 +81,16 @@ public class GearheadsMecanumRobotRR {
 
 
     private void initShootingSystem() {
-        //GReen Shooter
         DcMotor shootingMotorRight = hwMap.get(DcMotor.class, "shootRight");
+        shootingMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shootingMotorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        //shootingMotorRight.setDirection(DcMotor.Direction.REVERSE);
+        shootingMotorRight.setDirection(DcMotor.Direction.FORWARD);
 
         //Blue motor
         DcMotor shootingMotorLeft = hwMap.get(DcMotor.class, "shootLeft");
+        shootingMotorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shootingMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        //shootingMotorLeft.setDirection(DcMotor.Direction.REVERSE);
+        shootingMotorLeft.setDirection(DcMotor.Direction.FORWARD);
 
         shootingSystem = new ShootingSystem(shootingMotorRight, shootingMotorLeft);
         shootingSystem.initialize();

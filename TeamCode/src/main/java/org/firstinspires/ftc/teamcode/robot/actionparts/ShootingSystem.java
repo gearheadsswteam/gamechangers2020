@@ -10,13 +10,7 @@ public class ShootingSystem {
     public DcMotor shootingMotorRight;
     public DcMotor shootingMotorLeft;
 
-    /**
-     * Constructor
-     * @param shootingMotor
-     */
-    public ShootingSystem(DcMotor shootingMotor) {
-        this.shootingMotorRight = shootingMotor;
-    }
+
 
     /**
      * Constructor
