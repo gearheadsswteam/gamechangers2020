@@ -73,7 +73,7 @@ public class MecanumDriveRR extends MecanumDrive {
     private FtcDashboard dashboard;
     private NanoClock clock;
 
-    private Mode mode;
+    private SampleMecanumDrive.Mode mode;
 
     private PIDFController turnController;
     private MotionProfile turnProfile;
@@ -91,18 +91,15 @@ public class MecanumDriveRR extends MecanumDrive {
 
     private Pose2d lastPoseOnTurn;
 
-    /* local OpMode members. */
-    public HardwareMap hwMap = null;
-
-    public MecanumDriveRR(GearheadsMecanumRobotRR rrRobot) {
+    public MecanumDriveRR(HardwareMap hardwareMap) {
         super(kV, kA, kStatic, TRACK_WIDTH, TRACK_WIDTH, LATERAL_MULTIPLIER);
-        hwMap = rrRobot.hwMap;
+
         dashboard = FtcDashboard.getInstance();
         dashboard.setTelemetryTransmissionInterval(25);
 
         clock = NanoClock.system();
 
-        mode = Mode.IDLE;
+        mode = SampleMecanumDrive.Mode.IDLE;
 
         turnController = new PIDFController(HEADING_PID);
         turnController.setInputBounds(0, 2 * Math.PI);
@@ -113,19 +110,19 @@ public class MecanumDriveRR extends MecanumDrive {
 
         poseHistory = new LinkedList<>();
 
-        LynxModuleUtil.ensureMinimumFirmwareVersion(rrRobot.hwMap);
+        LynxModuleUtil.ensureMinimumFirmwareVersion(hardwareMap);
 
-        batteryVoltageSensor = rrRobot.hwMap.voltageSensor.iterator().next();
+        batteryVoltageSensor = hardwareMap.voltageSensor.iterator().next();
 
-        for (LynxModule module : rrRobot.hwMap.getAll(LynxModule.class)) {
+        for (LynxModule module : hardwareMap.getAll(LynxModule.class)) {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
 
 
-        leftFront = (DcMotorEx) rrRobot.fl_motor;
-        leftRear = (DcMotorEx) rrRobot.rl_motor;
-        rightRear = (DcMotorEx) rrRobot.rr_motor;
-        rightFront = (DcMotorEx) rrRobot.fr_motor;
+        leftFront = hardwareMap.get(DcMotorEx.class, "fl");
+        leftRear = hardwareMap.get(DcMotorEx.class, "bl");
+        rightRear = hardwareMap.get(DcMotorEx.class, "br");
+        rightFront = hardwareMap.get(DcMotorEx.class, "fr");
 
         motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
 
@@ -149,9 +146,8 @@ public class MecanumDriveRR extends MecanumDrive {
         rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
         rightRear.setDirection(DcMotorSimple.Direction.REVERSE);
         // TODO: if desired, use setLocalizer() to change the localization method
-        setLocalizer(new StandardTrackingWheelLocalizer(rrRobot.hwMap));
+        setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap));
     }
-
 
     public TrajectoryBuilder trajectoryBuilder(Pose2d startPose) {
         return new TrajectoryBuilder(startPose, constraints);
@@ -179,7 +175,7 @@ public class MecanumDriveRR extends MecanumDrive {
         );
 
         turnStart = clock.seconds();
-        mode = Mode.TURN;
+        mode = SampleMecanumDrive.Mode.TURN;
     }
 
     public void turn(double angle) {
@@ -189,7 +185,7 @@ public class MecanumDriveRR extends MecanumDrive {
 
     public void followTrajectoryAsync(Trajectory trajectory) {
         follower.followTrajectory(trajectory);
-        mode = Mode.FOLLOW_TRAJECTORY;
+        mode = SampleMecanumDrive.Mode.FOLLOW_TRAJECTORY;
     }
 
     public void followTrajectory(Trajectory trajectory) {
@@ -261,7 +257,7 @@ public class MecanumDriveRR extends MecanumDrive {
                 DashboardUtil.drawRobot(fieldOverlay, newPose);
 
                 if (t >= turnProfile.duration()) {
-                    mode = Mode.IDLE;
+                    mode = SampleMecanumDrive.Mode.IDLE;
                     setDriveSignal(new DriveSignal());
                 }
 
@@ -282,7 +278,7 @@ public class MecanumDriveRR extends MecanumDrive {
                 DashboardUtil.drawPoseHistory(fieldOverlay, poseHistory);
 
                 if (!follower.isFollowing()) {
-                    mode = Mode.IDLE;
+                    mode = SampleMecanumDrive.Mode.IDLE;
                     setDriveSignal(new DriveSignal());
                 }
 
@@ -303,7 +299,7 @@ public class MecanumDriveRR extends MecanumDrive {
     }
 
     public boolean isBusy() {
-        return mode != Mode.IDLE;
+        return mode != SampleMecanumDrive.Mode.IDLE;
     }
 
     public void setMode(DcMotor.RunMode runMode) {
