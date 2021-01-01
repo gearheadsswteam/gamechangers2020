@@ -41,7 +41,7 @@ public abstract class AbstractAutonomousOpModeRR extends LinearOpMode {
      * Run this as the first thing in the autonomous opmode
      */
 
-    private void initOpModeBeforeStart() {
+    protected void initOpModeBeforeStart() {
         /*
          * Initialize the drive system variables.
          * The init() method of the hardware class does all the work here

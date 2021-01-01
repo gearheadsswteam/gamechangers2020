@@ -28,6 +28,14 @@ public class TestAutonomous extends AbstractAutonomousOpModeRR {
     Pose2d initPos = new Pose2d(0, 0, 0);
 
 
+    protected void initOpModeBeforeStart(){
+        mecanum = new MecanumDriveRR(hardwareMap);
+        mecanum.setPoseEstimate(initPos);
+
+        telemetry.addData("Status", "Initialized");
+        telemetry.update();
+
+    }
 
     @Override
     protected void initOpModeAfterStart() {
@@ -35,15 +43,7 @@ public class TestAutonomous extends AbstractAutonomousOpModeRR {
     }
 
     @Override
-    protected void executeOpMode() {
-
-    }
-
-    @Override
-    public void runOpMode() {
-        mecanum = new MecanumDriveRR(hardwareMap);
-        mecanum.setPoseEstimate(initPos);
-        waitForStart();
+   protected void executeOpMode() {
         ringNum = 4;
         if (ringNum == 4) {
             Pose2d lastPos;
