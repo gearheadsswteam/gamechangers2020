@@ -73,7 +73,7 @@ public class MecanumDriveRR extends MecanumDrive {
     private FtcDashboard dashboard;
     private NanoClock clock;
 
-    private SampleMecanumDrive.Mode mode;
+    private Mode mode;
 
     private PIDFController turnController;
     private MotionProfile turnProfile;
@@ -99,7 +99,7 @@ public class MecanumDriveRR extends MecanumDrive {
 
         clock = NanoClock.system();
 
-        mode = SampleMecanumDrive.Mode.IDLE;
+        mode = Mode.IDLE;
 
         turnController = new PIDFController(HEADING_PID);
         turnController.setInputBounds(0, 2 * Math.PI);
@@ -175,7 +175,7 @@ public class MecanumDriveRR extends MecanumDrive {
         );
 
         turnStart = clock.seconds();
-        mode = SampleMecanumDrive.Mode.TURN;
+        mode = Mode.TURN;
     }
 
     public void turn(double angle) {
@@ -185,7 +185,7 @@ public class MecanumDriveRR extends MecanumDrive {
 
     public void followTrajectoryAsync(Trajectory trajectory) {
         follower.followTrajectory(trajectory);
-        mode = SampleMecanumDrive.Mode.FOLLOW_TRAJECTORY;
+        mode = Mode.FOLLOW_TRAJECTORY;
     }
 
     public void followTrajectory(Trajectory trajectory) {
@@ -257,7 +257,7 @@ public class MecanumDriveRR extends MecanumDrive {
                 DashboardUtil.drawRobot(fieldOverlay, newPose);
 
                 if (t >= turnProfile.duration()) {
-                    mode = SampleMecanumDrive.Mode.IDLE;
+                    mode = Mode.IDLE;
                     setDriveSignal(new DriveSignal());
                 }
 
@@ -278,7 +278,7 @@ public class MecanumDriveRR extends MecanumDrive {
                 DashboardUtil.drawPoseHistory(fieldOverlay, poseHistory);
 
                 if (!follower.isFollowing()) {
-                    mode = SampleMecanumDrive.Mode.IDLE;
+                    mode = Mode.IDLE;
                     setDriveSignal(new DriveSignal());
                 }
 
@@ -299,7 +299,7 @@ public class MecanumDriveRR extends MecanumDrive {
     }
 
     public boolean isBusy() {
-        return mode != SampleMecanumDrive.Mode.IDLE;
+        return mode != Mode.IDLE;
     }
 
     public void setMode(DcMotor.RunMode runMode) {
