@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
+import org.firstinspires.ftc.teamcode.drive.MecanumDriveRR;
 import org.firstinspires.ftc.teamcode.odometry.GEarheadsOdometryPositionFinder;
 import org.firstinspires.ftc.teamcode.odometry.RobotPositionFinderFactory;
 import org.firstinspires.ftc.teamcode.robot.actionparts.Intakesystem;
@@ -23,6 +24,7 @@ import org.firstinspires.ftc.teamcode.robot.actionparts.WobblegoalArmRight;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.MOTOR_VELO_PID;
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.RUN_USING_ENCODER;
 
@@ -51,6 +53,7 @@ public class GearheadsMecanumRobotRR {
     public RingFlipperSystem ringFlipperSystem;
     public WobblegoalArmRight wobblegoalArmRight;
     public WobblegoalArmLeft wobblegoalArmLeft;
+    public MecanumDriveRR driveSystem;
 
     public RingDetector ringDetector;
 
@@ -134,6 +137,10 @@ public class GearheadsMecanumRobotRR {
         wobblegoalArmLeft.initialize();
     }
 
+    private void initDriveSystemUsingRoadRunner(){
+        driveSystem = new MecanumDriveRR(hardwareMap);
+    }
+
     /**
      * Starts the Ring detector
      */
@@ -157,6 +164,7 @@ public class GearheadsMecanumRobotRR {
     private void init(HardwareMap ahwMap) {
         // Save reference to Hardware map
         hwMap = ahwMap;
+        initDriveSystemUsingRoadRunner();
         initIntakeSystem();
         initShootingSystem();
         initRingFlipSystem();

@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.autonomousRR;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -19,7 +18,7 @@ public abstract class AbstractAutonomousOpModeRR extends LinearOpMode {
     // Use gearheads robot hardware
     public GearheadsMecanumRobotRR robot;
     //The drive system
-    public MecanumDriveRR mecanumDriveRR;
+    public MecanumDriveRR driveSystem;
 
     // The autonomous driving software
     protected AutonomousMecanumMoverRR autonomousRobotMover;
@@ -42,9 +41,8 @@ public abstract class AbstractAutonomousOpModeRR extends LinearOpMode {
          * The init() method of the hardware class does all the work here
          */
         robot.initAutonomous(hardwareMap);
-
-        mecanumDriveRR = new MecanumDriveRR(hardwareMap);
-        autonomousRobotMover = new AutonomousMecanumMoverRR(robot, this, mecanumDriveRR);
+        driveSystem = robot.driveSystem;
+        autonomousRobotMover = new AutonomousMecanumMoverRR(robot, this);
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
