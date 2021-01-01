@@ -47,13 +47,6 @@ public abstract class AbstractAutonomousOpModeRR extends LinearOpMode {
          * The init() method of the hardware class does all the work here
          */
         robot.initAutonomous(hardwareMap);
-        gyro = robot.imu;
-
-        while (!gyro.isGyroCalibrated()) {
-            sleep(10);
-            idle();
-        }
-
 
         mecanum = new MecanumDriveRR(hardwareMap);
         autonomousRobotMover = new AutonomousMecanumMoverRR(robot, this, mecanum);
@@ -61,6 +54,7 @@ public abstract class AbstractAutonomousOpModeRR extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
     }
+
 
     /**
      * Run this as the first thing in the autonomous opmode after initialization

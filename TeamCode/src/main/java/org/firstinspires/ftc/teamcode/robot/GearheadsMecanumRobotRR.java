@@ -52,35 +52,7 @@ public class GearheadsMecanumRobotRR {
     public WobblegoalArmRight wobblegoalArmRight;
     public WobblegoalArmLeft wobblegoalArmLeft;
 
-    //Gyro
-    public BNO055IMU imu;
-
-    //drive train
-    public DcMotorEx fl_motor;
-    public DcMotorEx fr_motor;
-    public DcMotorEx rl_motor;
-    public DcMotorEx rr_motor;
-
-
-    //Odometry encoder wheels
-    public DcMotor verticalRight;
-    public DcMotor verticalLeft;
-    public DcMotor horizontal;
-
-    public PositionEncoders positionEncoderCenter;
-    public PositionEncoders positionEncoderLeft;
-    public PositionEncoders positionEncoderRight;
-
-    //Hardware map names for the encoder wheels. Again, these will change for each robot and need to be updated below
-    String verticalLeftEncoderName = "rf", verticalRightEncoderName = "lf", horizontalEncoderName = "lb";
-
-    public GEarheadsOdometryPositionFinder globalPositionUpdate;
     public RingDetector ringDetector;
-
-    public static final double COUNTS_PER_MOTOR_REV = 723.24;    // eg: 723.24 was 1478
-    public static final double WHEEL_DIAMETER_INCHES = 3.93;     // For figuring circumference
-    public static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV) /
-            (WHEEL_DIAMETER_INCHES * 3.1415);
 
     private LinearOpMode curOpMode = null;   //current opmode
 
@@ -111,25 +83,18 @@ public class GearheadsMecanumRobotRR {
     private void initShootingSystem() {
         //GReen Shooter
         DcMotor shootingMotorRight = hwMap.get(DcMotor.class, "shootRight");
-        shootingMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shootingMotorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        shootingMotorRight.setDirection(DcMotor.Direction.REVERSE);
+        //shootingMotorRight.setDirection(DcMotor.Direction.REVERSE);
 
         //Blue motor
         DcMotor shootingMotorLeft = hwMap.get(DcMotor.class, "shootLeft");
-        shootingMotorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shootingMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        shootingMotorLeft.setDirection(DcMotor.Direction.REVERSE);
+        //shootingMotorLeft.setDirection(DcMotor.Direction.REVERSE);
 
         shootingSystem = new ShootingSystem(shootingMotorRight, shootingMotorLeft);
         shootingSystem.initialize();
     }
 
-    private void intPositionEncoders() {
-        positionEncoderCenter = new PositionEncoders(shootingSystem.shootingMotorRight);
-        positionEncoderLeft = new PositionEncoders(shootingSystem.shootingMotorLeft);
-        positionEncoderRight = null; // Need to add this on port 1
-    }
 
 
     /**
@@ -177,133 +142,20 @@ public class GearheadsMecanumRobotRR {
     }
 
 
-    /**
-     * Initializes the Gyro
-     *
-     * @param calibrate
-     */
-    private void initGyro(boolean calibrate) {
-        imu = hwMap.get(BNO055IMU.class, "gyro");
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-
-        parameters.mode = BNO055IMU.SensorMode.IMU;
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.loggingEnabled = false;
-
-        imu.initialize(parameters);
-
-        if (calibrate) {
-            curOpMode.telemetry.addData("Mode", "calibrating...");
-            curOpMode.telemetry.update();
-
-            // make sure the imu gyro is calibrated before continuing.
-            while (!curOpMode.isStopRequested() && !imu.isGyroCalibrated()) {
-                curOpMode.sleep(10);
-                curOpMode.idle();
-            }
-        }
-
-        curOpMode.telemetry.addData("Mode", "waiting for start");
-        curOpMode.telemetry.addData("imu calib status", imu.getCalibrationStatus().toString());
-        curOpMode.telemetry.update();
-    }
-
-
-    /**
-     * Initializes the drive train
-     */
-    private void initDriveMotors() {
-        /**
-         * Josh = orig
-         * 0 br = fl
-         * 1 bl = fr
-         * 2 fr = rl
-         * 3 fl = rr
-         */
-
-
-        //DRIVING
-        fl_motor = (DcMotorEx) hwMap.dcMotor.get("fl");
-        fr_motor = (DcMotorEx) hwMap.dcMotor.get("fr");
-        rl_motor = (DcMotorEx) hwMap.dcMotor.get("rl");
-        rr_motor = (DcMotorEx) hwMap.dcMotor.get("rr");
-
-
-        List<DcMotorEx> motors = Arrays.asList(fl_motor, fr_motor, rl_motor, rr_motor);
-
-        for (DcMotorEx motor : motors) {
-            MotorConfigurationType motorConfigurationType = motor.getMotorType().clone();
-            motorConfigurationType.setAchieveableMaxRPMFraction(1.0);
-            motor.setMotorType(motorConfigurationType);
-
-            if (RUN_USING_ENCODER) {
-                motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            }
-            motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            if (RUN_USING_ENCODER && MOTOR_VELO_PID != null) {
-                motor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, MOTOR_VELO_PID);
-            }
-        }
-
-        // TODO: reverse any motors using DcMotor.setDirection()
-        fr_motor.setDirection(DcMotorSimple.Direction.REVERSE);
-        rr_motor.setDirection(DcMotorSimple.Direction.REVERSE);
-        // TODO: if desired, use setLocalizer() to change the localization method
-    }
-
-    private void initOdometryEncoders() {
-        //Assign the hardware map to the odometry wheels
-        verticalLeft = hwMap.dcMotor.get(verticalLeftEncoderName);
-        verticalRight = hwMap.dcMotor.get(verticalRightEncoderName);
-        horizontal = hwMap.dcMotor.get(horizontalEncoderName);
-
-        //Reset the encoders
-        verticalRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        verticalLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        horizontal.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        /*
-        Reverse the direction of the odometry wheels. THIS WILL CHANGE FOR EACH ROBOT. Adjust the direction (as needed) of each encoder wheel
-        such that when the verticalLeft and verticalRight encoders spin forward, they return positive values, and when the
-        horizontal encoder travels to the right, it returns positive value
-        */
-        verticalLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        verticalRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        horizontal.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        //Set the mode of the odometry encoders to RUN_WITHOUT_ENCODER
-        verticalRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        verticalLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        horizontal.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        //Create and start GlobalCoordinatePosition thread to constantly update the global coordinate positions\
-        globalPositionUpdate = RobotPositionFinderFactory.getPositionFinder(verticalLeft, verticalRight, horizontal, COUNTS_PER_INCH, 75);
-        Thread positionThread = new Thread(globalPositionUpdate);
-        positionThread.start();
-    }
-
-
     /* Initialize standard Hardware interfaces */
     public void initAutonomous(HardwareMap ahwMap) {
         init(ahwMap);
-        initGyro(true);
-        //initOdometryEncoders();
-        //intPositionEncoders();
         initRingDetector();
     }
 
     /* Initialize standard Hardware interfaces */
     public void initTeleOp(HardwareMap ahwMap) {
         init(ahwMap);
-        initGyro(false);
     }
 
     private void init(HardwareMap ahwMap) {
         // Save reference to Hardware map
         hwMap = ahwMap;
-
-        initDriveMotors();
         initIntakeSystem();
         initShootingSystem();
         initRingFlipSystem();

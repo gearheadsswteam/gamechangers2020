@@ -27,15 +27,14 @@ public class TestAutonomous extends AbstractAutonomousOpModeRR {
     int ringNum;
     Pose2d initPos = new Pose2d(0, 0, 0);
 
-
     protected void initOpModeBeforeStart(){
-        mecanum = new MecanumDriveRR(hardwareMap);
+        super.initOpModeBeforeStart();
         mecanum.setPoseEstimate(initPos);
-
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
     }
+
 
     @Override
     protected void initOpModeAfterStart() {
