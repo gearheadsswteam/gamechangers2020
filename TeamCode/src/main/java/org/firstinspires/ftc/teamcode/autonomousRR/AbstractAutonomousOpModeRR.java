@@ -4,14 +4,10 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveRR;
-import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobot;
 import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobotRR;
-import org.firstinspires.ftc.teamcode.robot.drivetrain.mecanum.AutonomousMecanumMover;
 import org.firstinspires.ftc.teamcode.robot.drivetrain.mecanum.AutonomousMecanumMoverRR;
-import org.firstinspires.ftc.teamcode.robot.drivetrain.mecanum.MecanumDrive;
 
 
 @Autonomous(name = "Mecannum: AbstractAutonomousOpModeRR", group = "Mecannum")
@@ -23,9 +19,8 @@ public abstract class AbstractAutonomousOpModeRR extends LinearOpMode {
     // Use gearheads robot hardware
     public GearheadsMecanumRobotRR robot;
     //The drive system
-    public MecanumDriveRR mecanum;
-    // Use gyro
-    private BNO055IMU gyro;
+    public MecanumDriveRR mecanumDriveRR;
+
     // The autonomous driving software
     protected AutonomousMecanumMoverRR autonomousRobotMover;
 
@@ -48,8 +43,8 @@ public abstract class AbstractAutonomousOpModeRR extends LinearOpMode {
          */
         robot.initAutonomous(hardwareMap);
 
-        mecanum = new MecanumDriveRR(hardwareMap);
-        autonomousRobotMover = new AutonomousMecanumMoverRR(robot, this, mecanum);
+        mecanumDriveRR = new MecanumDriveRR(hardwareMap);
+        autonomousRobotMover = new AutonomousMecanumMoverRR(robot, this, mecanumDriveRR);
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();

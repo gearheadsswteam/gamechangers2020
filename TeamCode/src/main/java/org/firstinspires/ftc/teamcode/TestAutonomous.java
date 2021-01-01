@@ -13,7 +13,7 @@ public class TestAutonomous extends AbstractAutonomousOpModeRR {
 
     protected void initOpModeBeforeStart(){
         super.initOpModeBeforeStart();
-        mecanum.setPoseEstimate(initPos);
+        mecanumDriveRR.setPoseEstimate(initPos);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -30,19 +30,19 @@ public class TestAutonomous extends AbstractAutonomousOpModeRR {
         ringNum = 4;
         if (ringNum == 4) {
             Pose2d lastPos;
-            Trajectory traj1 = mecanum.trajectoryBuilder(initPos,0).back(24).build();
-            mecanum.followTrajectory(traj1);
-            lastPos = mecanum.getPoseEstimate();
+            Trajectory traj1 = mecanumDriveRR.trajectoryBuilder(initPos,0).back(24).build();
+            mecanumDriveRR.followTrajectory(traj1);
+            lastPos = mecanumDriveRR.getPoseEstimate();
             sleep(500);
 
-            Trajectory traj2 = mecanum.trajectoryBuilder(lastPos,0).forward(24).build();
-            mecanum.followTrajectory(traj2);
-            lastPos = mecanum.getPoseEstimate();
+            Trajectory traj2 = mecanumDriveRR.trajectoryBuilder(lastPos,0).forward(24).build();
+            mecanumDriveRR.followTrajectory(traj2);
+            lastPos = mecanumDriveRR.getPoseEstimate();
             sleep(500);
 
-            Trajectory traj3 = mecanum.trajectoryBuilder(lastPos,0).forward(24).build();
-            mecanum.followTrajectory(traj3);
-            lastPos = mecanum.getPoseEstimate();
+            Trajectory traj3 = mecanumDriveRR.trajectoryBuilder(lastPos,0).forward(24).build();
+            mecanumDriveRR.followTrajectory(traj3);
+            lastPos = mecanumDriveRR.getPoseEstimate();
             sleep(500);
 //
 //            Trajectory traj4 = drive.trajectoryBuilder(lastPos,0).strafeLeft(24).build();

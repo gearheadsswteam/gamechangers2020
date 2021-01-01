@@ -5,10 +5,12 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveRR;
+import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobotRR;
 import org.firstinspires.ftc.teamcode.robot.actionparts.Intakesystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.RingFlipperSystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.ShootingSystem;
 import org.firstinspires.ftc.teamcode.robot.drivetrain.mecanum.AutonomousMecanumMover;
+import org.firstinspires.ftc.teamcode.robot.drivetrain.mecanum.AutonomousMecanumMoverRR;
 
 public class RedRingCase0AutonomousOpModeRR {
 
@@ -20,11 +22,11 @@ public class RedRingCase0AutonomousOpModeRR {
     private Pose2d initPos;
     private Pose2d lastPos;
 
-    public RedRingCase0AutonomousOpModeRR(MecanumDriveRR mecanumDriveRR, ShootingSystem shootingSystem, Intakesystem intakesystem, RingFlipperSystem ringFlipperSystem, LinearOpMode currOpMode) {
+    public RedRingCase0AutonomousOpModeRR(MecanumDriveRR mecanumDriveRR, GearheadsMecanumRobotRR gearheadsMecanumRobotRR, LinearOpMode currOpMode) {
         this.mecanumDriveRR = mecanumDriveRR;
-        this.shootingSystem = shootingSystem;
-        this.intakesystem = intakesystem;
-        this.ringFlipperSystem = ringFlipperSystem;
+        this.shootingSystem = gearheadsMecanumRobotRR.shootingSystem;
+        this.intakesystem = gearheadsMecanumRobotRR.intakesystem;
+        this.ringFlipperSystem = gearheadsMecanumRobotRR.ringFlipperSystem;
         this.currOpMode = currOpMode;
         initPos = new Pose2d();
     }
