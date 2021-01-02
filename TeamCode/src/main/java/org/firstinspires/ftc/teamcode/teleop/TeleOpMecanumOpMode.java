@@ -9,6 +9,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobot;
+import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobotRR;
 import org.firstinspires.ftc.teamcode.robot.actionparts.Intakesystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.RingFlipperSystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.ShootingSystem;
@@ -24,7 +25,7 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
     //Reference for Josh's code: https://docs.google.com/document/d/1nJ-Rro6GFyXt1vbN69c-Y5u8U8c_oHpr-_ET3eomAbA/edit
 
     /* Declare OpMode members. */
-    private GearheadsMecanumRobot robot;   // Use gearheads robot hardware
+    private GearheadsMecanumRobotRR robot;   // Use gearheads robot hardware
 
     //Different action systems used by the Robot
     private Intakesystem intakesystem;
@@ -51,7 +52,7 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
      * Constructor
      */
     public TeleOpMecanumOpMode() {
-        robot = new GearheadsMecanumRobot(this);
+        robot = new GearheadsMecanumRobotRR(this);
 
     }
 
@@ -123,8 +124,8 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
     private void adjustForFOV() {
         double angle = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
 
-        double tempForwardPower = gamepad1.left_stick_y;
-        double tempSidePower = gamepad1.left_stick_x;
+        double tempForwardPower = -gamepad1.left_stick_y;
+        double tempSidePower = -gamepad1.left_stick_x;
 
         sidePower = tempForwardPower * Math.cos(angle) + tempSidePower * Math.sin(angle);
         forwardPower = -tempForwardPower * Math.sin(angle) + tempSidePower * Math.cos(angle);

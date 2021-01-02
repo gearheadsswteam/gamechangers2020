@@ -54,6 +54,16 @@ public class GearheadsMecanumRobotRR {
     public WobblegoalArmRight wobblegoalArmRight;
     public WobblegoalArmLeft wobblegoalArmLeft;
 
+    //drive train for TelOp only
+    public DcMotor fl_motor;
+    public DcMotor fr_motor;
+    public DcMotor rl_motor;
+    public DcMotor rr_motor;
+
+    //Gyro
+    public BNO055IMU imu;
+
+
     public RingDetector ringDetector;
 
     private LinearOpMode curOpMode = null;   //current opmode
@@ -144,6 +154,64 @@ public class GearheadsMecanumRobotRR {
         ringDetector.initialize();
     }
 
+    /**
+     * Initializes the Gyro
+     *
+     * @param calibrate
+     */
+    private void initGyro(boolean calibrate) {
+        imu = hwMap.get(BNO055IMU.class, "gyro");
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+
+        parameters.mode = BNO055IMU.SensorMode.IMU;
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.loggingEnabled = false;
+
+        imu.initialize(parameters);
+
+        if (calibrate) {
+            curOpMode.telemetry.addData("Mode", "calibrating...");
+            curOpMode.telemetry.update();
+
+            // make sure the imu gyro is calibrated before continuing.
+            while (!curOpMode.isStopRequested() && !imu.isGyroCalibrated()) {
+                curOpMode.sleep(10);
+                curOpMode.idle();
+            }
+        }
+
+        curOpMode.telemetry.addData("Mode", "waiting for start");
+        curOpMode.telemetry.addData("imu calib status", imu.getCalibrationStatus().toString());
+        curOpMode.telemetry.update();
+    }
+
+
+    /**
+     * Initializes the drive train
+     */
+    private void initDriveMotors() {
+
+        //DRIVING
+        fl_motor = hwMap.dcMotor.get("fl");
+        fr_motor = hwMap.dcMotor.get("fr");
+        rl_motor = hwMap.dcMotor.get("bl");
+        rr_motor = hwMap.dcMotor.get("br");
+
+
+        //This is based on how motors have been mounted
+        fr_motor.setDirection(DcMotor.Direction.FORWARD);
+        rr_motor.setDirection(DcMotor.Direction.FORWARD);
+        fl_motor.setDirection(DcMotor.Direction.REVERSE);
+        rl_motor.setDirection(DcMotor.Direction.REVERSE);
+
+        fr_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rr_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        fl_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rl_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+    }
+
+
 
     /* Initialize standard Hardware interfaces */
     public void initAutonomous(HardwareMap ahwMap) {
@@ -154,6 +222,8 @@ public class GearheadsMecanumRobotRR {
     /* Initialize standard Hardware interfaces */
     public void initTeleOp(HardwareMap ahwMap) {
         init(ahwMap);
+        initGyro(true);
+        initDriveMotors();
     }
 
     private void init(HardwareMap ahwMap) {
