@@ -28,37 +28,12 @@ public class TestRedPositions extends AbstractAutonomousOpModeRR {
     @Override
     protected void executeOpMode() {
 
-        Trajectory trajectory = mecanumDriveRR.trajectoryBuilder(RedTeamPositions.POS1, 0).lineToLinearHeading(RedTeamPositions.POS2).build();
+        Trajectory trajectory = mecanumDriveRR.trajectoryBuilder(RedTeamPositions.POS1, 0).splineToSplineHeading(RedTeamPositions.POS4,0).build();
         mecanumDriveRR.followTrajectory(trajectory);
         Pose2d lastPos = mecanumDriveRR.getPoseEstimate();
         sleep(500);
 
-        trajectory = mecanumDriveRR.trajectoryBuilder(lastPos, 0).lineToLinearHeading(RedTeamPositions.POS3).build();
-        mecanumDriveRR.followTrajectory(trajectory);
-        lastPos = mecanumDriveRR.getPoseEstimate();
-        sleep(500);
-
-        trajectory = mecanumDriveRR.trajectoryBuilder(lastPos, 0).lineToLinearHeading(RedTeamPositions.POS4).build();
-        mecanumDriveRR.followTrajectory(trajectory);
-        lastPos = mecanumDriveRR.getPoseEstimate();
-        sleep(500);
-
-        trajectory = mecanumDriveRR.trajectoryBuilder(lastPos, 0).lineToLinearHeading(RedTeamPositions.POS5).build();
-        mecanumDriveRR.followTrajectory(trajectory);
-        lastPos = mecanumDriveRR.getPoseEstimate();
-        sleep(500);
-
-        trajectory = mecanumDriveRR.trajectoryBuilder(lastPos, 0).lineToLinearHeading(RedTeamPositions.POS6).build();
-        mecanumDriveRR.followTrajectory(trajectory);
-        lastPos = mecanumDriveRR.getPoseEstimate();
-        sleep(500);
-
-        trajectory = mecanumDriveRR.trajectoryBuilder(lastPos, 0).lineToLinearHeading(RedTeamPositions.POS7).build();
-        mecanumDriveRR.followTrajectory(trajectory);
-        lastPos = mecanumDriveRR.getPoseEstimate();
-        sleep(500);
-
-        trajectory = mecanumDriveRR.trajectoryBuilder(lastPos, 0).lineToLinearHeading(RedTeamPositions.POS8).build();
+        trajectory = mecanumDriveRR.trajectoryBuilder(lastPos, 0).splineToSplineHeading(RedTeamPositions.POS1,0).build();
         mecanumDriveRR.followTrajectory(trajectory);
         lastPos = mecanumDriveRR.getPoseEstimate();
         sleep(500);
