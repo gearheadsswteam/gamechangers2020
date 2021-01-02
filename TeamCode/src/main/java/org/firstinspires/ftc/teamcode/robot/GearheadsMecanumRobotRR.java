@@ -53,7 +53,6 @@ public class GearheadsMecanumRobotRR {
     public RingFlipperSystem ringFlipperSystem;
     public WobblegoalArmRight wobblegoalArmRight;
     public WobblegoalArmLeft wobblegoalArmLeft;
-    public MecanumDriveRR driveSystem;
 
     public RingDetector ringDetector;
 
@@ -137,10 +136,6 @@ public class GearheadsMecanumRobotRR {
         wobblegoalArmLeft.initialize();
     }
 
-    private void initDriveSystemUsingRoadRunner(){
-        driveSystem = new MecanumDriveRR(hardwareMap);
-    }
-
     /**
      * Starts the Ring detector
      */
@@ -164,7 +159,6 @@ public class GearheadsMecanumRobotRR {
     private void init(HardwareMap ahwMap) {
         // Save reference to Hardware map
         hwMap = ahwMap;
-        initDriveSystemUsingRoadRunner();
         initIntakeSystem();
         initShootingSystem();
         initRingFlipSystem();

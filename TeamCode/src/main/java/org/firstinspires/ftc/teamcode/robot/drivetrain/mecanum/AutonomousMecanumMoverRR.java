@@ -20,10 +20,10 @@ public class AutonomousMecanumMoverRR {
      * @param gearheadsRobot robot to use
      * @param myOpMode       opmode that is executing
      */
-    public AutonomousMecanumMoverRR(GearheadsMecanumRobotRR gearheadsRobot, LinearOpMode myOpMode) {
+    public AutonomousMecanumMoverRR(GearheadsMecanumRobotRR gearheadsRobot, LinearOpMode myOpMode, MecanumDriveRR mecanumDrive) {
         robot = gearheadsRobot;
         curOpMode = myOpMode;
-        drive = gearheadsRobot.driveSystem;
+        drive = mecanumDrive;
     }
 
     public TrajectoryBuilder trajectoryBuilder(Pose2d startPose) {

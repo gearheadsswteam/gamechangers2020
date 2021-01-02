@@ -13,7 +13,7 @@ public class RedAutonomousModeRR extends AbstractAutonomousOpModeRR {
     @Override
     protected void initOpModeBeforeStart() {
         super.initOpModeBeforeStart();
-        driveSystem.setPoseEstimate(initPos);
+        mecanumDriveRR.setPoseEstimate(initPos);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -33,7 +33,7 @@ public class RedAutonomousModeRR extends AbstractAutonomousOpModeRR {
 
         if(rings == 0){
             ///execute Rings = 0 case
-            RedRingCase0AutonomousOpModeRR ringCase0AutonomousOpMode = new RedRingCase0AutonomousOpModeRR(driveSystem, autonomousRobotMover.robot,this);
+            RedRingCase0AutonomousOpModeRR ringCase0AutonomousOpMode = new RedRingCase0AutonomousOpModeRR(mecanumDriveRR, autonomousRobotMover.robot,this);
             ringCase0AutonomousOpMode.executeOpMode();
         }else if(rings == 1){
 
