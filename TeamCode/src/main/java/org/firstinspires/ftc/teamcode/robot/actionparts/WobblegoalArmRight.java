@@ -14,10 +14,10 @@ public class WobblegoalArmRight implements WobbleGoalArm {
     private Servo grabServo;
 
     //Servo positions
-    private final double UP_POSITION = 0.560;
-    private final double DOWN_POSITION = 0.410;
-    private final double CLOSED_POSITION = 0.220;
-    private final double OPEN_POSITION = 0.550;
+    private final double UP_POSITION = 0.45;
+    private final double DOWN_POSITION = 0.6;
+    private final double CLOSED_POSITION = 0.39;
+    private final double OPEN_POSITION = 0.0;
 
     /**
      * Constructor

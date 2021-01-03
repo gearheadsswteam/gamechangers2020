@@ -128,7 +128,7 @@ public class GearheadsMecanumRobotRR {
 
     private void initWobbleArmSystem() {
         Servo armRightServo = hwMap.get(Servo.class, "armRight");
-        armRightServo.setDirection(Servo.Direction.REVERSE);
+        armRightServo.setDirection(Servo.Direction.FORWARD);
 
         Servo clawRightServo = hwMap.get(Servo.class, "clawRight");
         clawRightServo.setDirection(Servo.Direction.FORWARD);
@@ -137,7 +137,7 @@ public class GearheadsMecanumRobotRR {
         wobblegoalArmRight.initialize();
 
         Servo armLeftServo = hwMap.get(Servo.class, "armLeft");
-        armLeftServo.setDirection(Servo.Direction.REVERSE);
+        armLeftServo.setDirection(Servo.Direction.FORWARD);
 
         Servo clawLeftServo = hwMap.get(Servo.class, "clawLeft");
         clawLeftServo.setDirection(Servo.Direction.FORWARD);
