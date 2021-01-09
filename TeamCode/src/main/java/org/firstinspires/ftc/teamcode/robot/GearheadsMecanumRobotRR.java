@@ -96,13 +96,13 @@ public class GearheadsMecanumRobotRR {
         DcMotor shootingMotorRight = hwMap.get(DcMotor.class, "shootRight");
         shootingMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shootingMotorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        shootingMotorRight.setDirection(DcMotor.Direction.FORWARD);
+        shootingMotorRight.setDirection(DcMotor.Direction.REVERSE);
 
         //Blue motor
         DcMotor shootingMotorLeft = hwMap.get(DcMotor.class, "shootLeft");
         shootingMotorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shootingMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        shootingMotorLeft.setDirection(DcMotor.Direction.FORWARD);
+        shootingMotorLeft.setDirection(DcMotor.Direction.REVERSE);
 
         shootingSystem = new ShootingSystem(shootingMotorRight, shootingMotorLeft);
         shootingSystem.initialize();
@@ -203,7 +203,7 @@ public class GearheadsMecanumRobotRR {
         fr_motor.setDirection(DcMotor.Direction.FORWARD);
         rr_motor.setDirection(DcMotor.Direction.FORWARD);
         fl_motor.setDirection(DcMotor.Direction.REVERSE);
-        rl_motor.setDirection(DcMotor.Direction.REVERSE);
+        rl_motor.setDirection(DcMotor.Direction.FORWARD);// BL motor works inverted...not sure why
 
         fr_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rr_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
