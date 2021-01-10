@@ -142,10 +142,13 @@ public class MecanumDriveRR extends MecanumDrive {
             setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, MOTOR_VELO_PID);
         }
 
-        // TODO: reverse any motors using DcMotor.setDirection()
+        //TODO : compare this to tele op to set direction correctly
         rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
         rightRear.setDirection(DcMotorSimple.Direction.REVERSE);
-        // TODO: if desired, use setLocalizer() to change the localization method
+
+        leftFront.setDirection(DcMotorSimple.Direction.FORWARD);
+        leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
+
         setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap));
     }
 
