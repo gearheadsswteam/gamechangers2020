@@ -67,8 +67,7 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
         while (opModeIsActive()) {
             adjustForFOV();
 
-            //TODO: Rishi: Dampening needs different controls
-            //dampenSpeed();
+            dampenSpeed();
             //Move The robot
             moveRobot();
 
@@ -151,18 +150,18 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
      * Operate the wobble post arm system
      */
     private void operateWobblegoalArmSystem() {
-        if (gamepad1.left_trigger > 0.5 && leftTriggerUp) {
+        if (gamepad1.left_bumper && leftTriggerUp) {
             leftArmState = (leftArmState + 1) % 4;
             leftTriggerUp = false;
-        } else if (gamepad1.left_trigger <= 0.5) {
+        } else if (!gamepad1.left_bumper) {
             leftTriggerUp = true;
         }
         wobblegoalArmLeft.operateArm(leftArmState);
 
-        if (gamepad1.right_trigger > 0.5 && rightTriggerUp) {
+        if (gamepad1.right_bumper && rightTriggerUp) {
             rightArmState = (rightArmState + 1) % 4;
             rightTriggerUp = false;
-        } else if (gamepad1.right_trigger <= 0.5) {
+        } else if (!gamepad1.right_bumper) {
             rightTriggerUp = true;
         }
 
