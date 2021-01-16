@@ -10,15 +10,16 @@ import org.firstinspires.ftc.teamcode.autonomousRR.RedTeamPositions;
 @Autonomous
 public class RedAutonomousModeRR extends AbstractAutonomousOpModeRR {
     int ringNum;
-    Pose2d initPos = new Pose2d(0, 0, 0);
+
+    Pose2d initPos = new Pose2d(-60, -48, 0);
 
     @Override
     protected void initOpModeBeforeStart() {
         super.initOpModeBeforeStart();
         mecanumDriveRR.setPoseEstimate(initPos);
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-
     }
 
     @Override
@@ -28,22 +29,21 @@ public class RedAutonomousModeRR extends AbstractAutonomousOpModeRR {
 
     @Override
     protected void executeOpMode() {
-        //Grab the wobble goal for transport
-        grabWobbleGoal();
-        Pose2d lastPos = goToRingDetectionPosition();
-
         int rings = robot.ringDetector.detectRings();
-
+        rings = 1;
         telemetry.addData("Rings ", rings);
         telemetry.update();
+        sleep(500);
 
         if(rings == 0){
             ///execute Rings = 0 case
             RedRingCase0AutonomousOpModeRR ringCase0AutonomousOpMode = new RedRingCase0AutonomousOpModeRR(mecanumDriveRR, autonomousRobotMover.robot,this);
-            ringCase0AutonomousOpMode.setLastPos(lastPos);
+            ringCase0AutonomousOpMode.setLastPos(initPos);
             ringCase0AutonomousOpMode.executeOpMode();
         }else if(rings == 1){
-
+            RedRingCase1AutonomousOpModeRR ringCase1AutonomousOpMode = new RedRingCase1AutonomousOpModeRR(mecanumDriveRR, autonomousRobotMover.robot,this);
+            ringCase1AutonomousOpMode.setLastPos(initPos);
+            ringCase1AutonomousOpMode.executeOpMode();
         }else if(rings == 4){
 
         }
@@ -53,8 +53,12 @@ public class RedAutonomousModeRR extends AbstractAutonomousOpModeRR {
      * Grabs the wobble goal tight
      */
     private void grabWobbleGoal() {
-        autonomousRobotMover.robot.wobblegoalArmRight.grabWobbleGoal();
-        this.sleep(500);
+        autonomousRobotMover.robot.wobblegoalArmLeft.setWobbleGoal();
+        sleep(1500);
+        autonomousRobotMover.robot.wobblegoalArmLeft.grabWobbleGoal();
+        sleep(500);
+        autonomousRobotMover.robot.wobblegoalArmLeft.liftWobbleGoal();
+        this.sleep(200);
     }
 
     private Pose2d goToRingDetectionPosition(){
