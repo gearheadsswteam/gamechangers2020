@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.autonomousRR.redteam;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -33,8 +34,7 @@ public class RedRingCase0AutonomousOpModeRR {
         this.wobblegoalArmLeft = gearheadsMecanumRobotRR.wobblegoalArmLeft;
         this.wobblegoalArmRight = gearheadsMecanumRobotRR.wobblegoalArmRight;
         this.currOpMode = currOpMode;
-        initPos = new Pose2d();
-        mecanumDriveRR.setMotorPowers(0.5,0.5,0.5,0.5);
+        this.initPos = new Pose2d(-60, -48, 0);
     }
 
     public void setLastPos(Pose2d lastKnownPos){
@@ -42,98 +42,31 @@ public class RedRingCase0AutonomousOpModeRR {
     }
 
     public void executeOpMode() {
-        goToWobbleGoalDropPosition();
-        dropWobbleGoal();
+        //Trajectory traj1 = mecanumDriveRR.trajectoryBuilder(initPos, 0).splineTo(new Vector2d(6, -60), -0.4).build();
+        Trajectory traj1 = mecanumDriveRR.trajectoryBuilder(initPos, 0).splineTo(new Vector2d(6, -56), -0.4).build();
+        Trajectory traj2 = mecanumDriveRR.trajectoryBuilder(new Pose2d(6, -56, -0.4), Math.PI - 0.4).splineToLinearHeading(new Pose2d(-2, -36, 0.25), 0.25).build();
+        Trajectory traj3 = mecanumDriveRR.trajectoryBuilder(new Pose2d(-2, -36, 0.45), 0.45).splineTo(new Vector2d(-54, -11), -Math.PI / 3).splineTo(new Vector2d(-47, -23), -Math.PI / 3).splineTo(new Vector2d(8, -50), 0).build();
 
-        //Move from Wobble goal drop point to shooting position
-        gotoShootingPosition();
+        shootingSystem.operateShooterMotors(0.15, 0.075);
+        ringFlipperSystem.resetPosition();
 
-        //Shoot the preloaded rings in the goal
-        shootPreloadedRings();
 
-        gotoGrabRingPosition();
-
-        grabRings();
-
-        gotoShootingPosition();
-
-        shootPreloadedRings();
-
-        //Park the robot
-        park();
-    }
-
-    /**
-     * Drops the wobble goal on the mat
-     */
-    private void dropWobbleGoal() {
-        wobblegoalArmRight.setWobbleGoal();
-        currOpMode.sleep(100);
-        wobblegoalArmRight.ungrabWobbleGoal();
-        currOpMode.sleep(750);
-    }
-    /**
-     * Move the first wobble goal to the correct position
-     */
-    private void goToWobbleGoalDropPosition() {
-        Trajectory traj1 = mecanumDriveRR.trajectoryBuilder(lastPos,0).lineToSplineHeading(RedTeamPositions.GOAL_0_POS).build();
         mecanumDriveRR.followTrajectory(traj1);
-        lastPos = mecanumDriveRR.getPoseEstimate();
-        currOpMode.sleep(500);
-    }
+        mecanumDriveRR.followTrajectory(traj2);
 
-    private void gotoShootingPosition() {
-        Trajectory traj1 = mecanumDriveRR.trajectoryBuilder(lastPos,0).lineToLinearHeading(RedTeamPositions.SHOOTING_POS).build();
-        mecanumDriveRR.followTrajectory(traj1);
-        lastPos = mecanumDriveRR.getPoseEstimate();
-        currOpMode.sleep(500);
-    }
-
-    private void gotoGrabRingPosition() {
-        Trajectory traj1 = mecanumDriveRR.trajectoryBuilder(lastPos,0).lineToLinearHeading(RedTeamPositions.RING_GRAB_POS).build();
-        mecanumDriveRR.followTrajectory(traj1);
-        lastPos = mecanumDriveRR.getPoseEstimate();
-        currOpMode.sleep(500);
-    }
-
-    private void shootPreloadedRings() {
-
-        //Start the two shooting motors
-        shootingSystem.operateShooterMotor(0.3);
-        ///Give time for motors to speed up
-        currOpMode.sleep(2000);
-
-        //Push the first ring
         ringFlipperSystem.pushRing();
-        //Wait for 500 ms
-        currOpMode.sleep(500);
-        //Push the second ring
+
+
+        mecanumDriveRR.turn(0.1);
+        currOpMode.sleep(400);
         ringFlipperSystem.pushRing();
-        //Wait for 500 ms
-        currOpMode.sleep(500);
-        //Push the third ring
+        mecanumDriveRR.turn(0.1);
+        currOpMode.sleep(400);
         ringFlipperSystem.pushRing();
-        //Wait for 500 ms
-        currOpMode.sleep(500);
-        //Stops the shooting motors
+
         shootingSystem.stopShooterMotor();
-    }
-
-    private void grabRings() {
-        intakesystem.startInTake();
-        currOpMode.sleep(2000);
-        intakesystem.stopInTake();
-
+        mecanumDriveRR.followTrajectory(traj3);
     }
 
 
-    private void moveSecondWobbleGoal() {
-
-    }
-
-    private void park() {
-        Trajectory traj1 = mecanumDriveRR.trajectoryBuilder(lastPos,0).lineToLinearHeading(RedTeamPositions.PARK_POS).build();
-        mecanumDriveRR.followTrajectory(traj1);
-        lastPos = mecanumDriveRR.getPoseEstimate();
-    }
 }
