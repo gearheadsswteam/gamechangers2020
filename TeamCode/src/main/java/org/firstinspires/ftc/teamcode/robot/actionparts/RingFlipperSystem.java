@@ -13,8 +13,8 @@ public class RingFlipperSystem {
     private Servo flipperServo;
 
     //Positions of the servos
-    private static double FLIPPER_RESET_POSITION = 0.450;
-    private static double FLIPPER_PUSH_POSITION = 0.270;
+    private static double FLIPPER_RESET_POSITION = 0.50;
+    private static double FLIPPER_PUSH_POSITION = 0.3;
     private static double MIN_POSITION = 0.25;
     private static double MAX_POSITION = 0.50;
 
