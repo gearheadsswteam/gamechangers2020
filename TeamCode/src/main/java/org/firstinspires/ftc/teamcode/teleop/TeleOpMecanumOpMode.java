@@ -75,7 +75,6 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
             operateIntake();
             operateRingFlipSystem();
             operateShooter();
-            operateShooterAngleAdjust();
             operateWobblegoalArmSystem();
         }
     }
@@ -193,21 +192,54 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
         }
     }
 
+    private double SHOOTER_SPEED_1 = 1 / 5;
+    private double SHOOTER_SPEED_2 = 2 / 5;
+    private double SHOOTER_SPEED_3 = 3 / 5;
+
+    private int shooterSpeedState = 1;
+
     /**
      * Operate shooter
      */
     private void operateShooter() {
-        float right_trigger = gamepad2.right_trigger;
-        shootingSystem.operateShooterMotor(right_trigger);
-    }
+        if (gamepad2.right_trigger > 0.3) {
+            shootingSystem.operateShooterMotor(0.2);
+            telemetry.addData("Shooter speed = ", 0.2);
+            telemetry.update();
 
-    private void operateShooterAngleAdjust() {
-        if (gamepad2.dpad_up) {
+//            if(gamepad2.left_bumper) {
+//                shooterSpeedState++;
+//
+//                if(shooterSpeedState > 3){
+//                    shooterSpeedState = 1;
+//                }
+//            }
+//
+//
+//            if(shooterSpeedState == 1) {
+//                //inc speed
+//                shootingSystem.operateShooterMotor(SHOOTER_SPEED_1);
+//                telemetry.addData("Shooter speed = ", SHOOTER_SPEED_1);
+//                telemetry.update();
+//
+//            }if(shooterSpeedState == 2) {
+//                //inc speed
+//                shootingSystem.operateShooterMotor(SHOOTER_SPEED_2);
+//                telemetry.addData("Shooter speed = ", SHOOTER_SPEED_2);
+//                telemetry.update();
+//            }if(shooterSpeedState == 3) {
+//                //inc speed
+//                shootingSystem.operateShooterMotor(SHOOTER_SPEED_3);
+//                telemetry.addData("Shooter speed = ", SHOOTER_SPEED_3);
+//                telemetry.update();
+//            }
 
-        } else if (gamepad2.dpad_down) {
-
+        } else {
+            shootingSystem.stopShooterMotor();
+            shooterSpeedState = 0;
         }
     }
+
 
     /**
      * Drive the robot
