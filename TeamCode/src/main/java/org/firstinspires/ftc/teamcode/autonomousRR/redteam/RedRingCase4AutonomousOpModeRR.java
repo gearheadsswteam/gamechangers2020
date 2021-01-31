@@ -5,6 +5,7 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.autonomousRR.RedTeamPositions;
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveRR;
 import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobotRR;
 import org.firstinspires.ftc.teamcode.robot.actionparts.Intakesystem;
@@ -13,7 +14,9 @@ import org.firstinspires.ftc.teamcode.robot.actionparts.ShootingSystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.WobblegoalArmLeft;
 import org.firstinspires.ftc.teamcode.robot.actionparts.WobblegoalArmRight;
 
-public class RedRingCase1AutonomousOpModeRR {
+import static java.lang.Math.PI;
+
+public class RedRingCase4AutonomousOpModeRR {
 
     private MecanumDriveRR mecanumDriveRR;
     private ShootingSystem shootingSystem;
@@ -25,7 +28,7 @@ public class RedRingCase1AutonomousOpModeRR {
     private Pose2d initPos;
     private Pose2d lastPos;
 
-    public RedRingCase1AutonomousOpModeRR(MecanumDriveRR mecanumDriveRR, GearheadsMecanumRobotRR gearheadsMecanumRobotRR, LinearOpMode currOpMode) {
+    public RedRingCase4AutonomousOpModeRR(MecanumDriveRR mecanumDriveRR, GearheadsMecanumRobotRR gearheadsMecanumRobotRR, LinearOpMode currOpMode) {
         this.mecanumDriveRR = mecanumDriveRR;
         this.shootingSystem = gearheadsMecanumRobotRR.shootingSystem;
         this.intakesystem = gearheadsMecanumRobotRR.intakesystem;
@@ -41,17 +44,17 @@ public class RedRingCase1AutonomousOpModeRR {
     }
 
     public void executeOpMode() {
-        Trajectory traj1 = mecanumDriveRR.trajectoryBuilder(initPos, 0).splineTo(new Vector2d((2 + 24), (-56+24)), -0.4)
+        Trajectory traj1 = mecanumDriveRR.trajectoryBuilder(initPos, 0).splineTo(new Vector2d((2 + 48), -56), -0.4)
                 .build();
 
-        Trajectory traj2 = mecanumDriveRR.trajectoryBuilder(new Pose2d((2 + 24), (-56+24), -0.4), Math.PI - 0.4)
+        Trajectory traj2 = mecanumDriveRR.trajectoryBuilder(new Pose2d((2 + 48), -56, -0.4), Math.PI - 0.4)
                 .splineToLinearHeading(new Pose2d(-2, -36, 0.35), 0.35)
                 .build();
 
         Trajectory traj3 = mecanumDriveRR.trajectoryBuilder(new Pose2d(-2, -36, 0.55), 0.55)
                 .splineTo(new Vector2d(-56, -11), -Math.PI / 3)
                 .splineTo(new Vector2d(-47.5, -21.5), -Math.PI / 3)
-                .splineTo(new Vector2d((2 + 24), (-56+24 + 6)), 0).build();
+                .splineTo(new Vector2d((2 + 48), -50), 0).build();
 
         shootingSystem.operateShooterMotors(0.15, 0.075);
         ringFlipperSystem.resetPosition();
