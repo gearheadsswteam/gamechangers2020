@@ -27,8 +27,15 @@ public class TestRedPositions extends AbstractAutonomousOpModeRR {
 
     @Override
     protected void executeOpMode() {
-        testMovementinAllDirection();
+        //testMovementinAllDirection();
         //testSplineMovement();
+        testStraightLine();
+    }
+
+    private void testStraightLine(){
+        mecanumDriveRR.setPoseEstimate(new Pose2d(0,0,0));
+        Trajectory trajectory = mecanumDriveRR.trajectoryBuilder(new Pose2d(0,0,0), 0).forward(48).build();
+        mecanumDriveRR.followTrajectory(trajectory);
     }
 
     private void testSplineMovement() {

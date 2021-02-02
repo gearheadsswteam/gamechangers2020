@@ -30,7 +30,7 @@ public class RedAutonomousModeRR extends AbstractAutonomousOpModeRR {
     @Override
     protected void executeOpMode() {
         int rings = robot.ringDetector.detectRings();
-        rings = 1;
+        //rings = 1;
         telemetry.addData("Rings ", rings);
         telemetry.update();
         sleep(500);
@@ -45,7 +45,9 @@ public class RedAutonomousModeRR extends AbstractAutonomousOpModeRR {
             ringCase1AutonomousOpMode.setLastPos(initPos);
             ringCase1AutonomousOpMode.executeOpMode();
         }else if(rings == 4){
-
+            RedRingCase4AutonomousOpModeRR ringCase4AutonomousOpMode = new RedRingCase4AutonomousOpModeRR(mecanumDriveRR, autonomousRobotMover.robot,this);
+            ringCase4AutonomousOpMode.setLastPos(initPos);
+            ringCase4AutonomousOpMode.executeOpMode();
         }
     }
 
