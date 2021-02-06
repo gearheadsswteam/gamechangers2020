@@ -12,6 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveRR;
+import org.firstinspires.ftc.teamcode.drive.PoseStorage;
 import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobotRR;
 import org.firstinspires.ftc.teamcode.robot.actionparts.Intakesystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.RingFlipperSystem;
@@ -56,7 +57,7 @@ public class TeleOpMecanumRROpMode extends LinearOpMode {
     // The autonomous driving software
     protected AutonomousMecanumMoverRR autonomousRobotMover;
 
-    Pose2d initPos = new Pose2d(-60, -48, 0);
+    Pose2d initPos;
 
     Trajectory shootingPositionTraj;
 
@@ -83,8 +84,9 @@ public class TeleOpMecanumRROpMode extends LinearOpMode {
         mecanumDriveRR = new MecanumDriveRR(hardwareMap);
         autonomousRobotMover = new AutonomousMecanumMoverRR(robot, this, mecanumDriveRR);
 
-        shootingPositionTraj = mecanumDriveRR.trajectoryBuilder(initPos, 0).splineTo(new Vector2d(4, -24), -0.4)
-                .build();
+        //Reading position of the robot that was set in the autonomous mode.
+        mecanumDriveRR.setPoseEstimate(PoseStorage.currentPose);
+        initPos = PoseStorage.currentPose;
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -140,10 +142,10 @@ public class TeleOpMecanumRROpMode extends LinearOpMode {
         telemetry.update();
 
         //DRIVING
-        DcMotor fl_motor = robot.fl_motor;
-        DcMotor fr_motor = robot.fr_motor;
-        DcMotor rl_motor = robot.rl_motor;
-        DcMotor rr_motor = robot.rr_motor;
+        DcMotor fl_motor = mecanumDriveRR.leftFront;
+        DcMotor fr_motor = mecanumDriveRR.rightFront;
+        DcMotor rl_motor = mecanumDriveRR.leftRear;
+        DcMotor rr_motor = mecanumDriveRR.rightRear;
 
         mecanum = new MecanumDrive(fl_motor, fr_motor, rl_motor, rr_motor, gyro);
     }
@@ -154,12 +156,12 @@ public class TeleOpMecanumRROpMode extends LinearOpMode {
     private void adjustForFOV() {
         double angle = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
 
-        double tempForwardPower = -gamepad1.left_stick_y;
-        double tempSidePower = -gamepad1.left_stick_x;
+        double tempForwardPower = gamepad1.left_stick_y;
+        double tempSidePower = gamepad1.left_stick_x;
 
         sidePower = tempForwardPower * Math.cos(angle) + tempSidePower * Math.sin(angle);
         forwardPower = -tempForwardPower * Math.sin(angle) + tempSidePower * Math.cos(angle);
-        turn = -gamepad1.right_stick_x;
+        turn = gamepad1.right_stick_x;
     }
 
     /**
@@ -213,6 +215,9 @@ public class TeleOpMecanumRROpMode extends LinearOpMode {
      * Operate the ring Flipping system
      */
     private void goToShootingPosition() {
+        //shootingPositionTraj = mecanumDriveRR.trajectoryBuilder(mecanumDriveRR.getPoseEstimate()).splineTo(new Vector2d(4, -24), 0)
+        shootingPositionTraj = mecanumDriveRR.trajectoryBuilder(mecanumDriveRR.getPoseEstimate()).splineTo(new Vector2d(0.5, -14), 0)
+                .build();
         if (gamepad1.a) {
             mecanumDriveRR.followTrajectory(shootingPositionTraj);
         }
