@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveRR;
+import org.firstinspires.ftc.teamcode.drive.PoseStorage;
 import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobotRR;
 import org.firstinspires.ftc.teamcode.robot.drivetrain.mecanum.AutonomousMecanumMoverRR;
 
@@ -92,6 +93,9 @@ public abstract class AbstractAutonomousOpModeRR extends LinearOpMode {
      * This method pause the op mode till driver presses start
      */
     private void closeOpMode() {
+
+        // Transfer the current pose to PoseStorage so we can use it in TeleOp
+        PoseStorage.currentPose = mecanumDriveRR.getPoseEstimate();
         // Prompt User
         telemetry.addData(">", "OpMode complete " + this.getClass().getSimpleName());
         telemetry.update();
