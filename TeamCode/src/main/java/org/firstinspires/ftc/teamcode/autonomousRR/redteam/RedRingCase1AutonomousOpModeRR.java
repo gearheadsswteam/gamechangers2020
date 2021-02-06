@@ -3,8 +3,11 @@ package org.firstinspires.ftc.teamcode.autonomousRR.redteam;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.acmerobotics.roadrunner.trajectory.constraints.MecanumConstraints;
+import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryConstraints;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveRR;
 import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobotRR;
 import org.firstinspires.ftc.teamcode.robot.actionparts.Intakesystem;
@@ -49,9 +52,17 @@ public class RedRingCase1AutonomousOpModeRR {
                 .build();
 
         Trajectory traj3 = mecanumDriveRR.trajectoryBuilder(new Pose2d(-2, -36, 0.55), 0.55)
-                .splineTo(new Vector2d(-56, -11), -Math.PI / 3)
-                .splineTo(new Vector2d(-47.5, -21.5), -Math.PI / 3)
-                .splineTo(new Vector2d((2 + 24), (-56+24 + 6)), 0).build();
+                .splineTo(new Vector2d(-56, -15), -Math.PI / 3).build();
+
+        currOpMode.sleep(500);
+
+        //To slow down robot
+        TrajectoryConstraints slowConstraints = new MecanumConstraints(DriveConstants.SLOW_ROBOT_CONSTRAINTS, DriveConstants.TRACK_WIDTH);
+        Trajectory traj4 = mecanumDriveRR.trajectoryBuilder(traj3.end())
+                .splineTo(new Vector2d(-47.5, -21.5), -Math.PI / 3, slowConstraints)
+                .splineTo(new Vector2d((2 + 24), (-56+24 + 6)), 0, slowConstraints).build();
+
+
 
         shootingSystem.operateShooterMotors(0.15, 0.075);
         ringFlipperSystem.resetPosition();
@@ -72,5 +83,6 @@ public class RedRingCase1AutonomousOpModeRR {
 
         shootingSystem.stopShooterMotor();
         mecanumDriveRR.followTrajectory(traj3);
+        //mecanumDriveRR.followTrajectory(traj4);
     }
 }
