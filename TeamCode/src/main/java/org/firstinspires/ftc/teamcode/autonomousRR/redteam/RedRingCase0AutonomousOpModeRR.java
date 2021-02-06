@@ -51,7 +51,7 @@ public class RedRingCase0AutonomousOpModeRR {
                 .build();
 
         Trajectory traj2 = mecanumDriveRR.trajectoryBuilder(traj1.end(), Math.PI - 0.4)
-                .splineToLinearHeading(new Pose2d(-2, -36, 0.35), 0.55)//Shooting angle was 0.65
+                .splineToLinearHeading(new Pose2d(-2, -36, 0.35), 0.60)//Shooting angle was 0.65
                 .build();
 
         Trajectory traj3 = mecanumDriveRR.trajectoryBuilder(traj2.end(), 0.75)
