@@ -49,7 +49,7 @@ public class RedRingCase0AutonomousOpModeRR {
                 .build();
 
         Trajectory traj2 = mecanumDriveRR.trajectoryBuilder(new Pose2d(2, -56, -0.4), Math.PI - 0.4)
-                .splineToLinearHeading(new Pose2d(-2, -36, 0.35), 0.7)//Shooting angle
+                .splineToLinearHeading(new Pose2d(-2, -36, 0.35), 0.55)//Shooting angle
                 .build();
 
         Trajectory traj3 = mecanumDriveRR.trajectoryBuilder(new Pose2d(-2, -36, 0.55), 0.55)
@@ -74,10 +74,10 @@ public class RedRingCase0AutonomousOpModeRR {
         ringFlipperSystem.pushRing();
 
 
-        mecanumDriveRR.turn(0.1);
+        //mecanumDriveRR.turn(0.1);
         currOpMode.sleep(400);
         ringFlipperSystem.pushRing();
-        mecanumDriveRR.turn(0.1);
+        //mecanumDriveRR.turn(0.1);
         currOpMode.sleep(400);
         ringFlipperSystem.pushRing();
 
