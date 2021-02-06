@@ -70,6 +70,14 @@ public class DriveConstants {
             Math.toRadians(180.0), Math.toRadians(180.0), 0.0
     );
 
+    /*
+     * //Added by Gearheads
+     */
+    public static DriveConstraints SLOW_ROBOT_CONSTRAINTS = new DriveConstraints(
+            15.0, 15.0, 0.0,
+            Math.toRadians(180.0), Math.toRadians(180.0), 0.0
+    );
+
 
     public static double encoderTicksToInches(double ticks) {
         return WHEEL_RADIUS * 2 * Math.PI * GEAR_RATIO * ticks / TICKS_PER_REV;
