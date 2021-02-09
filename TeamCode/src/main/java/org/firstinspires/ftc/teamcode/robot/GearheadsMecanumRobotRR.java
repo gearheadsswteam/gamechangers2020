@@ -3,30 +3,17 @@ package org.firstinspires.ftc.teamcode.robot;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
-import org.firstinspires.ftc.teamcode.drive.MecanumDriveRR;
-import org.firstinspires.ftc.teamcode.odometry.GEarheadsOdometryPositionFinder;
-import org.firstinspires.ftc.teamcode.odometry.RobotPositionFinderFactory;
 import org.firstinspires.ftc.teamcode.robot.actionparts.Intakesystem;
-import org.firstinspires.ftc.teamcode.robot.actionparts.PositionEncoders;
 import org.firstinspires.ftc.teamcode.robot.actionparts.RingDetector;
+import org.firstinspires.ftc.teamcode.robot.actionparts.RingDetectorOpenCV;
+import org.firstinspires.ftc.teamcode.robot.actionparts.RingDetectorVuforia;
 import org.firstinspires.ftc.teamcode.robot.actionparts.RingFlipperSystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.ShootingSystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.WobblegoalArmLeft;
 import org.firstinspires.ftc.teamcode.robot.actionparts.WobblegoalArmRight;
-
-import java.util.Arrays;
-import java.util.List;
-
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
-import static org.firstinspires.ftc.teamcode.drive.DriveConstants.MOTOR_VELO_PID;
-import static org.firstinspires.ftc.teamcode.drive.DriveConstants.RUN_USING_ENCODER;
 
 
 /**
@@ -150,7 +137,7 @@ public class GearheadsMecanumRobotRR {
      * Starts the Ring detector
      */
     private void initRingDetector() {
-        ringDetector = new RingDetector(curOpMode, hwMap);
+        ringDetector = new RingDetectorOpenCV(curOpMode, hwMap);
         ringDetector.initialize();
     }
 

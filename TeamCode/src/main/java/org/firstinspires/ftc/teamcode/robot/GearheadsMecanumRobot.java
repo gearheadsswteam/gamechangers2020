@@ -12,6 +12,7 @@ import org.firstinspires.ftc.teamcode.odometry.RobotPositionFinderFactory;
 import org.firstinspires.ftc.teamcode.robot.actionparts.Intakesystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.PositionEncoders;
 import org.firstinspires.ftc.teamcode.robot.actionparts.RingDetector;
+import org.firstinspires.ftc.teamcode.robot.actionparts.RingDetectorVuforia;
 import org.firstinspires.ftc.teamcode.robot.actionparts.RingFlipperSystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.ShootingSystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.WobblegoalArmLeft;
@@ -162,7 +163,7 @@ public class GearheadsMecanumRobot {
      * Starts the Ring detector
      */
     private void initRingDetector() {
-        ringDetector = new RingDetector(curOpMode, hwMap);
+        ringDetector = new RingDetectorVuforia(curOpMode, hwMap);
         ringDetector.initialize();
     }
 
