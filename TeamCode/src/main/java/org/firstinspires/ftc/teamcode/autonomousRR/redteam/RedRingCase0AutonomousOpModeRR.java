@@ -47,19 +47,24 @@ public class RedRingCase0AutonomousOpModeRR {
 
     public void executeOpMode() {
 
-        Trajectory traj1 = mecanumDriveRR.trajectoryBuilder(initPos, 0).splineTo(new Vector2d(2, -50), -0.4)
+        //From Starting position to Case 0 drop zone
+        Trajectory traj1 = mecanumDriveRR.trajectoryBuilder(initPos, 0)
+                .splineTo(new Vector2d(2, -50), -0.4)
                 .build();
 
-        Trajectory traj2 = mecanumDriveRR.trajectoryBuilder(traj1.end(), Math.PI - 0.4)
+        //From Case 0 drop zone to shooting position
+        //TODO Why Math.PI -0.4
+        Trajectory traj2 = mecanumDriveRR.trajectoryBuilder(traj1.end())
                 .splineToLinearHeading(new Pose2d(-2, -36, 0.35), 0.60)//Shooting angle was 0.65
                 .build();
 
-        Trajectory traj3 = mecanumDriveRR.trajectoryBuilder(traj2.end(), 0.75)
+        //From Shooting position to Wobble goal 2 catch position
+        Trajectory traj3 = mecanumDriveRR.trajectoryBuilder(traj2.end())
                 .splineTo(new Vector2d(-56, -11), -Math.PI / 3).build();
 
         currOpMode.sleep(500);
 
-        //To slow down robot
+        //To slow down robot, from Wobble goal 2 catch position to Case 0 drop position
         TrajectoryConstraints slowConstraints = new MecanumConstraints(DriveConstants.SLOW_ROBOT_CONSTRAINTS, DriveConstants.TRACK_WIDTH);
         Trajectory traj4 = mecanumDriveRR.trajectoryBuilder(traj3.end())
                 .splineTo(new Vector2d(-47.5, -21.5), -Math.PI / 3, slowConstraints)
@@ -74,12 +79,8 @@ public class RedRingCase0AutonomousOpModeRR {
         mecanumDriveRR.followTrajectory(traj2);
 
         ringFlipperSystem.pushRing();
-
-
-        //mecanumDriveRR.turn(0.1);
         currOpMode.sleep(400);
         ringFlipperSystem.pushRing();
-        //mecanumDriveRR.turn(0.1);
         currOpMode.sleep(400);
         ringFlipperSystem.pushRing();
 
