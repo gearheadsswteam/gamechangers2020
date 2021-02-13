@@ -4,6 +4,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveRR;
 import org.firstinspires.ftc.teamcode.drive.PoseStorage;
 import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobotRR;
@@ -42,6 +45,7 @@ public abstract class AbstractAutonomousOpModeRR extends LinearOpMode {
          * The init() method of the hardware class does all the work here
          */
         robot.initAutonomous(hardwareMap);
+
 
         mecanumDriveRR = new MecanumDriveRR(hardwareMap);
         autonomousRobotMover = new AutonomousMecanumMoverRR(robot, this, mecanumDriveRR);
@@ -96,6 +100,8 @@ public abstract class AbstractAutonomousOpModeRR extends LinearOpMode {
 
         // Transfer the current pose to PoseStorage so we can use it in TeleOp
         PoseStorage.currentPose = mecanumDriveRR.getPoseEstimate();
+        PoseStorage.gyroAngle= robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
+
         // Prompt User
         telemetry.addData(">", "OpMode complete " + this.getClass().getSimpleName());
         telemetry.update();
