@@ -209,6 +209,7 @@ public class GearheadsMecanumRobotRR {
     /* Initialize standard Hardware interfaces */
     public void initAutonomous(HardwareMap ahwMap) {
         init(ahwMap);
+        initGyro(true);
         initRingDetector();
     }
 
