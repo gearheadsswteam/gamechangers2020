@@ -3,9 +3,12 @@ package org.firstinspires.ftc.teamcode.autonomousRR.redteam;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.acmerobotics.roadrunner.trajectory.constraints.MecanumConstraints;
+import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryConstraints;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.autonomousRR.RedTeamPositions;
+import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveRR;
 import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobotRR;
 import org.firstinspires.ftc.teamcode.robot.actionparts.Intakesystem;
@@ -44,17 +47,30 @@ public class RedRingCase4AutonomousOpModeRR {
     }
 
     public void executeOpMode() {
-        Trajectory traj1 = mecanumDriveRR.trajectoryBuilder(initPos, 0).splineTo(new Vector2d((2 + 48), -56), -0.4)
+        //From Starting position to Case 4 drop zone
+        Trajectory traj1 = mecanumDriveRR.trajectoryBuilder(initPos, 0)
+                .splineTo(new Vector2d(4.97+48, -59.69+48), 5.6)
                 .build();
 
-        Trajectory traj2 = mecanumDriveRR.trajectoryBuilder(new Pose2d((2 + 48), -56, -0.4), Math.PI - 0.4)
-                .splineToLinearHeading(new Pose2d(-2, -36, 0.35), 0.35)
+        //From Case 0 drop zone to shooting position
+        //TODO Why Math.PI -0.4
+        Trajectory traj2 = mecanumDriveRR.trajectoryBuilder(traj1.end())
+                .splineToLinearHeading(new Pose2d(4.21, -36.82, 0), 0)//Shooting angle was 0.65
                 .build();
 
-        Trajectory traj3 = mecanumDriveRR.trajectoryBuilder(new Pose2d(-2, -36, 0.55), 0.55)
-                .splineTo(new Vector2d(-56, -11), -Math.PI / 3)
-                .splineTo(new Vector2d(-47.5, -21.5), -Math.PI / 3)
-                .splineTo(new Vector2d((2 + 48), -50), 0).build();
+        //From Shooting position to Wobble goal 2 catch position
+        Trajectory traj3 = mecanumDriveRR.trajectoryBuilder(traj2.end())
+                .splineTo(new Vector2d(-57.52, -7.70),5.121).build();
+
+
+        //currOpMode.sleep(2000);
+
+        //To slow down robot, from Wobble goal 2 catch position to Case 0 drop position
+        TrajectoryConstraints slowConstraints = new MecanumConstraints(DriveConstants.SLOW_ROBOT_CONSTRAINTS, DriveConstants.TRACK_WIDTH);
+        Trajectory traj4 = mecanumDriveRR.trajectoryBuilder(traj3.end())
+                .splineTo(new Vector2d(-51.3, -17.56), 5.121, slowConstraints)
+                .splineTo(new Vector2d(3.76+48, -62.76+48), 0, slowConstraints).build();
+
 
         shootingSystem.operateShooterMotors(0.15, 0.075);
         ringFlipperSystem.resetPosition();
@@ -64,16 +80,25 @@ public class RedRingCase4AutonomousOpModeRR {
         mecanumDriveRR.followTrajectory(traj2);
 
         ringFlipperSystem.pushRing();
-
-
-        mecanumDriveRR.turn(0.1);
         currOpMode.sleep(400);
         ringFlipperSystem.pushRing();
-        mecanumDriveRR.turn(0.1);
         currOpMode.sleep(400);
         ringFlipperSystem.pushRing();
 
         shootingSystem.stopShooterMotor();
         mecanumDriveRR.followTrajectory(traj3);
+        currOpMode.sleep(1500);
+        mecanumDriveRR.followTrajectory(traj4);
+
+        //Park and set for TeleOps
+//        Trajectory traj5 = mecanumDriveRR.trajectoryBuilder(traj4.end())
+//                .back(15).build();
+//        mecanumDriveRR.followTrajectory(traj5);
+//
+//
+//        Trajectory traj6 = mecanumDriveRR.trajectoryBuilder(traj5.end())
+//                .splineTo(new Vector2d(5.02, -35.08), 1.492, slowConstraints).build();
+//
+//        mecanumDriveRR.followTrajectory(traj6);
     }
 }
