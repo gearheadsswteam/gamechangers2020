@@ -51,7 +51,7 @@ public class RedRingCase1AutonomousOpModeRR {
 
         //From Starting position to Case 1 drop zone
         Trajectory traj1 = mecanumDriveRR.trajectoryBuilder(traj0.end(), 0)
-                .splineTo(new Vector2d(4.97+24, -59.69+24), 5.6)
+                .splineTo(new Vector2d(3.76 +24, -62.76 + 24), 0.4)
                 .build();
 
         //From Case 0 drop zone to shooting position
@@ -61,17 +61,16 @@ public class RedRingCase1AutonomousOpModeRR {
                 .build();
 
         //From Shooting position to Wobble goal 2 catch position
-        Trajectory traj3 = mecanumDriveRR.trajectoryBuilder(traj2.end())
-                .splineTo(new Vector2d(-57.52, -7.70),5.121).build();
-
-
-        //currOpMode.sleep(2000);
+        Trajectory traj3 = mecanumDriveRR.trajectoryBuilder(traj2.end(), 0)
+                .splineTo(new Vector2d(-39.6, 3.1), 3.7)
+                .splineTo(new Vector2d(-57.52, -7.70),5.121)
+                .build();
 
         //To slow down robot, from Wobble goal 2 catch position to Case 0 drop position
         TrajectoryConstraints slowConstraints = new MecanumConstraints(DriveConstants.SLOW_ROBOT_CONSTRAINTS, DriveConstants.TRACK_WIDTH);
         Trajectory traj4 = mecanumDriveRR.trajectoryBuilder(traj3.end())
                 .splineTo(new Vector2d(-51.3, -17.56), 5.121, slowConstraints)
-                .splineTo(new Vector2d(3.76+24, -62.76+24), 0, slowConstraints).build();
+                .splineTo(new Vector2d(4.97+24, -59.69+24-12), 0, slowConstraints).build();
 
 
         shootingSystem.operateShooterMotors(0.15, 0.075);
@@ -82,15 +81,20 @@ public class RedRingCase1AutonomousOpModeRR {
         mecanumDriveRR.followTrajectory(traj2);
 
         ringFlipperSystem.pushRing();
-        currOpMode.sleep(400);
+        currOpMode.sleep(500);
         ringFlipperSystem.pushRing();
-        currOpMode.sleep(400);
+        currOpMode.sleep(500);
         ringFlipperSystem.pushRing();
 
         shootingSystem.stopShooterMotor();
         mecanumDriveRR.followTrajectory(traj3);
         currOpMode.sleep(1500);
         mecanumDriveRR.followTrajectory(traj4);
+
+        Trajectory traj5 = mecanumDriveRR.trajectoryBuilder(traj4.end())
+                .back(24).build();
+        mecanumDriveRR.followTrajectory(traj5);
+
 
         //Park and set for TeleOps
 //        Trajectory traj5 = mecanumDriveRR.trajectoryBuilder(traj4.end())

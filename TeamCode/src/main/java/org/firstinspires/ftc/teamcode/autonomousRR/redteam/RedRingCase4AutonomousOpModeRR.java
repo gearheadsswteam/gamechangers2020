@@ -49,7 +49,7 @@ public class RedRingCase4AutonomousOpModeRR {
     public void executeOpMode() {
         //From Starting position to Case 4 drop zone
         Trajectory traj1 = mecanumDriveRR.trajectoryBuilder(initPos, 0)
-                .splineTo(new Vector2d(4.97+48, -59.69+48), 5.6)
+                .splineTo(new Vector2d(4.97+48, -59.69), 5.6)
                 .build();
 
         //From Case 0 drop zone to shooting position
