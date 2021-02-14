@@ -44,6 +44,7 @@ public class RedRingCase1AutonomousOpModeRR {
     }
 
     public void executeOpMode() {
+        //Clear the ring set up position
         Trajectory traj0 = mecanumDriveRR.trajectoryBuilder(initPos, 0)
                 .splineTo(new Vector2d(-24, -56), 0)
                 .build();
@@ -54,8 +55,7 @@ public class RedRingCase1AutonomousOpModeRR {
                 .splineTo(new Vector2d(3.76 +24, -62.76 + 24), 0.4)
                 .build();
 
-        //From Case 0 drop zone to shooting position
-        //TODO Why Math.PI -0.4
+        //From Case 1 drop zone to shooting position
         Trajectory traj2 = mecanumDriveRR.trajectoryBuilder(traj1.end())
                 .splineToLinearHeading(new Pose2d(4.21, -36.82, 0), 0)//Shooting angle was 0.65
                 .build();
@@ -88,23 +88,11 @@ public class RedRingCase1AutonomousOpModeRR {
 
         shootingSystem.stopShooterMotor();
         mecanumDriveRR.followTrajectory(traj3);
-        currOpMode.sleep(1500);
+        currOpMode.sleep(1000);
         mecanumDriveRR.followTrajectory(traj4);
 
         Trajectory traj5 = mecanumDriveRR.trajectoryBuilder(traj4.end())
                 .back(24).build();
         mecanumDriveRR.followTrajectory(traj5);
-
-
-        //Park and set for TeleOps
-//        Trajectory traj5 = mecanumDriveRR.trajectoryBuilder(traj4.end())
-//                .back(15).build();
-//        mecanumDriveRR.followTrajectory(traj5);
-//
-//
-//        Trajectory traj6 = mecanumDriveRR.trajectoryBuilder(traj5.end())
-//                .splineTo(new Vector2d(5.02, -35.08), 1.492, slowConstraints).build();
-//
-//        mecanumDriveRR.followTrajectory(traj6);
     }
 }

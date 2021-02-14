@@ -29,23 +29,25 @@ public class RedAutonomousModeRR extends AbstractAutonomousOpModeRR {
 
     @Override
     protected void executeOpMode() {
+
         int rings = robot.ringDetector.detectRings();
-        //rings = 1;
+        rings = 1;
         telemetry.addData("Rings ", rings);
         telemetry.update();
         sleep(500);
 
-        if(rings == 0){
+
+        if (rings == 0) {
             ///execute Rings = 0 case
-            RedRingCase0AutonomousOpModeRR ringCase0AutonomousOpMode = new RedRingCase0AutonomousOpModeRR(mecanumDriveRR, autonomousRobotMover.robot,this);
+            RedRingCase0AutonomousOpModeRR ringCase0AutonomousOpMode = new RedRingCase0AutonomousOpModeRR(mecanumDriveRR, autonomousRobotMover.robot, this);
             ringCase0AutonomousOpMode.setLastPos(initPos);
             ringCase0AutonomousOpMode.executeOpMode();
-        }else if(rings == 1){
-            RedRingCase1AutonomousOpModeRR ringCase1AutonomousOpMode = new RedRingCase1AutonomousOpModeRR(mecanumDriveRR, autonomousRobotMover.robot,this);
+        } else if (rings == 1) {
+            RedRingCase1AutonomousOpModeRR ringCase1AutonomousOpMode = new RedRingCase1AutonomousOpModeRR(mecanumDriveRR, autonomousRobotMover.robot, this);
             ringCase1AutonomousOpMode.setLastPos(initPos);
             ringCase1AutonomousOpMode.executeOpMode();
-        }else if(rings == 4){
-            RedRingCase4AutonomousOpModeRR ringCase4AutonomousOpMode = new RedRingCase4AutonomousOpModeRR(mecanumDriveRR, autonomousRobotMover.robot,this);
+        } else if (rings == 4) {
+            RedRingCase4AutonomousOpModeRR ringCase4AutonomousOpMode = new RedRingCase4AutonomousOpModeRR(mecanumDriveRR, autonomousRobotMover.robot, this);
             ringCase4AutonomousOpMode.setLastPos(initPos);
             ringCase4AutonomousOpMode.executeOpMode();
         }
@@ -63,8 +65,8 @@ public class RedAutonomousModeRR extends AbstractAutonomousOpModeRR {
         this.sleep(200);
     }
 
-    private Pose2d goToRingDetectionPosition(){
-        Trajectory trajectory = mecanumDriveRR.trajectoryBuilder(RedTeamPositions.POS1, 0).splineToSplineHeading(RedTeamPositions.RING_DETECTION_POS,0).build();
+    private Pose2d goToRingDetectionPosition() {
+        Trajectory trajectory = mecanumDriveRR.trajectoryBuilder(RedTeamPositions.POS1, 0).splineToSplineHeading(RedTeamPositions.RING_DETECTION_POS, 0).build();
         mecanumDriveRR.followTrajectory(trajectory);
         return mecanumDriveRR.getPoseEstimate();
     }
