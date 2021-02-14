@@ -294,13 +294,22 @@ public class TeleOpMecanumRROpMode extends LinearOpMode {
         //Joystick Movement
         mecanum.move(forwardPower, sidePower, turn);
         //Push data
-        pushTelemetry();
+        //pushTelemetry();
+        pushRRTelemetry();
     }
 
 
     private void pushTelemetry() {
         telemetry.addData("Gyro Heading", gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
         telemetry.addData("Drive Data", mecanum.getDataString());
+        telemetry.update();
+    }
+
+    private void pushRRTelemetry(){
+        Pose2d poseEstimate = mecanumDriveRR.getPoseEstimate();
+        telemetry.addData("x", poseEstimate.getX());
+        telemetry.addData("y", poseEstimate.getY());
+        telemetry.addData("heading", poseEstimate.getHeading());
         telemetry.update();
     }
 }
