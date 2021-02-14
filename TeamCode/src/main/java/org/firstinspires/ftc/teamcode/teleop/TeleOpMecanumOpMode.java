@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.teamcode.drive.PoseStorage;
 import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobot;
 import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobotRR;
 import org.firstinspires.ftc.teamcode.robot.actionparts.Intakesystem;
@@ -120,7 +121,12 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
      * Adjust teleop driving with FOV mode
      */
     private void adjustForFOV() {
-        double angle = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
+        //Angle adjustment during TeleOP based on how the autonomous ends. In Game changers the TeleOPs starts with Rbot at 90 degrees from FOV.
+        //double angleFromAutonomousLastRun = PoseStorage.gyroAngle;
+        double angleFromAutonomousLastRun = Math.PI/2;
+
+        double angle = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle-angleFromAutonomousLastRun;
+
 
         double tempForwardPower = -gamepad1.left_stick_y;
         double tempSidePower = -gamepad1.left_stick_x;
