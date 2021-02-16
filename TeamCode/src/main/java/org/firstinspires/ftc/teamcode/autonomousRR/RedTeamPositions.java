@@ -1,24 +1,14 @@
 package org.firstinspires.ftc.teamcode.autonomousRR;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+
+import org.firstinspires.ftc.teamcode.drive.PoseStorage;
 
 public class RedTeamPositions {
-    public static final Pose2d INIT_POS = new Pose2d(0,0);
-    public static final Pose2d RING_DETECTION_POS = new Pose2d(6,0);
-    public static final Pose2d GOAL_0_POS = new Pose2d(24,24);
-    public static final Pose2d GOAL_1_POS = new Pose2d(26,12);
-    public static final Pose2d GOAL_4_POS = new Pose2d(36,24);
-    public static final Pose2d SHOOTING_POS = new Pose2d(48,0);
-    public static final Pose2d RING_GRAB_POS = new Pose2d(36,0);
-    public static final Pose2d SECOND_WOBBLE_GOAL_POS = new Pose2d(0,12);
-    public static final Pose2d PARK_POS = new Pose2d(60,0);
-
-    public static final Pose2d POS1 = new Pose2d(0,0);
-    public static final  Pose2d POS2 = new Pose2d(24,0);
-    public static final  Pose2d POS3 = new Pose2d(-24,0);
-    public static final  Pose2d POS4 = new Pose2d(24,24);
-    public static final  Pose2d POS5 = new Pose2d(-24,24);
-    public static final  Pose2d POS6 = new Pose2d(-24,-24);
-    public static final  Pose2d POS7 = new Pose2d(24,-24);
-    public static final  Pose2d POS8 = new Pose2d(0,0);
+    public static final Pose2d INIT_POS = PoseStorage.DEFAULT_AUTONOMOUS_INIT_POSITION;
+    public static final Pose2d SHOOTING_POS = new Pose2d(4.21, -36.82, 0);
+    public static final Vector2d RING_GRAB_POS = new Vector2d(-33.52,-19.7);
+    public static final Vector2d WOBBLE_GOAL_2_PICKUP_XY= new Vector2d(-57.52, -7.70);
+    public static final double WOBBLE_GOAL_2_PICKUP_HEADING= 5.121;
 }
