@@ -7,6 +7,7 @@ import com.acmerobotics.roadrunner.trajectory.constraints.MecanumConstraints;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryConstraints;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.autonomousRR.RedTeamPositions;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveRR;
 import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobotRR;
@@ -57,14 +58,17 @@ public class RedRingCase1AutonomousOpModeRR {
 
         //From Case 1 drop zone to shooting position
         Trajectory traj2 = mecanumDriveRR.trajectoryBuilder(traj1.end())
-                .splineToLinearHeading(new Pose2d(4.21, -36.82, 0), 0)//Shooting angle was 0.65
+                .splineToLinearHeading(RedTeamPositions.SHOOTING_POS, 0)//Shooting angle was 0.65
                 .build();
+
 
         //From Shooting position to Wobble goal 2 catch position
         Trajectory traj3 = mecanumDriveRR.trajectoryBuilder(traj2.end(), 0)
                 .splineTo(new Vector2d(-39.6, 3.1), 3.7)
-                .splineTo(new Vector2d(-57.52, -7.70),5.121)
+                .splineTo(new Vector2d(-56.37, -5.82), 4.75)  //Newly added point
+                .splineTo(RedTeamPositions.WOBBLE_GOAL_2_PICKUP_XY, RedTeamPositions.WOBBLE_GOAL_2_PICKUP_HEADING)
                 .build();
+
 
         //To slow down robot, from Wobble goal 2 catch position to Case 0 drop position
         TrajectoryConstraints slowConstraints = new MecanumConstraints(DriveConstants.SLOW_ROBOT_CONSTRAINTS, DriveConstants.TRACK_WIDTH);
@@ -80,11 +84,14 @@ public class RedRingCase1AutonomousOpModeRR {
         mecanumDriveRR.followTrajectory(traj1);
         mecanumDriveRR.followTrajectory(traj2);
 
+
         ringFlipperSystem.pushRing();
         currOpMode.sleep(500);
         ringFlipperSystem.pushRing();
         currOpMode.sleep(500);
         ringFlipperSystem.pushRing();
+
+        //grabAndShootRings(traj2);
 
         shootingSystem.stopShooterMotor();
         mecanumDriveRR.followTrajectory(traj3);
@@ -94,5 +101,35 @@ public class RedRingCase1AutonomousOpModeRR {
         Trajectory traj5 = mecanumDriveRR.trajectoryBuilder(traj4.end())
                 .back(24).build();
         mecanumDriveRR.followTrajectory(traj5);
+
+    }
+
+    private void grabAndShootRings(Trajectory shootingPosition){
+        //Start the intake
+        intakesystem.startInTake();
+
+        //Go to the Ring stack and hit it
+        Trajectory trajForRingStack1 = mecanumDriveRR.trajectoryBuilder(shootingPosition.end())
+                .back(38).build();
+        mecanumDriveRR.followTrajectory(trajForRingStack1);
+        currOpMode.sleep(500);
+
+        //Move back to grab all rings
+        Trajectory trajForRingStack2 = mecanumDriveRR.trajectoryBuilder(trajForRingStack1.end())
+                .back(24).build();
+        mecanumDriveRR.followTrajectory(trajForRingStack2);
+        currOpMode.sleep(2000);
+
+        //Move forward to shooting position
+        Pose2d shootingPositionToGoTo = shootingPosition.end();
+        Trajectory trajForRingStack3 = mecanumDriveRR.trajectoryBuilder(trajForRingStack2.end())
+                .splineToLinearHeading(shootingPositionToGoTo,shootingPosition.end().getHeading()).build();
+        mecanumDriveRR.followTrajectory(trajForRingStack3);
+
+        ringFlipperSystem.pushRing();
+        currOpMode.sleep(500);
+        ringFlipperSystem.pushRing();
+        currOpMode.sleep(500);
+        ringFlipperSystem.pushRing();
     }
 }

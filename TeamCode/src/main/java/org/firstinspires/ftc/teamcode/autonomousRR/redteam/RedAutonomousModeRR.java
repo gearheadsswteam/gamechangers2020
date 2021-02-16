@@ -52,22 +52,4 @@ public class RedAutonomousModeRR extends AbstractAutonomousOpModeRR {
             ringCase4AutonomousOpMode.executeOpMode();
         }
     }
-
-    /**
-     * Grabs the wobble goal tight
-     */
-    private void grabWobbleGoal() {
-        autonomousRobotMover.robot.wobblegoalArmLeft.setWobbleGoal();
-        sleep(1500);
-        autonomousRobotMover.robot.wobblegoalArmLeft.grabWobbleGoal();
-        sleep(500);
-        autonomousRobotMover.robot.wobblegoalArmLeft.liftWobbleGoal();
-        this.sleep(200);
-    }
-
-    private Pose2d goToRingDetectionPosition() {
-        Trajectory trajectory = mecanumDriveRR.trajectoryBuilder(RedTeamPositions.POS1, 0).splineToSplineHeading(RedTeamPositions.RING_DETECTION_POS, 0).build();
-        mecanumDriveRR.followTrajectory(trajectory);
-        return mecanumDriveRR.getPoseEstimate();
-    }
 }

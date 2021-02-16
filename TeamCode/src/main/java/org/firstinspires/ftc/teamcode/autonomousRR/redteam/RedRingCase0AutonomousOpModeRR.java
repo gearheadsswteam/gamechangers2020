@@ -9,6 +9,7 @@ import com.acmerobotics.roadrunner.trajectory.constraints.MecanumConstraints;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryConstraints;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.autonomousRR.RedTeamPositions;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveRR;
 import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobotRR;
@@ -54,12 +55,12 @@ public class RedRingCase0AutonomousOpModeRR {
 
         //From Case 0 drop zone to shooting position
         Trajectory traj2 = mecanumDriveRR.trajectoryBuilder(traj1.end())
-                .splineToLinearHeading(new Pose2d(4.21, -36.82, 0), 0)//Shooting angle was 0.65
+                .splineToLinearHeading(RedTeamPositions.SHOOTING_POS, 0)//Shooting angle was 0.65
                 .build();
 
         //From Shooting position to Wobble goal 2 catch position
         Trajectory traj3 = mecanumDriveRR.trajectoryBuilder(traj2.end())
-                .splineTo(new Vector2d(-57.52, -7.70),5.121).build();
+                .splineTo(RedTeamPositions.WOBBLE_GOAL_2_PICKUP_XY, RedTeamPositions.WOBBLE_GOAL_2_PICKUP_HEADING).build();
 
 
         //To slow down robot, from Wobble goal 2 catch position to Case 0 drop position
