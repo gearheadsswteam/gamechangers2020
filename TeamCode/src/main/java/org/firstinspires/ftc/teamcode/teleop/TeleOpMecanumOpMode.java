@@ -202,47 +202,23 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
     private double SHOOTER_SPEED_2 = 2 / 5;
     private double SHOOTER_SPEED_3 = 3 / 5;
 
-    private int shooterSpeedState = 1;
+    private double HIGH_GOAL_SHOOTING_SPEED = 0.2;
+    private double POWERSHOT_SHOOTING_SPEED = 0.05/8;
 
     /**
      * Operate shooter
      */
     private void operateShooter() {
+        double shootingPower = HIGH_GOAL_SHOOTING_SPEED;
         if (gamepad2.right_trigger > 0.3) {
-            shootingSystem.operateShooterMotor(0.2);
-            telemetry.addData("Shooter speed = ", 0.2);
+            if(gamepad2.left_bumper){
+                shootingPower = POWERSHOT_SHOOTING_SPEED;
+            }
+            shootingSystem.operateShooterMotor(shootingPower);
+            telemetry.addData("Shooter speed = ", shootingPower);
             telemetry.update();
-
-//            if(gamepad2.left_bumper) {
-//                shooterSpeedState++;
-//
-//                if(shooterSpeedState > 3){
-//                    shooterSpeedState = 1;
-//                }
-//            }
-//
-//
-//            if(shooterSpeedState == 1) {
-//                //inc speed
-//                shootingSystem.operateShooterMotor(SHOOTER_SPEED_1);
-//                telemetry.addData("Shooter speed = ", SHOOTER_SPEED_1);
-//                telemetry.update();
-//
-//            }if(shooterSpeedState == 2) {
-//                //inc speed
-//                shootingSystem.operateShooterMotor(SHOOTER_SPEED_2);
-//                telemetry.addData("Shooter speed = ", SHOOTER_SPEED_2);
-//                telemetry.update();
-//            }if(shooterSpeedState == 3) {
-//                //inc speed
-//                shootingSystem.operateShooterMotor(SHOOTER_SPEED_3);
-//                telemetry.addData("Shooter speed = ", SHOOTER_SPEED_3);
-//                telemetry.update();
-//            }
-
         } else {
             shootingSystem.stopShooterMotor();
-            shooterSpeedState = 0;
         }
     }
 
