@@ -8,6 +8,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
  * A static field allows data to persist between opmodes.
  */
 public class PoseStorage {
-    public static Pose2d currentPose = new Pose2d(-60, -48, 0);
+    public static final Pose2d DEFAULT_AUTONOMOUS_INIT_POSITION = new Pose2d(-60, -48, 0);
+    public static Pose2d currentPose = DEFAULT_AUTONOMOUS_INIT_POSITION;
     public static double gyroAngle = 0;
 }

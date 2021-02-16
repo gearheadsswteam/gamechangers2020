@@ -31,7 +31,7 @@ public class RedAutonomousModeRR extends AbstractAutonomousOpModeRR {
     protected void executeOpMode() {
 
         int rings = robot.ringDetector.detectRings();
-        rings = 1;
+        rings = 4;
         telemetry.addData("Rings ", rings);
         telemetry.update();
         sleep(500);
