@@ -23,7 +23,7 @@ public class LocalizationTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         MecanumDriveRR drive = new MecanumDriveRR(hardwareMap);
-        drive.setPoseEstimate(PoseStorage.currentPose);
+        drive.setPoseEstimate(PoseStorage.DEFAULT_AUTONOMOUS_INIT_POSITION);
 
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
