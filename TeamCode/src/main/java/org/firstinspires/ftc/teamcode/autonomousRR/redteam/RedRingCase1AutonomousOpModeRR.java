@@ -51,15 +51,11 @@ public class RedRingCase1AutonomousOpModeRR {
                 .splineTo(new Vector2d(3.76 +24, -62.76 + 24), 0.4)
                 .build();
 
-//
-//        //From Starting position to Case 1 drop zone
-//        Trajectory traj1 = mecanumDriveRR.trajectoryBuilder(traj0.end(), 0)
-//                .splineTo(new Vector2d(3.76 +24, -62.76 + 24), 0.4)
-//                .build();
+
 
         //From Case 1 drop zone to shooting position
         Trajectory traj2 = mecanumDriveRR.trajectoryBuilder(traj1.end())
-                .splineToSplineHeading(RedTeamPositions.SHOOTING_POS, 0)
+                .splineToSplineHeading(RedTeamPositions.SHOOTING_POS, Math.PI)
                 .build();
 
 
