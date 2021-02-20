@@ -46,35 +46,36 @@ public class RedRingCase1AutonomousOpModeRR {
 
     public void executeOpMode() {
         //Clear the ring set up position
-        Trajectory traj0 = mecanumDriveRR.trajectoryBuilder(initPos, 0)
+        Trajectory traj1 = mecanumDriveRR.trajectoryBuilder(initPos, 0)
                 .splineTo(new Vector2d(-24, -56), 0)
-                .build();
-
-
-        //From Starting position to Case 1 drop zone
-        Trajectory traj1 = mecanumDriveRR.trajectoryBuilder(traj0.end(), 0)
                 .splineTo(new Vector2d(3.76 +24, -62.76 + 24), 0.4)
                 .build();
 
+//
+//        //From Starting position to Case 1 drop zone
+//        Trajectory traj1 = mecanumDriveRR.trajectoryBuilder(traj0.end(), 0)
+//                .splineTo(new Vector2d(3.76 +24, -62.76 + 24), 0.4)
+//                .build();
+
         //From Case 1 drop zone to shooting position
         Trajectory traj2 = mecanumDriveRR.trajectoryBuilder(traj1.end())
-                .splineToLinearHeading(RedTeamPositions.SHOOTING_POS, 0)//Shooting angle was 0.65
+                .splineToSplineHeading(RedTeamPositions.SHOOTING_POS, 0)
                 .build();
 
 
-        //From Shooting position to Wobble goal 2 catch position
-        Trajectory traj3 = mecanumDriveRR.trajectoryBuilder(traj2.end(), 0)
-                .splineTo(new Vector2d(-39.6, 3.1), 3.7)
-                .splineTo(new Vector2d(-56.37, -5.82), 4.75)  //Newly added point
-                .splineTo(RedTeamPositions.WOBBLE_GOAL_2_PICKUP_XY, RedTeamPositions.WOBBLE_GOAL_2_PICKUP_HEADING)
+        //Shooting position to wobble goal 2 grab position
+        Trajectory traj3 = mecanumDriveRR.trajectoryBuilder(RedTeamPositions.SHOOTING_POS, 0)
+                .splineTo(new Vector2d(-39.6, 9.1), 3.3)
+                //.splineTo(new Vector2d(-56.37, -5.82), 4.75)  //Newly added point
+                .splineTo(new Vector2d(-57.52+6, -7.70+3), 5.0)
                 .build();
 
 
         //To slow down robot, from Wobble goal 2 catch position to Case 0 drop position
         TrajectoryConstraints slowConstraints = new MecanumConstraints(DriveConstants.SLOW_ROBOT_CONSTRAINTS, DriveConstants.TRACK_WIDTH);
         Trajectory traj4 = mecanumDriveRR.trajectoryBuilder(traj3.end())
-                .splineTo(new Vector2d(-51.3, -17.56), 5.121, slowConstraints)
-                .splineTo(new Vector2d(4.97+24, -59.69+24-12), 0, slowConstraints).build();
+                .lineTo(new Vector2d(-51.3, -17.56), slowConstraints)
+                .splineTo(new Vector2d(4.97+21, -59.69+24-12+2), 0, slowConstraints).build();
 
 
         shootingSystem.operateShooterMotors(0.15, 0.075);
