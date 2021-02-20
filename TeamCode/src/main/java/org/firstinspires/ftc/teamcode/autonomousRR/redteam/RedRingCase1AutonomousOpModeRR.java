@@ -55,12 +55,12 @@ public class RedRingCase1AutonomousOpModeRR {
 
         //From Case 1 drop zone to shooting position
         Trajectory traj2 = mecanumDriveRR.trajectoryBuilder(traj1.end())
-                .splineToSplineHeading(RedTeamPositions.SHOOTING_POS, Math.PI)
+                .lineToSplineHeading(RedTeamPositions.SHOOTING_POS_CASE_1)
                 .build();
 
 
         //Shooting position to wobble goal 2 grab position
-        Trajectory traj3 = mecanumDriveRR.trajectoryBuilder(RedTeamPositions.SHOOTING_POS, 0)
+        Trajectory traj3 = mecanumDriveRR.trajectoryBuilder(traj2.end(), 0)
                 .splineTo(new Vector2d(-39.6, 9.1), 3.3)
                 //.splineTo(new Vector2d(-56.37, -5.82), 4.75)  //Newly added point
                 .splineTo(new Vector2d(-57.52+6, -7.70+3), 5.0)
