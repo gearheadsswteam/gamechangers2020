@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.autonomousRR.AbstractAutonomousOpModeRR;
 public class BlueAutonomousModeRR extends AbstractAutonomousOpModeRR {
     int ringNum;
 
+    //Blue Team init position
     Pose2d initPos = new Pose2d(-60, 48, 0);
 
     @Override
@@ -29,7 +30,7 @@ public class BlueAutonomousModeRR extends AbstractAutonomousOpModeRR {
     protected void executeOpMode() {
 
         int rings = robot.ringDetector.detectRings();
-        rings = 0;
+        rings = 4;
         telemetry.addData("Rings ", rings);
         telemetry.update();
         sleep(500);

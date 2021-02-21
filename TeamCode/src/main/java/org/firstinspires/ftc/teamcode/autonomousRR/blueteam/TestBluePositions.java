@@ -1,19 +1,20 @@
-package org.firstinspires.ftc.teamcode.autonomousRR.redteam;
+package org.firstinspires.ftc.teamcode.autonomousRR.blueteam;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.autonomousRR.AbstractAutonomousOpModeRR;
+import org.firstinspires.ftc.teamcode.autonomousRR.redteam.RedTeamPositions;
 
 @Autonomous
-public class TestRedPositions extends AbstractAutonomousOpModeRR {
-    Pose2d initPos = RedTeamPositions.INIT_POS;
+public class TestBluePositions extends AbstractAutonomousOpModeRR {
+    Pose2d initPos = BlueTeamPositions.INIT_POS;
 
     @Override
     protected void initOpModeBeforeStart() {
         super.initOpModeBeforeStart();
-        mecanumDriveRR.setPoseEstimate(RedTeamPositions.INIT_POS);
+        mecanumDriveRR.setPoseEstimate(BlueTeamPositions.INIT_POS);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
