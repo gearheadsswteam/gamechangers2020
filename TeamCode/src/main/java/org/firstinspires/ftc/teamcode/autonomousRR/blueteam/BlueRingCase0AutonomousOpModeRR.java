@@ -53,16 +53,22 @@ public class BlueRingCase0AutonomousOpModeRR {
                 .splineToLinearHeading(BlueTeamPositions.SHOOTING_POS, 0)//Shooting angle was 0.65
                 .build();
 
-        //From Shooting position to Wobble goal 2 catch position
-        Trajectory traj3 = mecanumDriveRR.trajectoryBuilder(traj2.end())
-                .splineTo(BlueTeamPositions.WOBBLE_GOAL_2_PICKUP_XY, BlueTeamPositions.WOBBLE_GOAL_2_PICKUP_HEADING).build();
+        //Shooting position to wobble goal 2 grab position
+        Trajectory traj3 = mecanumDriveRR.trajectoryBuilder(traj2.end(), 0)
+                .splineTo(new Vector2d(-39.6, -9.1), -3.3)
+                .splineTo(new Vector2d(-57.52+6, 7.70-3), -5.0)
+                .build();
 
 
         //To slow down robot, from Wobble goal 2 catch position to Case 0 drop position
         TrajectoryConstraints slowConstraints = new MecanumConstraints(DriveConstants.SLOW_ROBOT_CONSTRAINTS, DriveConstants.TRACK_WIDTH);
         Trajectory traj4 = mecanumDriveRR.trajectoryBuilder(traj3.end())
-                .splineTo(new Vector2d(-51.3, 17.56), -5.121, slowConstraints)
-                .splineTo(new Vector2d(3.76-3, 62.76), 0, slowConstraints).build();
+                .lineTo(new Vector2d(-51.3, 17.56), slowConstraints)
+                .splineToSplineHeading(new Pose2d(3.76+3, 52.76, 0), 0, slowConstraints).build();
+
+
+
+
 
 
         shootingSystem.operateShooterMotors(0.15, 0.075);
