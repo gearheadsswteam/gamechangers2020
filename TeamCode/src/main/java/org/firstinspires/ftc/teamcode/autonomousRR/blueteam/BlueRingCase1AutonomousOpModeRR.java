@@ -37,18 +37,17 @@ public class BlueRingCase1AutonomousOpModeRR {
         this.wobblegoalArmLeft = gearheadsMecanumRobotRR.wobblegoalArmLeft;
         this.wobblegoalArmRight = gearheadsMecanumRobotRR.wobblegoalArmRight;
         this.currOpMode = currOpMode;
-        this.initPos = new Pose2d(-60, -48, 0);
     }
 
     public void setLastPos(Pose2d lastKnownPos){
-        this.lastPos = lastKnownPos;
+        this.initPos = lastKnownPos;
     }
 
     public void executeOpMode() {
         //Clear the ring set up position
         Trajectory traj1 = mecanumDriveRR.trajectoryBuilder(initPos, 0)
-                .splineTo(new Vector2d(-24, -56), 0)
-                .splineTo(new Vector2d(3.76 +24, -62.76 + 24), 0.4)
+                .splineTo(new Vector2d(-24, 56), 0)
+                .splineTo(new Vector2d(3.76 +24, 62.76 - 24), -0.4)
                 .build();
 
 
@@ -61,17 +60,16 @@ public class BlueRingCase1AutonomousOpModeRR {
 
         //Shooting position to wobble goal 2 grab position
         Trajectory traj3 = mecanumDriveRR.trajectoryBuilder(traj2.end(), 0)
-                .splineTo(new Vector2d(-39.6, 9.1), 3.3)
-                //.splineTo(new Vector2d(-56.37, -5.82), 4.75)  //Newly added point
-                .splineTo(new Vector2d(-57.52+6, -7.70+3), 5.0)
+                .splineTo(new Vector2d(-39.6, -9.1), -3.3)
+                .splineTo(new Vector2d(-57.52+6, 7.70-3), -5.0)
                 .build();
 
 
         //To slow down robot, from Wobble goal 2 catch position to Case 0 drop position
         TrajectoryConstraints slowConstraints = new MecanumConstraints(DriveConstants.SLOW_ROBOT_CONSTRAINTS, DriveConstants.TRACK_WIDTH);
         Trajectory traj4 = mecanumDriveRR.trajectoryBuilder(traj3.end())
-                .lineTo(new Vector2d(-51.3, -17.56), slowConstraints)
-                .splineTo(new Vector2d(4.97+21, -59.69+24-12+2), 0, slowConstraints).build();
+                .lineTo(new Vector2d(-51.3, 17.56), slowConstraints)
+                .splineTo(new Vector2d(4.97+21+3, 59.69-24+12-2-3), 0, slowConstraints).build();
 
 
         shootingSystem.operateShooterMotors(0.15, 0.075);
@@ -96,7 +94,7 @@ public class BlueRingCase1AutonomousOpModeRR {
         mecanumDriveRR.followTrajectory(traj4);
 
         Trajectory traj5 = mecanumDriveRR.trajectoryBuilder(traj4.end())
-                .back(24).build();
+                .back(22).build();
         mecanumDriveRR.followTrajectory(traj5);
 
     }
