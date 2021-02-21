@@ -7,7 +7,6 @@ import com.acmerobotics.roadrunner.trajectory.constraints.MecanumConstraints;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryConstraints;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.autonomousRR.redteam.RedTeamPositions;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveRR;
 import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobotRR;
@@ -37,18 +36,16 @@ public class BlueRingCase0AutonomousOpModeRR {
         this.wobblegoalArmLeft = gearheadsMecanumRobotRR.wobblegoalArmLeft;
         this.wobblegoalArmRight = gearheadsMecanumRobotRR.wobblegoalArmRight;
         this.currOpMode = currOpMode;
-        this.initPos = new Pose2d(-60, 48, 0);
     }
 
     public void setLastPos(Pose2d lastKnownPos){
-        this.lastPos = lastKnownPos;
+        this.initPos = lastKnownPos;
     }
 
     public void executeOpMode() {
-
         //From Starting position to Case 0 drop zone
         Trajectory traj1 = mecanumDriveRR.trajectoryBuilder(initPos, 0)
-                .splineTo(new Vector2d(4.97-3, -59.69+120+12) , 5.6)
+                .splineTo(new Vector2d(4.97-3, 59.69), -5.6)
                 .build();
 
         //From Case 0 drop zone to shooting position
@@ -64,8 +61,8 @@ public class BlueRingCase0AutonomousOpModeRR {
         //To slow down robot, from Wobble goal 2 catch position to Case 0 drop position
         TrajectoryConstraints slowConstraints = new MecanumConstraints(DriveConstants.SLOW_ROBOT_CONSTRAINTS, DriveConstants.TRACK_WIDTH);
         Trajectory traj4 = mecanumDriveRR.trajectoryBuilder(traj3.end())
-                .splineTo(new Vector2d(-51.3, -17.56+48), 5.121, slowConstraints)
-                .splineTo(new Vector2d(3.76-3, -62.76+48), 0, slowConstraints).build();
+                .splineTo(new Vector2d(-51.3, 17.56), -5.121, slowConstraints)
+                .splineTo(new Vector2d(3.76-3, 62.76), 0, slowConstraints).build();
 
 
         shootingSystem.operateShooterMotors(0.15, 0.075);
@@ -84,6 +81,5 @@ public class BlueRingCase0AutonomousOpModeRR {
         shootingSystem.stopShooterMotor();
         mecanumDriveRR.followTrajectory(traj3);
         currOpMode.sleep(1000);
-        mecanumDriveRR.followTrajectory(traj4);
-    }
+        mecanumDriveRR.followTrajectory(traj4);    }
 }
