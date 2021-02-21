@@ -7,7 +7,6 @@ import com.acmerobotics.roadrunner.trajectory.constraints.MecanumConstraints;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryConstraints;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.autonomousRR.RedTeamPositions;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveRR;
 import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobotRR;
@@ -16,8 +15,6 @@ import org.firstinspires.ftc.teamcode.robot.actionparts.RingFlipperSystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.ShootingSystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.WobblegoalArmLeft;
 import org.firstinspires.ftc.teamcode.robot.actionparts.WobblegoalArmRight;
-
-import static java.lang.Math.PI;
 
 public class RedRingCase4AutonomousOpModeRR {
 
@@ -98,7 +95,8 @@ public class RedRingCase4AutonomousOpModeRR {
         mecanumDriveRR.followTrajectory(traj4);
 
         Trajectory traj5 = mecanumDriveRR.trajectoryBuilder(traj4.end())
-                .back(24).build();
+                .splineToLinearHeading(RedTeamPositions.PARK_POS_CASE_4,0).build();
+
         mecanumDriveRR.followTrajectory(traj5);
     }
 }
