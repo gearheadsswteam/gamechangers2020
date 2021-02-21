@@ -7,7 +7,6 @@ import com.acmerobotics.roadrunner.trajectory.constraints.MecanumConstraints;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryConstraints;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.autonomousRR.redteam.RedTeamPositions;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveRR;
 import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobotRR;
@@ -37,41 +36,40 @@ public class BlueRingCase4AutonomousOpModeRR {
         this.wobblegoalArmLeft = gearheadsMecanumRobotRR.wobblegoalArmLeft;
         this.wobblegoalArmRight = gearheadsMecanumRobotRR.wobblegoalArmRight;
         this.currOpMode = currOpMode;
-        this.initPos = new Pose2d(-60, -48, 0);
     }
 
     public void setLastPos(Pose2d lastKnownPos){
-        this.lastPos = lastKnownPos;
+        this.initPos = lastKnownPos;
     }
 
     public void executeOpMode() {
         //Clear the ring set up position
         Trajectory traj1 = mecanumDriveRR.trajectoryBuilder(initPos, 0)
-                .splineTo(new Vector2d(-24, -56), 0)
-                .splineTo(new Vector2d(4.97-3+ 48, -59.69+ 2), 5.6)
+                .splineTo(new Vector2d(-24, 56), 0)
+                .splineTo(new Vector2d(4.97-3+ 48, 59.69- 2), -5.6)
                 .build();
 
 
 
         //From Case 1 drop zone to shooting position
         Trajectory traj2 = mecanumDriveRR.trajectoryBuilder(traj1.end())
-                .lineToSplineHeading(BlueTeamPositions.SHOOTING_POS_CASE_1)
+                .lineToSplineHeading(BlueTeamPositions.SHOOTING_POS_CASE_4)
                 .build();
 
 
         //Shooting position to wobble goal 2 grab position
         Trajectory traj3 = mecanumDriveRR.trajectoryBuilder(traj2.end(), 0)
-                .splineTo(new Vector2d(-39.6, 9.1), 3.3)
+                .splineTo(new Vector2d(-39.6, -9.1), -3.3)
                 //.splineTo(new Vector2d(-56.37, -5.82), 4.75)  //Newly added point
-                .splineTo(new Vector2d(-57.52+6, -7.70+3+2), 5.0)
+                .splineTo(new Vector2d(-57.52+6, 7.70-5), -5.0)
                 .build();
 
 
         //To slow down robot, from Wobble goal 2 catch position to Case 0 drop position
         TrajectoryConstraints slowConstraints = new MecanumConstraints(DriveConstants.SLOW_ROBOT_CONSTRAINTS, DriveConstants.TRACK_WIDTH);
         Trajectory traj4 = mecanumDriveRR.trajectoryBuilder(traj3.end())
-                .lineTo(new Vector2d(-51.3, -17.56), slowConstraints)
-                .splineTo(new Vector2d(3.76-3+48, -62.76), 0, slowConstraints).build();
+                .lineTo(new Vector2d(-51.3, 17.56), slowConstraints)
+                .splineTo(new Vector2d(3.76-3+48, 62.76-4-3), 0, slowConstraints).build();
 
 
         shootingSystem.operateShooterMotors(0.15, 0.075);
