@@ -58,7 +58,7 @@ public class BlueRingCase0AutonomousOpModeRR {
 
         //From Shooting position to Wobble goal 2 catch position
         Trajectory traj3 = mecanumDriveRR.trajectoryBuilder(traj2.end())
-                .splineTo(RedTeamPositions.WOBBLE_GOAL_2_PICKUP_XY, RedTeamPositions.WOBBLE_GOAL_2_PICKUP_HEADING).build();
+                .splineTo(BlueTeamPositions.WOBBLE_GOAL_2_PICKUP_XY, BlueTeamPositions.WOBBLE_GOAL_2_PICKUP_HEADING).build();
 
 
         //To slow down robot, from Wobble goal 2 catch position to Case 0 drop position

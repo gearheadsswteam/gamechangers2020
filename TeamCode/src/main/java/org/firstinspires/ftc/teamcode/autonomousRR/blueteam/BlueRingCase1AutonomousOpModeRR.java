@@ -55,7 +55,7 @@ public class BlueRingCase1AutonomousOpModeRR {
 
         //From Case 1 drop zone to shooting position
         Trajectory traj2 = mecanumDriveRR.trajectoryBuilder(traj1.end())
-                .lineToSplineHeading(RedTeamPositions.SHOOTING_POS_CASE_1)
+                .lineToSplineHeading(BlueTeamPositions.SHOOTING_POS_CASE_1)
                 .build();
 
 
