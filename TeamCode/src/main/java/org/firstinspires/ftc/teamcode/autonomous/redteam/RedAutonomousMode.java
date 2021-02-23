@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.autonomous.blueteam.BlueRingCase0Autonomou
 import org.firstinspires.ftc.teamcode.autonomous.blueteam.BlueRingCase1AutonomousOpMode;
 import org.firstinspires.ftc.teamcode.autonomous.blueteam.BlueRingCase4AutonomousOpMode;
 
-@Autonomous(name = "RedAutonomousMode", group = "Mecannum")
+//@Autonomous(name = "RedAutonomousMode", group = "Mecannum")
 
 public class RedAutonomousMode extends AbstractAutonomousOpMode {
     @Override

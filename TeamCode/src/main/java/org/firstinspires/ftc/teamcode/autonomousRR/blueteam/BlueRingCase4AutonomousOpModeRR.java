@@ -69,7 +69,7 @@ public class BlueRingCase4AutonomousOpModeRR {
         TrajectoryConstraints slowConstraints = new MecanumConstraints(DriveConstants.SLOW_ROBOT_CONSTRAINTS, DriveConstants.TRACK_WIDTH);
         Trajectory traj4 = mecanumDriveRR.trajectoryBuilder(traj3.end())
                 .lineTo(new Vector2d(-51.3, 17.56), slowConstraints)
-                .splineTo(new Vector2d(3.76-3+48, 62.76-4-3), 0).build();
+                .splineTo(new Vector2d(3.76-3+48, 62.76-4-3), 0, slowConstraints).build();
 
 
         shootingSystem.operateShooterMotors(0.15, 0.075);

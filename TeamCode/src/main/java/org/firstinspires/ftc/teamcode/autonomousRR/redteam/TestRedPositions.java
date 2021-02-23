@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.autonomousRR.AbstractAutonomousOpModeRR;
 
-@Autonomous
+//@Autonomous
 public class TestRedPositions extends AbstractAutonomousOpModeRR {
     Pose2d initPos = RedTeamPositions.INIT_POS;
 

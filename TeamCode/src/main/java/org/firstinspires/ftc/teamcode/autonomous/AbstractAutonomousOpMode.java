@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.robot.drivetrain.mecanum.AutonomousMecanum
 import org.firstinspires.ftc.teamcode.robot.drivetrain.mecanum.MecanumDrive;
 
 
-@Autonomous(name = "Mecannum: AbstractAutonomousOpMode", group = "Mecannum")
+//@Autonomous(name = "Mecannum: AbstractAutonomousOpMode", group = "Mecannum")
 @Disabled
 /*
   This is the baseclass for all autonomous op modes for Meccunum robot

@@ -50,20 +50,24 @@ public class RedRingCase0AutonomousOpModeRR {
                 .splineTo(new Vector2d(4.97-3, -59.69), 5.6)
                 .build();
 
-        //From Case 0 drop zone to shooting position
+        //From Case 1 drop zone to shooting position
         Trajectory traj2 = mecanumDriveRR.trajectoryBuilder(traj1.end())
-                .splineToLinearHeading(RedTeamPositions.SHOOTING_POS, 0)//Shooting angle was 0.65
+                .lineToSplineHeading(RedTeamPositions.SHOOTING_POS_CASE_1)
                 .build();
 
-        //From Shooting position to Wobble goal 2 catch position
-        Trajectory traj3 = mecanumDriveRR.trajectoryBuilder(traj2.end())
-                .splineTo(RedTeamPositions.WOBBLE_GOAL_2_PICKUP_XY, RedTeamPositions.WOBBLE_GOAL_2_PICKUP_HEADING).build();
+
+        //Shooting position to wobble goal 2 grab position
+        Trajectory traj3 = mecanumDriveRR.trajectoryBuilder(traj2.end(), 0)
+                .splineTo(new Vector2d(-39.6, 9.1), 3.3)
+                //.splineTo(new Vector2d(-56.37, -5.82), 4.75)  //Newly added point
+                .splineTo(new Vector2d(-57.52+6, -7.70+3), 5.0)
+                .build();
 
 
         //To slow down robot, from Wobble goal 2 catch position to Case 0 drop position
         TrajectoryConstraints slowConstraints = new MecanumConstraints(DriveConstants.SLOW_ROBOT_CONSTRAINTS, DriveConstants.TRACK_WIDTH);
         Trajectory traj4 = mecanumDriveRR.trajectoryBuilder(traj3.end())
-                .splineTo(new Vector2d(-51.3, -17.56), 5.121, slowConstraints)
+                .lineTo(new Vector2d(-51.3, -17.56), slowConstraints)
                 .splineTo(new Vector2d(3.76-3, -62.76), 0, slowConstraints).build();
 
 

@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.autonomous.AbstractAutonomousOpMode;
 
-@Autonomous(name = "Mecannum: PositionEncoderTest", group = "Mecannum")
+//@Autonomous(name = "Mecannum: PositionEncoderTest", group = "Mecannum")
 public class PositionEncoderTest extends AbstractAutonomousOpMode {
     @Override
     protected void initOpModeAfterStart() {

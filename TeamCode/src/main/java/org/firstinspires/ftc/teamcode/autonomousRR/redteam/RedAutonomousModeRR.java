@@ -16,6 +16,13 @@ public class RedAutonomousModeRR extends AbstractAutonomousOpModeRR {
         super.initOpModeBeforeStart();
         mecanumDriveRR.setPoseEstimate(initPos);
 
+        int rings = robot.ringDetector.detectRings();
+        //rings = 1;
+        telemetry.addData("Rings ", rings);
+        telemetry.update();
+        sleep(500);
+
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
     }
@@ -29,10 +36,10 @@ public class RedAutonomousModeRR extends AbstractAutonomousOpModeRR {
     protected void executeOpMode() {
 
         int rings = robot.ringDetector.detectRings();
-        rings = 1;
-        telemetry.addData("Rings ", rings);
-        telemetry.update();
-        sleep(500);
+//        //rings = 1;
+//        telemetry.addData("Rings ", rings);
+//        telemetry.update();
+//        sleep(500);
 
 
         if (rings == 0) {

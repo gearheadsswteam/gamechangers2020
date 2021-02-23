@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.autonomous.AbstractAutonomousOpMode;
 import org.firstinspires.ftc.teamcode.robot.drivetrain.mecanum.AutonomousMecanumMover;
 
-@Autonomous(name = "BlueAutonomousMode", group = "Mecannum")
+//@Autonomous(name = "BlueAutonomousMode", group = "Mecannum")
 
 public class BlueAutonomousMode extends AbstractAutonomousOpMode {
 

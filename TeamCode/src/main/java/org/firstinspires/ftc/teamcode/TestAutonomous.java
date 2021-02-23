@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.autonomousRR.AbstractAutonomousOpModeRR;
 
-@Autonomous
+//@Autonomous
 public class TestAutonomous extends AbstractAutonomousOpModeRR {
 
     int ringNum;

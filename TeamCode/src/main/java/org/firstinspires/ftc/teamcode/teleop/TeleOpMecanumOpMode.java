@@ -122,10 +122,10 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
      */
     private void adjustForFOV() {
         //Angle adjustment during TeleOP based on how the autonomous ends. In Game changers the TeleOPs starts with Rbot at 90 degrees from FOV.
-        //double angleFromAutonomousLastRun = PoseStorage.gyroAngle;
-        double angleFromAutonomousLastRun = Math.PI/2;
+        double angleFromAutonomousLastRun = PoseStorage.gyroAngle;
+        //double angleFromAutonomousLastRun = Math.PI/2;
 
-        double angle = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle-angleFromAutonomousLastRun;
+        double angle = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle+angleFromAutonomousLastRun-Math.PI/2;
 
 
         double tempForwardPower = -gamepad1.left_stick_y;
@@ -179,6 +179,10 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
      */
     private void operateRingFlipSystem() {
         if (gamepad2.x) {
+            ringFlipperSystem.pushRing();
+            sleep(400);
+            ringFlipperSystem.pushRing();
+            sleep(400);
             ringFlipperSystem.pushRing();
         }
     }

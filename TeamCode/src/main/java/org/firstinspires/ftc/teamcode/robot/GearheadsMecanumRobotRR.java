@@ -6,10 +6,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.robot.actionparts.BlueRingDetectorOpenCV;
 import org.firstinspires.ftc.teamcode.robot.actionparts.Intakesystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.RingDetector;
+import org.firstinspires.ftc.teamcode.robot.actionparts.RedRingDetectorOpenCV;
 import org.firstinspires.ftc.teamcode.robot.actionparts.RingDetectorOpenCV;
-import org.firstinspires.ftc.teamcode.robot.actionparts.RingDetectorVuforia;
 import org.firstinspires.ftc.teamcode.robot.actionparts.RingFlipperSystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.ShootingSystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.WobblegoalArmLeft;

@@ -3,9 +3,10 @@ package org.firstinspires.ftc.teamcode.test;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.autonomous.AbstractAutonomousOpMode;
+import org.firstinspires.ftc.teamcode.autonomousRR.AbstractAutonomousOpModeRR;
 
 @Autonomous(name = "Mecannum: RingDetectionTestOpMode", group = "Mecannum")
-public class RingDetectionTestOpMode extends AbstractAutonomousOpMode {
+public class RingDetectionTestOpMode extends AbstractAutonomousOpModeRR {
 
     @Override
     protected void initOpModeAfterStart() {

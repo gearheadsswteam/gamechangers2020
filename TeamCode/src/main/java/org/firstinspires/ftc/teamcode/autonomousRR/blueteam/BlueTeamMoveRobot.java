@@ -2,9 +2,11 @@ package org.firstinspires.ftc.teamcode.autonomousRR.blueteam;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.autonomousRR.AbstractAutonomousOpModeRR;
 
+@Autonomous
 public class BlueTeamMoveRobot extends AbstractAutonomousOpModeRR {
     private Pose2d initPos = BlueTeamPositions.INIT_POS;
     private Pose2d destPos = new Pose2d(20, -48, 0);
