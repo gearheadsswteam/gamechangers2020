@@ -54,27 +54,9 @@ public class RedRingCase4AutonomousOpModeRR {
 
         //From Case 1 drop zone to shooting position
         Trajectory traj2 = mecanumDriveRR.trajectoryBuilder(traj1.end())
-                .lineToSplineHeading(RedTeamPositions.SHOOTING_POS_CASE_1)
+                .lineToSplineHeading(RedTeamPositions.SHOOTING_POS_CASE_4)
                 .build();
 
-        Trajectory shootRingsTraj = grabAndShootThreeRings(traj2);
-        shootRingsTraj = grabAndShootLastRing(shootRingsTraj);
-        park(shootRingsTraj);
-
-        /**
-        //Shooting position to wobble goal 2 grab position
-        Trajectory traj3 = mecanumDriveRR.trajectoryBuilder(traj2.end(), 0)
-                .splineTo(new Vector2d(-39.6, 9.1), 3.3)
-                //.splineTo(new Vector2d(-56.37, -5.82), 4.75)  //Newly added point
-                .splineTo(new Vector2d(-57.52+6, -7.70+3+2), 5.0)
-                .build();
-
-
-        //To slow down robot, from Wobble goal 2 catch position to Case 0 drop position
-        TrajectoryConstraints slowConstraints = new MecanumConstraints(DriveConstants.SLOW_ROBOT_CONSTRAINTS, DriveConstants.TRACK_WIDTH);
-        Trajectory traj4 = mecanumDriveRR.trajectoryBuilder(traj3.end())
-                .lineTo(new Vector2d(-51.3, -17.56), slowConstraints)
-                .splineTo(new Vector2d(3.76-3+48, -62.76), 0, slowConstraints).build();
 
 
         shootingSystem.operateShooterMotors(0.15, 0.075);
@@ -85,25 +67,48 @@ public class RedRingCase4AutonomousOpModeRR {
         mecanumDriveRR.followTrajectory(traj2);
 
 
+
         ringFlipperSystem.pushRing();
         currOpMode.sleep(500);
         ringFlipperSystem.pushRing();
         currOpMode.sleep(500);
         ringFlipperSystem.pushRing();
 
-        //grabAndShootRings(traj2);
 
-        shootingSystem.stopShooterMotor();
-        mecanumDriveRR.followTrajectory(traj3);
-        currOpMode.sleep(1000);
-        mecanumDriveRR.followTrajectory(traj4);
 
-        Trajectory traj5 = mecanumDriveRR.trajectoryBuilder(traj4.end())
-                .splineToLinearHeading(RedTeamPositions.PARK_POS_CASE_4,0).build();
+        Trajectory shootRingsTraj = grabAndShootThreeRings(traj2);
+        shootRingsTraj = grabAndShootLastRing(shootRingsTraj);
 
-        mecanumDriveRR.followTrajectory(traj5);
+        dropWobbleTwo(shootRingsTraj);
+        //park(shootRingsTraj);
+    }
 
-         */
+    private void dropWobbleTwo(Trajectory shootingPosition){
+
+         //Shooting position to wobble goal 2 grab position
+         Trajectory traj3 = mecanumDriveRR.trajectoryBuilder(shootingPosition.end(), 0)
+         .splineTo(new Vector2d(-39.6, 9.1), 3.3)
+         //.splineTo(new Vector2d(-56.37, -5.82), 4.75)  //Newly added point
+         .splineTo(new Vector2d(-57.52+6, -7.70+3+2), 5.0)
+         .build();
+
+
+         //To slow down robot, from Wobble goal 2 catch position to Case 0 drop position
+         TrajectoryConstraints slowConstraints = new MecanumConstraints(DriveConstants.SLOW_ROBOT_CONSTRAINTS, DriveConstants.TRACK_WIDTH);
+         Trajectory traj4 = mecanumDriveRR.trajectoryBuilder(traj3.end())
+         .lineTo(new Vector2d(-51.3, -17.56), slowConstraints)
+         .splineTo(new Vector2d(3.76-3+48, -62.76), 0, slowConstraints).build();
+
+         shootingSystem.stopShooterMotor();
+         mecanumDriveRR.followTrajectory(traj3);
+         currOpMode.sleep(1000);
+         mecanumDriveRR.followTrajectory(traj4);
+
+         Trajectory traj5 = mecanumDriveRR.trajectoryBuilder(traj4.end())
+         .splineToLinearHeading(RedTeamPositions.PARK_POS_CASE_4,0).build();
+
+         mecanumDriveRR.followTrajectory(traj5);
+
     }
 
     private Trajectory grabAndShootThreeRings(Trajectory shootingPosition){
