@@ -51,19 +51,35 @@ public class RedRingCase1AutonomousOpModeRR {
                 .build();
 
 
-
         //From Case 1 drop zone to shooting position
         Trajectory traj2 = mecanumDriveRR.trajectoryBuilder(traj1.end())
                 .lineToSplineHeading(RedTeamPositions.SHOOTING_POS_CASE_1)
                 .build();
 
+
+        shootingSystem.operateShooterMotors(0.15, 0.075);
+        ringFlipperSystem.resetPosition();
+
+        mecanumDriveRR.followTrajectory(traj1);
+        mecanumDriveRR.followTrajectory(traj2);
+
+
+        ringFlipperSystem.pushRing();
+        currOpMode.sleep(500);
+        ringFlipperSystem.pushRing();
+        currOpMode.sleep(500);
+        ringFlipperSystem.pushRing();
+
+
         Trajectory shootRingsTraj = grabAndShootRings(traj2);
-        park(shootRingsTraj);
 
-        /**
+        dropSecondWobbleGoal(shootRingsTraj);//If we want to drop second wobble
+        //park(shootRingsTraj);
+    }
 
+    private void dropSecondWobbleGoal(Trajectory shootingPsotion){
         //Shooting position to wobble goal 2 grab position
-        Trajectory traj3 = mecanumDriveRR.trajectoryBuilder(traj2.end(), 0)
+        Trajectory traj3 = mecanumDriveRR.trajectoryBuilder(shootingPsotion.end(), 0)
                 .splineTo(new Vector2d(-39.6, 9.1), 3.3)
                 //.splineTo(new Vector2d(-56.37, -5.82), 4.75)  //Newly added point
                 .splineTo(new Vector2d(-57.52+6, -7.70+3), 5.0)
@@ -77,20 +93,6 @@ public class RedRingCase1AutonomousOpModeRR {
                 .splineTo(new Vector2d(4.97+21, -59.69+24-12+2), 0, slowConstraints).build();
 
 
-        shootingSystem.operateShooterMotors(0.15, 0.075);
-        ringFlipperSystem.resetPosition();
-
-
-        mecanumDriveRR.followTrajectory(traj1);
-        mecanumDriveRR.followTrajectory(traj2);
-
-
-        ringFlipperSystem.pushRing();
-        currOpMode.sleep(500);
-        ringFlipperSystem.pushRing();
-        currOpMode.sleep(500);
-        ringFlipperSystem.pushRing();
-
         //grabAndShootRings(traj2);
 
         shootingSystem.stopShooterMotor();
@@ -101,7 +103,8 @@ public class RedRingCase1AutonomousOpModeRR {
         Trajectory traj5 = mecanumDriveRR.trajectoryBuilder(traj4.end())
                 .back(24).build();
         mecanumDriveRR.followTrajectory(traj5);
-   */
+
+
     }
 
     private Trajectory grabAndShootRings(Trajectory shootingPosition){
