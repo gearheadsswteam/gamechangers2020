@@ -57,7 +57,11 @@ public class RedRingCase4AutonomousOpModeRR {
                 .lineToSplineHeading(RedTeamPositions.SHOOTING_POS_CASE_1)
                 .build();
 
+        Trajectory shootRingsTraj = grabAndShootThreeRings(traj2);
+        shootRingsTraj = grabAndShootLastRing(shootRingsTraj);
+        park(shootRingsTraj);
 
+        /**
         //Shooting position to wobble goal 2 grab position
         Trajectory traj3 = mecanumDriveRR.trajectoryBuilder(traj2.end(), 0)
                 .splineTo(new Vector2d(-39.6, 9.1), 3.3)
@@ -98,5 +102,64 @@ public class RedRingCase4AutonomousOpModeRR {
                 .splineToLinearHeading(RedTeamPositions.PARK_POS_CASE_4,0).build();
 
         mecanumDriveRR.followTrajectory(traj5);
+
+         */
+    }
+
+    private Trajectory grabAndShootThreeRings(Trajectory shootingPosition){
+        //Start the intake
+        intakesystem.startInTake();
+
+        //Go to the Ring stack and hit it
+        Trajectory trajForRingStack1 = mecanumDriveRR.trajectoryBuilder(shootingPosition.end())
+                .back(38).build();
+        mecanumDriveRR.followTrajectory(trajForRingStack1);
+        currOpMode.sleep(500);
+
+
+        //Move forward to shooting position
+        Pose2d shootingPositionToGoTo = shootingPosition.end();
+        Trajectory trajForRingStack3 = mecanumDriveRR.trajectoryBuilder(trajForRingStack1.end())
+                .splineToLinearHeading(shootingPositionToGoTo,shootingPosition.end().getHeading()).build();
+        mecanumDriveRR.followTrajectory(trajForRingStack3);
+
+        ringFlipperSystem.pushRing();
+        currOpMode.sleep(500);
+        ringFlipperSystem.pushRing();
+        currOpMode.sleep(500);
+        ringFlipperSystem.pushRing();
+        return trajForRingStack3;
+    }
+
+    private Trajectory grabAndShootLastRing(Trajectory shootingPosition){
+        //Start the intake
+        intakesystem.startInTake();
+
+        //Go to the Ring stack and hit it
+        Trajectory trajForRingStack1 = mecanumDriveRR.trajectoryBuilder(shootingPosition.end())
+                .back(48).build();
+        mecanumDriveRR.followTrajectory(trajForRingStack1);
+        currOpMode.sleep(500);
+
+
+        //Move forward to shooting position
+        Pose2d shootingPositionToGoTo = shootingPosition.end();
+        Trajectory trajForRingStack3 = mecanumDriveRR.trajectoryBuilder(trajForRingStack1.end())
+                .splineToLinearHeading(shootingPositionToGoTo,shootingPosition.end().getHeading()).build();
+        mecanumDriveRR.followTrajectory(trajForRingStack3);
+
+        ringFlipperSystem.pushRing();
+        currOpMode.sleep(500);
+
+        return trajForRingStack3;
+    }
+
+    private void park(Trajectory shootingPosition){
+        //Go to the Ring stack and hit it
+        Trajectory trajForRingStack1 = mecanumDriveRR.trajectoryBuilder(shootingPosition.end())
+                .forward(6).build();
+        mecanumDriveRR.followTrajectory(trajForRingStack1);
+        currOpMode.sleep(500);
+
     }
 }
