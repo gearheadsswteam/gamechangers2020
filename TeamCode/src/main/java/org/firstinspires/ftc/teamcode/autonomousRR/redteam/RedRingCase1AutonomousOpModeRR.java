@@ -44,7 +44,7 @@ public class RedRingCase1AutonomousOpModeRR {
     }
 
     public void executeOpMode() {
-        //Clear the ring set up position
+        //Clear the ring set up position & get to WG 1 drop point
         Trajectory traj1 = mecanumDriveRR.trajectoryBuilder(initPos, 0)
                 .splineTo(new Vector2d(-24, -56), 0)
                 .splineTo(new Vector2d(3.76 +24, -62.76 + 24), 0.4)
@@ -70,13 +70,25 @@ public class RedRingCase1AutonomousOpModeRR {
         currOpMode.sleep(500);
         ringFlipperSystem.pushRing();
 
-
+        //Go grab and shoot the 1 ring from the fllor
         Trajectory shootRingsTraj = grabAndShootRings(traj2);
 
+        /**
+         * Use dropSecondWobbleGoal if you want to grab WG 2 and park
+         *
+         * Use park if you want to park after shooting all rings without dropping WG 2
+         */
+
+        //Go from Shooring position to WG 3 drop point & park
         dropSecondWobbleGoal(shootRingsTraj);//If we want to drop second wobble
+
         //park(shootRingsTraj);
     }
 
+    /**
+     * Drops the second wobel goal by stating from shooting position
+     * @param shootingPsotion
+     */
     private void dropSecondWobbleGoal(Trajectory shootingPsotion){
         //Shooting position to wobble goal 2 grab position
         Trajectory traj3 = mecanumDriveRR.trajectoryBuilder(shootingPsotion.end(), 0)
@@ -93,8 +105,6 @@ public class RedRingCase1AutonomousOpModeRR {
                 .splineTo(new Vector2d(4.97+21, -59.69+24-12+2), 0, slowConstraints).build();
 
 
-        //grabAndShootRings(traj2);
-
         shootingSystem.stopShooterMotor();
         mecanumDriveRR.followTrajectory(traj3);
         currOpMode.sleep(1000);
@@ -103,10 +113,13 @@ public class RedRingCase1AutonomousOpModeRR {
         Trajectory traj5 = mecanumDriveRR.trajectoryBuilder(traj4.end())
                 .back(24).build();
         mecanumDriveRR.followTrajectory(traj5);
-
-
     }
 
+    /**
+     * Grab ring from the mat and shoot
+     * @param shootingPosition
+     * @return
+     */
     private Trajectory grabAndShootRings(Trajectory shootingPosition){
         //Start the intake
         intakesystem.startInTake();
@@ -133,12 +146,15 @@ public class RedRingCase1AutonomousOpModeRR {
         return trajForRingStack3;
     }
 
+    /**
+     * Park from shooring position
+     * @param shootingPosition
+     */
     private void park(Trajectory shootingPosition){
         //Go to the Ring stack and hit it
         Trajectory trajForRingStack1 = mecanumDriveRR.trajectoryBuilder(shootingPosition.end())
                 .forward(6).build();
         mecanumDriveRR.followTrajectory(trajForRingStack1);
         currOpMode.sleep(500);
-
     }
 }
