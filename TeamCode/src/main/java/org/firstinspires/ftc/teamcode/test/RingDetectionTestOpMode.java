@@ -7,6 +7,9 @@ import org.firstinspires.ftc.teamcode.autonomousRR.AbstractAutonomousOpModeRR;
 
 @Autonomous(name = "Mecannum: RingDetectionTestOpMode", group = "Mecannum")
 public class RingDetectionTestOpMode extends AbstractAutonomousOpModeRR {
+    public RingDetectionTestOpMode() {
+        super.TEAM_TYPE = AbstractAutonomousOpModeRR.BLUE_TEAM;
+    }
 
     @Override
     protected void initOpModeAfterStart() {

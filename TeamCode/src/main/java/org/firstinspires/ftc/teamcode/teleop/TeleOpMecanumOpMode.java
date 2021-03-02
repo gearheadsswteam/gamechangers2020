@@ -9,7 +9,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.drive.PoseStorage;
-import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobot;
 import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobotRR;
 import org.firstinspires.ftc.teamcode.robot.actionparts.Intakesystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.RingFlipperSystem;
@@ -125,7 +124,7 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
         double angleFromAutonomousLastRun = PoseStorage.gyroAngle;
         //double angleFromAutonomousLastRun = Math.PI/2;
 
-        double angle = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle+angleFromAutonomousLastRun-Math.PI/2;
+        double angle = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle + angleFromAutonomousLastRun - Math.PI / 2;
 
 
         double tempForwardPower = -gamepad1.left_stick_y;
@@ -187,6 +186,8 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
         }
     }
 
+
+
     /**
      * Operate intake system
      */
@@ -200,14 +201,22 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
         if (gamepad2.y) {
             intakesystem.startReverseInTake();
         }
+
+        if (gamepad2.dpad_up) {
+            robot.intakeGaurdServo.setPosition(0);//up
+        }
+        if (gamepad2.dpad_down){
+            robot.intakeGaurdServo.setPosition(0.3);//down
+        }
     }
+
 
     private double SHOOTER_SPEED_1 = 1 / 5;
     private double SHOOTER_SPEED_2 = 2 / 5;
     private double SHOOTER_SPEED_3 = 3 / 5;
 
     private double HIGH_GOAL_SHOOTING_SPEED = 0.2;
-    private double POWERSHOT_SHOOTING_SPEED = 0.05/8;
+    private double POWERSHOT_SHOOTING_SPEED = 0.1;
 
     /**
      * Operate shooter
@@ -215,9 +224,15 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
     private void operateShooter() {
         double shootingPower = HIGH_GOAL_SHOOTING_SPEED;
         if (gamepad2.right_trigger > 0.3) {
-            if(gamepad2.left_bumper){
-                shootingPower = POWERSHOT_SHOOTING_SPEED;
-            }
+            shootingSystem.operateShooterMotor(shootingPower);
+            telemetry.addData("Shooter speed = ", shootingPower);
+            telemetry.update();
+        } else {
+            shootingSystem.stopShooterMotor();
+        }
+
+        if (gamepad2.left_trigger > 0.3) {
+            shootingPower = POWERSHOT_SHOOTING_SPEED;
             shootingSystem.operateShooterMotor(shootingPower);
             telemetry.addData("Shooter speed = ", shootingPower);
             telemetry.update();

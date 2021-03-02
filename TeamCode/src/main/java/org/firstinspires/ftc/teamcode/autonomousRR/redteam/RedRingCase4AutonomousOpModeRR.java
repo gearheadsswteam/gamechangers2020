@@ -6,6 +6,7 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.acmerobotics.roadrunner.trajectory.constraints.MecanumConstraints;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryConstraints;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveRR;
@@ -24,6 +25,7 @@ public class RedRingCase4AutonomousOpModeRR {
     private Intakesystem intakesystem;
     public WobblegoalArmRight wobblegoalArmRight;
     public WobblegoalArmLeft wobblegoalArmLeft;
+    public Servo intakeGaurdServoMotor;
     private LinearOpMode currOpMode;
     private Pose2d initPos;
     private Pose2d lastPos;
@@ -35,6 +37,7 @@ public class RedRingCase4AutonomousOpModeRR {
         this.ringFlipperSystem = gearheadsMecanumRobotRR.ringFlipperSystem;
         this.wobblegoalArmLeft = gearheadsMecanumRobotRR.wobblegoalArmLeft;
         this.wobblegoalArmRight = gearheadsMecanumRobotRR.wobblegoalArmRight;
+        this.intakeGaurdServoMotor = gearheadsMecanumRobotRR.intakeGaurdServo;
         this.currOpMode = currOpMode;
         this.initPos = new Pose2d(-60, -48, 0);
     }
@@ -61,7 +64,7 @@ public class RedRingCase4AutonomousOpModeRR {
 
         shootingSystem.operateShooterMotors(0.15, 0.075);
         ringFlipperSystem.resetPosition();
-
+        intakeGaurdServoMotor.setPosition(0.3);//down
 
         mecanumDriveRR.followTrajectory(traj1);
         mecanumDriveRR.followTrajectory(traj2);
@@ -84,8 +87,8 @@ public class RedRingCase4AutonomousOpModeRR {
          * Use park if you want to park after shooting all rings without dropping WG 2
          */
 
-        dropSecondWobbleGoal(shootRingsTraj);
-        //park(shootRingsTraj);
+        //dropSecondWobbleGoal(shootRingsTraj);
+        park(shootRingsTraj);
     }
 
     /**
@@ -129,8 +132,9 @@ public class RedRingCase4AutonomousOpModeRR {
         intakesystem.startInTake();
 
         //Go to the Ring stack and hit it
+        TrajectoryConstraints slowConstraints = new MecanumConstraints(DriveConstants.SLOW_ROBOT_CONSTRAINTS, DriveConstants.TRACK_WIDTH);
         Trajectory trajForRingStack1 = mecanumDriveRR.trajectoryBuilder(shootingPosition.end())
-                .back(38).build();
+                .back(38,slowConstraints).build();
         mecanumDriveRR.followTrajectory(trajForRingStack1);
         currOpMode.sleep(500);
 
@@ -146,6 +150,7 @@ public class RedRingCase4AutonomousOpModeRR {
         ringFlipperSystem.pushRing();
         currOpMode.sleep(500);
         ringFlipperSystem.pushRing();
+        currOpMode.sleep(500);
         return trajForRingStack3;
     }
 
@@ -160,7 +165,7 @@ public class RedRingCase4AutonomousOpModeRR {
 
         //Go to the Ring stack and hit it
         Trajectory trajForRingStack1 = mecanumDriveRR.trajectoryBuilder(shootingPosition.end())
-                .back(48).build();
+                .back(52).build();
         mecanumDriveRR.followTrajectory(trajForRingStack1);
         currOpMode.sleep(500);
 
@@ -170,6 +175,12 @@ public class RedRingCase4AutonomousOpModeRR {
         Trajectory trajForRingStack3 = mecanumDriveRR.trajectoryBuilder(trajForRingStack1.end())
                 .splineToLinearHeading(shootingPositionToGoTo,shootingPosition.end().getHeading()).build();
         mecanumDriveRR.followTrajectory(trajForRingStack3);
+
+        ringFlipperSystem.pushRing();
+        currOpMode.sleep(500);
+
+        ringFlipperSystem.pushRing();
+        currOpMode.sleep(500);
 
         ringFlipperSystem.pushRing();
         currOpMode.sleep(500);

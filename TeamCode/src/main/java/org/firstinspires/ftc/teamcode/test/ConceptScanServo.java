@@ -52,13 +52,13 @@ import org.firstinspires.ftc.teamcode.autonomous.AbstractAutonomousOpMode;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 @TeleOp(name = "Concept: Scan Servo", group = "Concept")
-@Disabled
+//@Disabled
 public class ConceptScanServo extends LinearOpMode {
 
-    static final double INCREMENT = 0.05;     // amount to slew servo each CYCLE_MS cycle
+    static final double INCREMENT = 0.1;     // amount to slew servo each CYCLE_MS cycle
     static final int CYCLE_MS = 500;     // period of each cycle
-    static final double MAX_POS = 0.8;     // Maximum rotational position
-    static final double MIN_POS = 0.4;     // Minimum rotational position
+    static final double MAX_POS = 1;     // Maximum rotational position
+    static final double MIN_POS = 0;     // Minimum rotational position
 
     // Define class members
     Servo servo;
@@ -72,9 +72,9 @@ public class ConceptScanServo extends LinearOpMode {
 
         // Connect to servo (Assume PushBot Left Hand)
         // Change the text in quotes to match any servo name on your robot.
-        servo = hardwareMap.get(Servo.class, "rightFlipper");
-        servo.setDirection(Servo.Direction.REVERSE);//For the "rightFlipper"
-        position = 0.5;
+        servo = hardwareMap.get(Servo.class, "intakeGaurd");
+        servo.setDirection(Servo.Direction.FORWARD);//For the "rightFlipper"
+        position = 0.1;
         servo.setPosition(position);
         sleep(300);
 

@@ -19,6 +19,15 @@ import org.firstinspires.ftc.teamcode.robot.drivetrain.mecanum.AutonomousMecanum
   This is the baseclass for all autonomous op modes for Meccunum robot
  */
 public abstract class AbstractAutonomousOpModeRR extends LinearOpMode {
+    //Red Team type
+    public static final String RED_TEAM = "redteam";
+
+    //Blue Team type
+    public static final String BLUE_TEAM = "blueteam";
+
+    //Team type
+    protected String TEAM_TYPE;
+
     // Use gearheads robot hardware
     public GearheadsMecanumRobotRR robot;
     //The drive system
@@ -44,13 +53,13 @@ public abstract class AbstractAutonomousOpModeRR extends LinearOpMode {
          * Initialize the drive system variables.
          * The init() method of the hardware class does all the work here
          */
-        robot.initAutonomous(hardwareMap);
+        robot.initAutonomous(hardwareMap, TEAM_TYPE);
 
 
         mecanumDriveRR = new MecanumDriveRR(hardwareMap);
         autonomousRobotMover = new AutonomousMecanumMoverRR(robot, this, mecanumDriveRR);
 
-        telemetry.addData("Status", "Initialized");
+        telemetry.addData("Status", "Initialized " + TEAM_TYPE);
         telemetry.update();
     }
 

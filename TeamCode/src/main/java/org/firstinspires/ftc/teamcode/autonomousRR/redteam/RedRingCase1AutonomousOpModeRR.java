@@ -6,6 +6,7 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.acmerobotics.roadrunner.trajectory.constraints.MecanumConstraints;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryConstraints;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveRR;
@@ -24,6 +25,7 @@ public class RedRingCase1AutonomousOpModeRR {
     private Intakesystem intakesystem;
     public WobblegoalArmRight wobblegoalArmRight;
     public WobblegoalArmLeft wobblegoalArmLeft;
+    public Servo intakeGaurdServoMotor;
     private LinearOpMode currOpMode;
     private Pose2d initPos;
     private Pose2d lastPos;
@@ -35,6 +37,7 @@ public class RedRingCase1AutonomousOpModeRR {
         this.ringFlipperSystem = gearheadsMecanumRobotRR.ringFlipperSystem;
         this.wobblegoalArmLeft = gearheadsMecanumRobotRR.wobblegoalArmLeft;
         this.wobblegoalArmRight = gearheadsMecanumRobotRR.wobblegoalArmRight;
+        this.intakeGaurdServoMotor = gearheadsMecanumRobotRR.intakeGaurdServo;
         this.currOpMode = currOpMode;
         this.initPos = new Pose2d(-60, -48, 0);
     }
@@ -59,6 +62,7 @@ public class RedRingCase1AutonomousOpModeRR {
 
         shootingSystem.operateShooterMotors(0.15, 0.075);
         ringFlipperSystem.resetPosition();
+        intakeGaurdServoMotor.setPosition(0.3);//down
 
         mecanumDriveRR.followTrajectory(traj1);
         mecanumDriveRR.followTrajectory(traj2);
@@ -80,9 +84,9 @@ public class RedRingCase1AutonomousOpModeRR {
          */
 
         //Go from Shooring position to WG 3 drop point & park
-        dropSecondWobbleGoal(shootRingsTraj);//If we want to drop second wobble
+        //dropSecondWobbleGoal(shootRingsTraj);//If we want to drop second wobble
 
-        //park(shootRingsTraj);
+        park(shootRingsTraj);
     }
 
     /**

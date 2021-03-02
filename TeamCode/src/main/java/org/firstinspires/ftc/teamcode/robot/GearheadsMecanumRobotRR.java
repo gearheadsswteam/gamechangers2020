@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.autonomous.AbstractAutonomousOpMode;
+import org.firstinspires.ftc.teamcode.autonomousRR.AbstractAutonomousOpModeRR;
 import org.firstinspires.ftc.teamcode.robot.actionparts.BlueRingDetectorOpenCV;
 import org.firstinspires.ftc.teamcode.robot.actionparts.Intakesystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.RingDetector;
@@ -41,6 +43,7 @@ public class GearheadsMecanumRobotRR {
     public RingFlipperSystem ringFlipperSystem;
     public WobblegoalArmRight wobblegoalArmRight;
     public WobblegoalArmLeft wobblegoalArmLeft;
+    public Servo intakeGaurdServo;
 
     //drive train for TelOp only
     public DcMotor fl_motor;
@@ -77,6 +80,9 @@ public class GearheadsMecanumRobotRR {
 
         intakesystem = new Intakesystem(intakeMotor);
         intakesystem.initialize();
+
+        intakeGaurdServo = hwMap.get(Servo.class, "intakeGaurd");
+        intakeGaurdServo.setDirection(Servo.Direction.FORWARD);
     }
 
 
@@ -137,8 +143,21 @@ public class GearheadsMecanumRobotRR {
     /**
      * Starts the Ring detector
      */
-    private void initRingDetector() {
-        ringDetector = new RingDetectorOpenCV(curOpMode, hwMap);
+    private void initRingDetector(String teamType) {
+        if(AbstractAutonomousOpModeRR.RED_TEAM.equals(teamType)){
+            //initialize red ring detector
+            ringDetector = new RedRingDetectorOpenCV(curOpMode, hwMap);
+        }
+
+        if(AbstractAutonomousOpModeRR.BLUE_TEAM.equals(teamType)){
+            //initialize blue ring detector
+            //ringDetector = new BlueRingDetectorOpenCV(curOpMode, hwMap);
+            //TODO fix this to blue
+            ringDetector = new RingDetectorOpenCV(curOpMode, hwMap);
+        }
+
+
+        //ringDetector = new RingDetectorOpenCV(curOpMode, hwMap);
         ringDetector.initialize();
     }
 
@@ -203,15 +222,16 @@ public class GearheadsMecanumRobotRR {
     /* Initialize standard Hardware interfaces */
     public void initTeleopRR(HardwareMap ahwMap) {
         init(ahwMap);
-        initRingDetector();
+        //TODO is this needed?
+        initRingDetector(AbstractAutonomousOpModeRR.RED_TEAM);
         initGyro(true);
     }
 
     /* Initialize standard Hardware interfaces */
-    public void initAutonomous(HardwareMap ahwMap) {
+    public void initAutonomous(HardwareMap ahwMap, String teamType) {
         init(ahwMap);
         initGyro(true);
-        initRingDetector();
+        initRingDetector(teamType);
     }
 
     /* Initialize standard Hardware interfaces */

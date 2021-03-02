@@ -12,6 +12,10 @@ public class BlueAutonomousModeRR extends AbstractAutonomousOpModeRR {
     //Blue Team init position
     Pose2d initPos = new Pose2d(-60, 48, 0);
 
+    public BlueAutonomousModeRR() {
+        super.TEAM_TYPE = AbstractAutonomousOpModeRR.BLUE_TEAM;
+    }
+
     @Override
     protected void initOpModeBeforeStart() {
         super.initOpModeBeforeStart();
