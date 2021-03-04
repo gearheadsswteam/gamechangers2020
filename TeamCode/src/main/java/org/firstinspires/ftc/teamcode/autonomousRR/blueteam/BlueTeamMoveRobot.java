@@ -8,10 +8,13 @@ import org.firstinspires.ftc.teamcode.autonomousRR.AbstractAutonomousOpModeRR;
 
 @Autonomous
 public class BlueTeamMoveRobot extends AbstractAutonomousOpModeRR {
-    private Pose2d initPos = BlueTeamPositions.INIT_POS;
-    private Pose2d destPos = new Pose2d(20, -48, 0);
-    private long delayMs = 0;
+    private Pose2d initPos = BlueTeamPositions.WG2_START_POS;
+    private Pose2d destPos = new Pose2d(12, 24, 0);
+    private long delayMs = 5000;
 
+    public BlueTeamMoveRobot() {
+        super.TEAM_TYPE = AbstractAutonomousOpModeRR.RED_TEAM;
+    }
     @Override
     protected void initOpModeBeforeStart() {
         super.initOpModeBeforeStart();

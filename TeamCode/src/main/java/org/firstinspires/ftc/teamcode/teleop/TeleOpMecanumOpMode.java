@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.teamcode.autonomousRR.AbstractAutonomousOpModeRR;
 import org.firstinspires.ftc.teamcode.drive.PoseStorage;
 import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobotRR;
 import org.firstinspires.ftc.teamcode.robot.actionparts.Intakesystem;
@@ -89,6 +90,8 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
         waitForStart();
 
         telemetry.addData("Status", "Started");
+        telemetry.addData("Team Type", PoseStorage.TEAM_TYPE);
+
         telemetry.update();
 
         /*
@@ -124,7 +127,12 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
         double angleFromAutonomousLastRun = PoseStorage.gyroAngle;
         //double angleFromAutonomousLastRun = Math.PI/2;
 
-        double angle = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle + angleFromAutonomousLastRun - Math.PI / 2;
+        double angle = 0;
+        if(PoseStorage.TEAM_TYPE.equals(AbstractAutonomousOpModeRR.RED_TEAM)) {
+            angle = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle + angleFromAutonomousLastRun - Math.PI / 2;
+        }else if(PoseStorage.TEAM_TYPE.equals(AbstractAutonomousOpModeRR.BLUE_TEAM)) {
+            angle = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle + angleFromAutonomousLastRun + Math.PI / 2;
+        }
 
 
         double tempForwardPower = -gamepad1.left_stick_y;

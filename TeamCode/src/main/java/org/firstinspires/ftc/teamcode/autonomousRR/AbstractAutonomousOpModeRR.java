@@ -110,6 +110,7 @@ public abstract class AbstractAutonomousOpModeRR extends LinearOpMode {
         // Transfer the current pose to PoseStorage so we can use it in TeleOp
         PoseStorage.currentPose = mecanumDriveRR.getPoseEstimate();
         PoseStorage.gyroAngle= robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
+        PoseStorage.TEAM_TYPE = this.TEAM_TYPE;
 
         // Prompt User
         telemetry.addData(">", "OpMode complete " + this.getClass().getSimpleName());
