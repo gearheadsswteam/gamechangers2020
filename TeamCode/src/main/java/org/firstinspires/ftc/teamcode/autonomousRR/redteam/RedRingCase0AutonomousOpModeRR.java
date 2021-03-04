@@ -85,8 +85,23 @@ public class RedRingCase0AutonomousOpModeRR {
         ringFlipperSystem.pushRing();
 
         shootingSystem.stopShooterMotor();
-        mecanumDriveRR.followTrajectory(traj3);
-        currOpMode.sleep(1000);
-        mecanumDriveRR.followTrajectory(traj4);
+
+//        mecanumDriveRR.followTrajectory(traj3);
+//        currOpMode.sleep(1000);
+//        mecanumDriveRR.followTrajectory(traj4);
+
+        park(traj2);
+    }
+
+    /**
+     * Park from shooring position
+     * @param shootingPosition
+     */
+    private void park(Trajectory shootingPosition){
+        //Go to the Ring stack and hit it
+        Trajectory trajForRingStack1 = mecanumDriveRR.trajectoryBuilder(shootingPosition.end())
+                .forward(6).build();
+        mecanumDriveRR.followTrajectory(trajForRingStack1);
+        currOpMode.sleep(500);
     }
 }

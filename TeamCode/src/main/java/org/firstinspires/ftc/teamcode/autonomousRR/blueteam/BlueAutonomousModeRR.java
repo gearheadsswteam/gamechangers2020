@@ -34,7 +34,7 @@ public class BlueAutonomousModeRR extends AbstractAutonomousOpModeRR {
     protected void executeOpMode() {
 
         int rings = robot.ringDetector.detectRings();
-        rings = 4;
+        //rings = 4;
         telemetry.addData("Rings ", rings);
         telemetry.update();
         sleep(500);

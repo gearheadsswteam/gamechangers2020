@@ -231,14 +231,14 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
             shootingSystem.stopShooterMotor();
         }
 
-        if (gamepad2.left_trigger > 0.3) {
-            shootingPower = POWERSHOT_SHOOTING_SPEED;
-            shootingSystem.operateShooterMotor(shootingPower);
-            telemetry.addData("Shooter speed = ", shootingPower);
-            telemetry.update();
-        } else {
-            shootingSystem.stopShooterMotor();
-        }
+//        if (gamepad2.left_trigger > 0.3) {
+//            shootingPower = POWERSHOT_SHOOTING_SPEED;
+//            shootingSystem.operateShooterMotor(shootingPower);
+//            telemetry.addData("Shooter speed = ", shootingPower);
+//            telemetry.update();
+//        } else {
+//            shootingSystem.stopShooterMotor();
+//        }
     }
 
 

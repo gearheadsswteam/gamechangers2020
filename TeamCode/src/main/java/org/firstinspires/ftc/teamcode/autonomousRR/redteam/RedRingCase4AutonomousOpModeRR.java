@@ -132,7 +132,7 @@ public class RedRingCase4AutonomousOpModeRR {
         intakesystem.startInTake();
 
         //Go to the Ring stack and hit it
-        TrajectoryConstraints slowConstraints = new MecanumConstraints(DriveConstants.SLOW_ROBOT_CONSTRAINTS, DriveConstants.TRACK_WIDTH);
+        TrajectoryConstraints slowConstraints = new MecanumConstraints(DriveConstants.SLOW_1_ROBOT_CONSTRAINTS, DriveConstants.TRACK_WIDTH);
         Trajectory trajForRingStack1 = mecanumDriveRR.trajectoryBuilder(shootingPosition.end())
                 .back(38,slowConstraints).build();
         mecanumDriveRR.followTrajectory(trajForRingStack1);

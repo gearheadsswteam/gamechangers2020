@@ -38,14 +38,14 @@ public class BlueRingCase0AutonomousOpModeRR {
         this.currOpMode = currOpMode;
     }
 
-    public void setLastPos(Pose2d lastKnownPos){
+    public void setLastPos(Pose2d lastKnownPos) {
         this.initPos = lastKnownPos;
     }
 
     public void executeOpMode() {
         //From Starting position to Case 0 drop zone
         Trajectory traj1 = mecanumDriveRR.trajectoryBuilder(initPos, 0)
-                .splineTo(new Vector2d(4.97-3, 59.69), -5.6)
+                .splineTo(new Vector2d(4.97 - 3, 59.69), -5.6)
                 .build();
 
         //From Case 0 drop zone to shooting position
@@ -56,7 +56,7 @@ public class BlueRingCase0AutonomousOpModeRR {
         //Shooting position to wobble goal 2 grab position
         Trajectory traj3 = mecanumDriveRR.trajectoryBuilder(traj2.end(), 0)
                 .splineTo(new Vector2d(-39.6, -9.1), -3.3)
-                .splineTo(new Vector2d(-57.52+6, 7.70-3), -5.0)
+                .splineTo(new Vector2d(-57.52 + 6, 7.70 - 3), -5.0)
                 .build();
 
 
@@ -64,11 +64,7 @@ public class BlueRingCase0AutonomousOpModeRR {
         TrajectoryConstraints slowConstraints = new MecanumConstraints(DriveConstants.SLOW_ROBOT_CONSTRAINTS, DriveConstants.TRACK_WIDTH);
         Trajectory traj4 = mecanumDriveRR.trajectoryBuilder(traj3.end())
                 .lineTo(new Vector2d(-51.3, 17.56), slowConstraints)
-                .splineToSplineHeading(new Pose2d(3.76+3, 52.76, 0), 0, slowConstraints).build();
-
-
-
-
+                .splineToSplineHeading(new Pose2d(3.76 + 3, 52.76, 0), 0, slowConstraints).build();
 
 
         shootingSystem.operateShooterMotors(0.15, 0.075);
@@ -85,7 +81,25 @@ public class BlueRingCase0AutonomousOpModeRR {
         ringFlipperSystem.pushRing();
 
         shootingSystem.stopShooterMotor();
-        mecanumDriveRR.followTrajectory(traj3);
-        currOpMode.sleep(1000);
-        mecanumDriveRR.followTrajectory(traj4);    }
+
+        //        mecanumDriveRR.followTrajectory(traj3);
+//        currOpMode.sleep(1000);
+//        mecanumDriveRR.followTrajectory(traj4);
+
+        park(traj2);
+    }
+
+    /**
+     * Park from shooring position
+     *
+     * @param shootingPosition
+     */
+    private void park(Trajectory shootingPosition) {
+        //Go to the Ring stack and hit it
+        Trajectory trajForRingStack1 = mecanumDriveRR.trajectoryBuilder(shootingPosition.end())
+                .forward(6).build();
+        mecanumDriveRR.followTrajectory(trajForRingStack1);
+        currOpMode.sleep(500);
+    }
+
 }

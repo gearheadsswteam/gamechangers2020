@@ -151,9 +151,9 @@ public class GearheadsMecanumRobotRR {
 
         if(AbstractAutonomousOpModeRR.BLUE_TEAM.equals(teamType)){
             //initialize blue ring detector
-            //ringDetector = new BlueRingDetectorOpenCV(curOpMode, hwMap);
+            ringDetector = new BlueRingDetectorOpenCV(curOpMode, hwMap);
             //TODO fix this to blue
-            ringDetector = new RingDetectorOpenCV(curOpMode, hwMap);
+            //ringDetector = new RingDetectorOpenCV(curOpMode, hwMap);
         }
 
 

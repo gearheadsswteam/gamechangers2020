@@ -20,11 +20,11 @@ public class RedRingDetectorOpenCV extends OpenCvPipeline implements RingDetecto
     private double ringRedThreshold = 1.1;
     private int ringNum;
     private Point ringRectBL = new Point(50, 10);
-    private Point ringRectUR = new Point(90, 90);
-    private Point ringRectML = new Point(80, 10);
+    private Point ringRectUR = new Point(80, 90);
+    private Point ringRectML = new Point(70, 10);
     private Point ringRectMR = new Point(60, 90);
     private Point sampleRectBL = new Point(50, 90);
-    private Point sampleRectUR = new Point(90, 170);
+    private Point sampleRectUR = new Point(80, 170);
     private OpenCvInternalCamera cam;
 
     private LinearOpMode curOpMode = null;   //current opmode
