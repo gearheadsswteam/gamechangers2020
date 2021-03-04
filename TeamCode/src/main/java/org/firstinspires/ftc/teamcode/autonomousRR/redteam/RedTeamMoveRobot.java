@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.autonomousRR.AbstractAutonomousOpModeRR;
 @Autonomous
 public class RedTeamMoveRobot extends AbstractAutonomousOpModeRR {
     private Pose2d initPos = RedTeamPositions.WG2_START_POS;
-    private Pose2d destPos = new Pose2d(12, -24, 0);
+    private Pose2d destPos = RedTeamPositions.SHOOTING_POS;
     private long delayMs = 5000;
 
     public RedTeamMoveRobot() {
@@ -36,8 +36,22 @@ public class RedTeamMoveRobot extends AbstractAutonomousOpModeRR {
         Trajectory traj1 = mecanumDriveRR.trajectoryBuilder(initPos, 0)
                 .splineToSplineHeading(destPos, 0)
                 .build();
+
+        Trajectory traj2 = mecanumDriveRR.trajectoryBuilder(traj1.end(), 0)
+                .forward(6).build();
+
+        robot.shootingSystem.startShooterMotor();
         this.sleep(delayMs);
         mecanumDriveRR.followTrajectory(traj1);
 
+        robot.ringFlipperSystem.pushRing();
+        sleep(500);
+        robot.ringFlipperSystem.pushRing();
+        sleep(500);
+        robot.ringFlipperSystem.pushRing();
+
+        mecanumDriveRR.followTrajectory(traj2);
+
+        robot.shootingSystem.stopShooterMotor();
     }
 }
