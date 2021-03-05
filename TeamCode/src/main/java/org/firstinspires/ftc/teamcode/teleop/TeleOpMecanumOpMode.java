@@ -186,6 +186,7 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
      */
     private void operateRingFlipSystem() {
         if (gamepad2.x) {
+            stopRobot();//Stops movement
             ringFlipperSystem.pushRing();
             sleep(400);
             ringFlipperSystem.pushRing();
@@ -256,6 +257,16 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
     private void moveRobot() {
         //Joystick Movement
         mecanum.move(forwardPower, sidePower, turn);
+        //Push data
+        pushTelemetry();
+    }
+
+    /**
+     * Drive the robot
+     */
+    private void stopRobot() {
+        //Joystick Movement
+        mecanum.move(0, 0, 0);
         //Push data
         pushTelemetry();
     }
