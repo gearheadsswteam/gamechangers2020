@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.autonomousRR.AbstractAutonomousOpModeRR;
 
-@Autonomous
+@Autonomous(name = "BlueRingPark", group = "Blue")
 public class BlueTeamMoveRobot extends AbstractAutonomousOpModeRR {
     private Pose2d initPos = BlueTeamPositions.WG2_START_POS;
     private Pose2d destPos = BlueTeamPositions.SHOOTING_POS;
