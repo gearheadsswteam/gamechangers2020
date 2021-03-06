@@ -138,7 +138,7 @@ public class BlueRingCase4AutonomousOpModeRR {
         //Go to the Ring stack and hit it
         TrajectoryConstraints slowConstraints = new MecanumConstraints(DriveConstants.SLOW_1_ROBOT_CONSTRAINTS, DriveConstants.TRACK_WIDTH);
         Trajectory trajForRingStack1 = mecanumDriveRR.trajectoryBuilder(shootingPosition.end())
-                .back(32, slowConstraints).build();
+                .back(30, slowConstraints).build();
         mecanumDriveRR.followTrajectory(trajForRingStack1);
         currOpMode.sleep(500);
 
@@ -167,8 +167,9 @@ public class BlueRingCase4AutonomousOpModeRR {
         intakesystem.startInTake();
 
         //Go to the Ring stack and hit it
+        TrajectoryConstraints slowConstraints = new MecanumConstraints(DriveConstants.SLOW_1_ROBOT_CONSTRAINTS, DriveConstants.TRACK_WIDTH);
         Trajectory trajForRingStack1 = mecanumDriveRR.trajectoryBuilder(shootingPosition.end())
-                .back(52).build();
+                .back(52,slowConstraints).build();
         mecanumDriveRR.followTrajectory(trajForRingStack1);
         currOpMode.sleep(500);
 

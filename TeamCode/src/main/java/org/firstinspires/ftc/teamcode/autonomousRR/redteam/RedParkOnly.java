@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.autonomousRR.AbstractAutonomousOpModeRR;
 @Autonomous(name = "RedParkOnly", group = "Red")
 public class RedParkOnly extends AbstractAutonomousOpModeRR {
     private Pose2d initPos = RedTeamPositions.WG2_START_POS;
-    private Pose2d destPos = RedTeamPositions.SHOOTING_POS;
+    private Pose2d destPos = RedTeamPositions.PARK_ONLY_POSITION;
     private long delayMs = 5000;
 
     public RedParkOnly() {

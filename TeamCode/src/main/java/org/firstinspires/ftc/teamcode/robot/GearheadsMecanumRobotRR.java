@@ -176,7 +176,7 @@ public class GearheadsMecanumRobotRR {
         parameters.loggingEnabled = false;
 
         imu.initialize(parameters);
-
+        calibrate = false;
         if (calibrate) {
             curOpMode.telemetry.addData("Mode", "calibrating...");
             curOpMode.telemetry.update();

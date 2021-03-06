@@ -1,15 +1,12 @@
 package org.firstinspires.ftc.teamcode.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
-import org.firstinspires.ftc.teamcode.autonomous.AbstractAutonomousOpMode;
 import org.firstinspires.ftc.teamcode.autonomousRR.AbstractAutonomousOpModeRR;
 
-@Autonomous(name = "Mecannum: RingDetectionTestOpMode", group = "Mecannum")
-@Disabled
-public class RingDetectionTestOpMode extends AbstractAutonomousOpModeRR {
-    public RingDetectionTestOpMode() {
+@Autonomous(name = "RedRingDetectionTestOpMode", group = "Red")
+public class RedRingDetectionTestOpMode extends AbstractAutonomousOpModeRR {
+    public RedRingDetectionTestOpMode() {
         super.TEAM_TYPE = AbstractAutonomousOpModeRR.RED_TEAM;
     }
 
