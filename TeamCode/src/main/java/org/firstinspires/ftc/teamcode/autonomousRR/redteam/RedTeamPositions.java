@@ -16,4 +16,5 @@ public class RedTeamPositions {
     public static final Vector2d WOBBLE_GOAL_2_PICKUP_XY= new Vector2d(-57.52, -7.70+48);
     public static final double WOBBLE_GOAL_2_PICKUP_HEADING= 5.121;
     public static final Pose2d PARK_ONLY_POSITION = new Pose2d(6, 0, 0);
+    public static final Pose2d PARK_ONLY__RIGHT_LANE_POSITION = new Pose2d(6, -63, 0);
 }
