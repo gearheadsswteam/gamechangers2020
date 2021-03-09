@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.robot;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -96,7 +97,7 @@ public class GearheadsMecanumRobotRR {
         DcMotor shootingMotorLeft = hwMap.get(DcMotor.class, "shootLeft");
         shootingMotorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shootingMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        shootingMotorLeft.setDirection(DcMotor.Direction.REVERSE);
+        shootingMotorLeft.setDirection(DcMotor.Direction.FORWARD);
 
         shootingSystem = new ShootingSystem(shootingMotorRight, shootingMotorLeft);
         shootingSystem.initialize();
