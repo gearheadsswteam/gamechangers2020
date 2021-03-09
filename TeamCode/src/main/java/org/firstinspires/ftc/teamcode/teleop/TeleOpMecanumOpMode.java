@@ -193,7 +193,7 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
             sleep(400);
             ringFlipperSystem.pushRing();
         }
-    }
+        }
 
 
 
@@ -220,34 +220,25 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
     }
 
 
-    private double SHOOTER_SPEED_1 = 1 / 5;
-    private double SHOOTER_SPEED_2 = 2 / 5;
-    private double SHOOTER_SPEED_3 = 3 / 5;
-
-    private double HIGH_GOAL_SHOOTING_SPEED = 0.2;
-    private double POWERSHOT_SHOOTING_SPEED = 0.1;
+    private double HIGH_GOAL_SHOOTING_SPEED = 0.6;
+    private double POWERSHOT_SHOOTING_SPEED = 0.35;
 
     /**
      * Operate shooter
      */
     private void operateShooter() {
         double shootingPower = HIGH_GOAL_SHOOTING_SPEED;
-        if (gamepad2.right_trigger > 0.3) {
-            shootingSystem.operateShooterMotor(shootingPower);
-            telemetry.addData("Shooter speed = ", shootingPower);
+        if (gamepad2.right_trigger >0.3) {
+            shootingSystem.operateShooterMotor(HIGH_GOAL_SHOOTING_SPEED);
+            telemetry.addData("Shooter speed = ", HIGH_GOAL_SHOOTING_SPEED);
+            telemetry.update();
+        } else if (gamepad2.left_trigger >0.3) {
+            shootingSystem.operateShooterMotor(POWERSHOT_SHOOTING_SPEED);
+            telemetry.addData("Shooter speed = ", POWERSHOT_SHOOTING_SPEED);
             telemetry.update();
         } else {
             shootingSystem.stopShooterMotor();
         }
-
-//        if (gamepad2.left_trigger > 0.3) {
-//            shootingPower = POWERSHOT_SHOOTING_SPEED;
-//            shootingSystem.operateShooterMotor(shootingPower);
-//            telemetry.addData("Shooter speed = ", shootingPower);
-//            telemetry.update();
-//        } else {
-//            shootingSystem.stopShooterMotor();
-//        }
     }
 
 
