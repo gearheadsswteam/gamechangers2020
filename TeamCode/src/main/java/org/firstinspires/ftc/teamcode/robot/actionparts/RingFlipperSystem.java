@@ -43,7 +43,7 @@ public class RingFlipperSystem {
      */
     public void pushRing(){
         operateServoToPushPosition();
-        curOpMode.sleep(300);
+        curOpMode.sleep(400);
         operateServoToResetPosition();
     }
 
