@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.robot.actionparts.ShootingSystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.WobblegoalArmLeft;
 import org.firstinspires.ftc.teamcode.robot.actionparts.WobblegoalArmRight;
 
-public class RedRingCase1AutonomousOpModeRR {
+class RedRingCase1AutonomousOpModeRR {
 
     private MecanumDriveRR mecanumDriveRR;
     private ShootingSystem shootingSystem;
@@ -60,7 +60,7 @@ public class RedRingCase1AutonomousOpModeRR {
                 .build();
 
 
-        shootingSystem.operateShooterMotors(0.15, 0.075);
+        shootingSystem.shootHighGoals();
         ringFlipperSystem.resetPosition();
         intakeGaurdServoMotor.setPosition(0.3);//down
 
@@ -157,7 +157,7 @@ public class RedRingCase1AutonomousOpModeRR {
     private void park(Trajectory shootingPosition){
         //Go to the Ring stack and hit it
         Trajectory trajForRingStack1 = mecanumDriveRR.trajectoryBuilder(shootingPosition.end())
-                .forward(6).build();
+                .forward(20).build();
         mecanumDriveRR.followTrajectory(trajForRingStack1);
         currOpMode.sleep(500);
     }

@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.autonomousRR.redteam;
+package org.firstinspires.ftc.teamcode.autonomousRR.redteam.endlanemission;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.autonomousRR.AbstractAutonomousOpModeRR;
 
-@Autonomous(name = "RedAutonomousModeRR", group = "Red")
+@Autonomous(name = "RedParkEndLane", group = "Red")
 public class RedAutonomousModeRR extends AbstractAutonomousOpModeRR {
     int ringNum;
 
