@@ -72,7 +72,7 @@ public class RedRingCase0AutonomousOpMode {
     private void shootPreloadedRings() {
 
         //Start the two shooting motors
-        autonomousRobotMover.robot.shootingSystem.operateShooterMotor(0.3);
+        autonomousRobotMover.robot.shootingSystem.shootHighGoals();
         ///Give time for motors to speed up
         currOpMode.sleep(2000);
 
