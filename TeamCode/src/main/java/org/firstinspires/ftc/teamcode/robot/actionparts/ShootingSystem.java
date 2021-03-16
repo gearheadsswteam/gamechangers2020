@@ -31,7 +31,7 @@ public class ShootingSystem {
     /**
      * Starts the ring shooting motor
      */
-    public void startShooterMotor() {
+    private void startShooterMotor() {
         if(shootingMotorRight != null) {
             shootingMotorRight.setPower(1);
         }

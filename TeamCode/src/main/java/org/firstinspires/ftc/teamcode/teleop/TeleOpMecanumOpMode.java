@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -9,6 +10,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.autonomousRR.AbstractAutonomousOpModeRR;
+import org.firstinspires.ftc.teamcode.drive.MecanumDriveRR;
 import org.firstinspires.ftc.teamcode.drive.PoseStorage;
 import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobotRR;
 import org.firstinspires.ftc.teamcode.robot.actionparts.Intakesystem;
@@ -47,6 +49,7 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
     private double turn;
     private double forwardPower;
     private double sidePower;
+    public MecanumDriveRR mecanumDriveRR;
 
 
     /**
@@ -54,7 +57,6 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
      */
     public TeleOpMecanumOpMode() {
         robot = new GearheadsMecanumRobotRR(this);
-
     }
 
     @Override
@@ -77,7 +79,22 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
             operateRingFlipSystem();
             operateShooter();
             operateWobblegoalArmSystem();
+            operatePowerShot();
+
         }
+    }
+
+    /**
+     * Turns robot left or right for power shots
+     */
+    private void operatePowerShot(){
+        if(gamepad1.x){
+            mecanumDriveRR.turn(Math.toRadians(8));
+        }else if(gamepad1.b){
+        mecanumDriveRR.turn(Math.toRadians(-8));
+        }
+
+
     }
 
     /**
@@ -100,6 +117,10 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
          */
         robot.initTeleOp(hardwareMap);
 
+        mecanumDriveRR = new MecanumDriveRR(hardwareMap);
+        //Reading position of the robot that was set in the autonomous mode.
+        mecanumDriveRR.setPoseEstimate(PoseStorage.currentPose);
+
         gyro = robot.imu;
         intakesystem = robot.intakesystem;
         shootingSystem = robot.shootingSystem;
@@ -119,6 +140,7 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
         mecanum = new MecanumDrive(fl_motor, fr_motor, rl_motor, rr_motor, gyro);
     }
 
+
     /**
      * Adjust teleop driving with FOV mode
      */
@@ -128,15 +150,15 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
         //double angleFromAutonomousLastRun = Math.PI/2;
 
         double angle = 0;
-        if(PoseStorage.TEAM_TYPE.equals(AbstractAutonomousOpModeRR.RED_TEAM)) {
+        if (PoseStorage.TEAM_TYPE.equals(AbstractAutonomousOpModeRR.RED_TEAM)) {
             angle = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle + angleFromAutonomousLastRun - Math.PI / 2;
-        }else if(PoseStorage.TEAM_TYPE.equals(AbstractAutonomousOpModeRR.BLUE_TEAM)) {
+        } else if (PoseStorage.TEAM_TYPE.equals(AbstractAutonomousOpModeRR.BLUE_TEAM)) {
             angle = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle + angleFromAutonomousLastRun + Math.PI / 2;
         }
 
 
-        double tempForwardPower = -gamepad1.left_stick_y;
-        double tempSidePower = -gamepad1.left_stick_x;
+        double tempForwardPower = gamepad1.left_stick_y;
+        double tempSidePower = gamepad1.left_stick_x;
 
         sidePower = tempForwardPower * Math.cos(angle) + tempSidePower * Math.sin(angle);
         forwardPower = -tempForwardPower * Math.sin(angle) + tempSidePower * Math.cos(angle);
@@ -185,16 +207,21 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
      * Operate the ring Flipping system
      */
     private void operateRingFlipSystem() {
-        if (gamepad2.x) {
+        //If hitting high goals
+        if (gamepad2.right_trigger > 0.3 && gamepad2.x) {
             stopRobot();//Stops movement
             ringFlipperSystem.pushRing();
-            sleep(400);
+            sleep(500);
             ringFlipperSystem.pushRing();
-            sleep(400);
+            sleep(500);
             ringFlipperSystem.pushRing();
-        }
-        }
-
+        } else //If hitting power goals
+            if (gamepad2.left_trigger > 0.3 && gamepad2.x) {
+                stopRobot();//Stops movement
+                ringFlipperSystem.pushRing();
+                sleep(500);
+            }
+    }
 
 
     /**
@@ -214,27 +241,22 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
         if (gamepad2.dpad_up) {
             robot.intakeGaurdServo.setPosition(0);//up
         }
-        if (gamepad2.dpad_down){
+        if (gamepad2.dpad_down) {
             robot.intakeGaurdServo.setPosition(0.3);//down
         }
     }
 
 
-    private double HIGH_GOAL_SHOOTING_SPEED = 0.6;
-    private double POWERSHOT_SHOOTING_SPEED = 0.35;
 
     /**
      * Operate shooter
      */
     private void operateShooter() {
-        double shootingPower = HIGH_GOAL_SHOOTING_SPEED;
-        if (gamepad2.right_trigger >0.3) {
-            shootingSystem.operateShooterMotor(HIGH_GOAL_SHOOTING_SPEED);
-            telemetry.addData("Shooter speed = ", HIGH_GOAL_SHOOTING_SPEED);
+        if (gamepad2.right_trigger > 0.2) {
+            shootingSystem.shootHighGoals();
             telemetry.update();
-        } else if (gamepad2.left_trigger >0.3) {
-            shootingSystem.operateShooterMotor(POWERSHOT_SHOOTING_SPEED);
-            telemetry.addData("Shooter speed = ", POWERSHOT_SHOOTING_SPEED);
+        } else if (gamepad2.left_trigger > 0.2) {
+            shootingSystem.shootPowerShots();
             telemetry.update();
         } else {
             shootingSystem.stopShooterMotor();
@@ -268,4 +290,5 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
         telemetry.addData("Drive Data", mecanum.getDataString());
         telemetry.update();
     }
+
 }
