@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.robot.actionparts.ShootingSystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.WobblegoalArmLeft;
 import org.firstinspires.ftc.teamcode.robot.actionparts.WobblegoalArmRight;
 
-public class BlueRingCase4AutonomousOpModeRR {
+class BlueRingCase4AutonomousOpModeRR {
 
     private MecanumDriveRR mecanumDriveRR;
     private ShootingSystem shootingSystem;
@@ -30,7 +30,7 @@ public class BlueRingCase4AutonomousOpModeRR {
     private Pose2d initPos;
     private Pose2d lastPos;
 
-    public BlueRingCase4AutonomousOpModeRR(MecanumDriveRR mecanumDriveRR, GearheadsMecanumRobotRR gearheadsMecanumRobotRR, LinearOpMode currOpMode) {
+    BlueRingCase4AutonomousOpModeRR(MecanumDriveRR mecanumDriveRR, GearheadsMecanumRobotRR gearheadsMecanumRobotRR, LinearOpMode currOpMode) {
         this.mecanumDriveRR = mecanumDriveRR;
         this.shootingSystem = gearheadsMecanumRobotRR.shootingSystem;
         this.intakesystem = gearheadsMecanumRobotRR.intakesystem;
@@ -41,7 +41,7 @@ public class BlueRingCase4AutonomousOpModeRR {
         this.currOpMode = currOpMode;
     }
 
-    public void setLastPos(Pose2d lastKnownPos){
+    public void setLastPos(Pose2d lastKnownPos) {
         this.initPos = lastKnownPos;
     }
 
@@ -49,9 +49,8 @@ public class BlueRingCase4AutonomousOpModeRR {
         //Clear the ring set up position + drop WG 1
         Trajectory traj1 = mecanumDriveRR.trajectoryBuilder(initPos, 0)
                 .splineTo(new Vector2d(-24, 56), 0)
-                .splineTo(new Vector2d(4.97-3+ 48, 59.69- 2), -5.6)
+                .splineTo(new Vector2d(4.97 - 3 + 48, 59.69 - 2), -5.6)
                 .build();
-
 
 
         //From Case 1 drop zone to shooting position
@@ -60,7 +59,7 @@ public class BlueRingCase4AutonomousOpModeRR {
                 .build();
 
 
-        shootingSystem.operateShooterMotors(0.15, 0.075);
+        shootingSystem.shootHighGoals();
         ringFlipperSystem.resetPosition();
         intakeGaurdServoMotor.setPosition(0.3);//down
 
@@ -94,6 +93,7 @@ public class BlueRingCase4AutonomousOpModeRR {
 
     /**
      * Start from shooring position and drop WG 2 + park
+     *
      * @param shootingPosition
      */
     private void dropSecondWobbleGoal(Trajectory shootingPosition) {
@@ -102,7 +102,7 @@ public class BlueRingCase4AutonomousOpModeRR {
         Trajectory traj3 = mecanumDriveRR.trajectoryBuilder(shootingPosition.end(), 0)
                 .splineTo(new Vector2d(-39.6, -9.1), -3.3)
                 //.splineTo(new Vector2d(-56.37, -5.82), 4.75)  //Newly added point
-                .splineTo(new Vector2d(-57.52+6, 7.70-5), -5.0)
+                .splineTo(new Vector2d(-57.52 + 6, 7.70 - 5), -5.0)
                 .build();
 
 
@@ -110,7 +110,7 @@ public class BlueRingCase4AutonomousOpModeRR {
         TrajectoryConstraints slowConstraints = new MecanumConstraints(DriveConstants.SLOW_ROBOT_CONSTRAINTS, DriveConstants.TRACK_WIDTH);
         Trajectory traj4 = mecanumDriveRR.trajectoryBuilder(traj3.end())
                 .lineTo(new Vector2d(-51.3, 17.56), slowConstraints)
-                .splineTo(new Vector2d(3.76-3+48, 62.76-4-3), 0, slowConstraints).build();
+                .splineTo(new Vector2d(3.76 - 3 + 48, 62.76 - 4 - 3), 0, slowConstraints).build();
 
         shootingSystem.stopShooterMotor();
         mecanumDriveRR.followTrajectory(traj3);
@@ -118,20 +118,19 @@ public class BlueRingCase4AutonomousOpModeRR {
         mecanumDriveRR.followTrajectory(traj4);
 
         Trajectory traj5 = mecanumDriveRR.trajectoryBuilder(traj4.end())
-                .splineToLinearHeading(BlueTeamPositions.PARK_POS_CASE_4,0).build();
+                .splineToLinearHeading(BlueTeamPositions.PARK_POS_CASE_4, 0).build();
 
         mecanumDriveRR.followTrajectory(traj5);
     }
 
 
-
-
-        /**
-         * Grab and shoot 3 of the 4 rings on the floor and shoot
-         * @param shootingPosition starting postion
-         * @return
-         */
-    private Trajectory grabAndShootThreeRings(Trajectory shootingPosition){
+    /**
+     * Grab and shoot 3 of the 4 rings on the floor and shoot
+     *
+     * @param shootingPosition starting postion
+     * @return
+     */
+    private Trajectory grabAndShootThreeRings(Trajectory shootingPosition) {
         //Start the intake
         intakesystem.startInTake();
 
@@ -146,7 +145,7 @@ public class BlueRingCase4AutonomousOpModeRR {
         //Move forward to shooting position
         Pose2d shootingPositionToGoTo = shootingPosition.end();
         Trajectory trajForRingStack3 = mecanumDriveRR.trajectoryBuilder(trajForRingStack1.end())
-                .splineToLinearHeading(shootingPositionToGoTo,shootingPosition.end().getHeading()).build();
+                .lineToLinearHeading(BlueTeamPositions.SHOOTING_POS_CASE_4).build();
         mecanumDriveRR.followTrajectory(trajForRingStack3);
 
         ringFlipperSystem.pushRing();
@@ -159,17 +158,18 @@ public class BlueRingCase4AutonomousOpModeRR {
 
     /**
      * Grab and shoot 4th ring
+     *
      * @param shootingPosition starting position
      * @return
      */
-    private Trajectory grabAndShootLastRing(Trajectory shootingPosition){
+    private Trajectory grabAndShootLastRing(Trajectory shootingPosition) {
         //Start the intake
         intakesystem.startInTake();
 
         //Go to the Ring stack and hit it
         TrajectoryConstraints slowConstraints = new MecanumConstraints(DriveConstants.SLOW_1_ROBOT_CONSTRAINTS, DriveConstants.TRACK_WIDTH);
         Trajectory trajForRingStack1 = mecanumDriveRR.trajectoryBuilder(shootingPosition.end())
-                .back(52,slowConstraints).build();
+                .back(52, slowConstraints).build();
         mecanumDriveRR.followTrajectory(trajForRingStack1);
         currOpMode.sleep(500);
 
@@ -177,8 +177,14 @@ public class BlueRingCase4AutonomousOpModeRR {
         //Move forward to shooting position
         Pose2d shootingPositionToGoTo = shootingPosition.end();
         Trajectory trajForRingStack3 = mecanumDriveRR.trajectoryBuilder(trajForRingStack1.end())
-                .splineToLinearHeading(shootingPositionToGoTo,shootingPosition.end().getHeading()).build();
+                .lineToLinearHeading(BlueTeamPositions.SHOOTING_POS_CASE_4).build();
         mecanumDriveRR.followTrajectory(trajForRingStack3);
+
+        ringFlipperSystem.pushRing();
+        currOpMode.sleep(500);
+
+        ringFlipperSystem.pushRing();
+        currOpMode.sleep(500);
 
         ringFlipperSystem.pushRing();
         currOpMode.sleep(500);
@@ -189,12 +195,13 @@ public class BlueRingCase4AutonomousOpModeRR {
 
     /**
      * Park the robot
+     *
      * @param shootingPosition the starting position
      */
-    private void park(Trajectory shootingPosition){
+    private void park(Trajectory shootingPosition) {
         //Go to the Ring stack and hit it
         Trajectory trajForRingStack1 = mecanumDriveRR.trajectoryBuilder(shootingPosition.end())
-                .forward(6).build();
+                .forward(20).build();
         mecanumDriveRR.followTrajectory(trajForRingStack1);
         currOpMode.sleep(500);
     }

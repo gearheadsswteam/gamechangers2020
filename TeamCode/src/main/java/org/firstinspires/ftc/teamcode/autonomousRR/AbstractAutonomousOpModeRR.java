@@ -114,6 +114,7 @@ public abstract class AbstractAutonomousOpModeRR extends LinearOpMode {
 
         // Prompt User
         telemetry.addData(">", "OpMode complete " + this.getClass().getSimpleName());
+        telemetry.addData("End State Team | gyro angle ",  PoseStorage.gyroAngle + " | " + PoseStorage.TEAM_TYPE);
         telemetry.update();
     }
 }

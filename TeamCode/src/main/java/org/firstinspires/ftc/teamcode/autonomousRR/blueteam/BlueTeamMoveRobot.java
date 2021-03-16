@@ -39,7 +39,7 @@ public class BlueTeamMoveRobot extends AbstractAutonomousOpModeRR {
         Trajectory traj2 = mecanumDriveRR.trajectoryBuilder(traj1.end(), 0)
                 .forward(6).build();
 
-        robot.shootingSystem.startShooterMotor();
+        robot.shootingSystem.shootHighGoals();
         this.sleep(delayMs);
         mecanumDriveRR.followTrajectory(traj1);
 

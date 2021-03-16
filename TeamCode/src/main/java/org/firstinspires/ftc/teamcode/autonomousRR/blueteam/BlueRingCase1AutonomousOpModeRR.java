@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.robot.actionparts.ShootingSystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.WobblegoalArmLeft;
 import org.firstinspires.ftc.teamcode.robot.actionparts.WobblegoalArmRight;
 
-public class BlueRingCase1AutonomousOpModeRR {
+class BlueRingCase1AutonomousOpModeRR {
 
     private MecanumDriveRR mecanumDriveRR;
     private ShootingSystem shootingSystem;
@@ -30,7 +30,7 @@ public class BlueRingCase1AutonomousOpModeRR {
     private Pose2d initPos;
     private Pose2d lastPos;
 
-    public BlueRingCase1AutonomousOpModeRR(MecanumDriveRR mecanumDriveRR, GearheadsMecanumRobotRR gearheadsMecanumRobotRR, LinearOpMode currOpMode) {
+    BlueRingCase1AutonomousOpModeRR(MecanumDriveRR mecanumDriveRR, GearheadsMecanumRobotRR gearheadsMecanumRobotRR, LinearOpMode currOpMode) {
         this.mecanumDriveRR = mecanumDriveRR;
         this.shootingSystem = gearheadsMecanumRobotRR.shootingSystem;
         this.intakesystem = gearheadsMecanumRobotRR.intakesystem;
@@ -59,7 +59,7 @@ public class BlueRingCase1AutonomousOpModeRR {
                 .build();
 
 
-        shootingSystem.operateShooterMotors(0.15, 0.075);
+        shootingSystem.shootHighGoals();
         ringFlipperSystem.resetPosition();
         intakeGaurdServoMotor.setPosition(0.3);//down
 
@@ -108,7 +108,7 @@ public class BlueRingCase1AutonomousOpModeRR {
         //Move forward to shooting position
         Pose2d shootingPositionToGoTo = shootingPosition.end();
         Trajectory trajForRingStack3 = mecanumDriveRR.trajectoryBuilder(trajForRingStack1.end())
-                .splineToLinearHeading(shootingPositionToGoTo, shootingPosition.end().getHeading()).build();
+                .lineToLinearHeading(BlueTeamPositions.SHOOTING_POS_CASE_1).build();
         mecanumDriveRR.followTrajectory(trajForRingStack3);
 
         ringFlipperSystem.pushRing();
@@ -159,7 +159,7 @@ public class BlueRingCase1AutonomousOpModeRR {
     private void park(Trajectory shootingPosition) {
         //Go to the Ring stack and hit it
         Trajectory trajForRingStack1 = mecanumDriveRR.trajectoryBuilder(shootingPosition.end())
-                .forward(6).build();
+                .forward(20).build();
         mecanumDriveRR.followTrajectory(trajForRingStack1);
         currOpMode.sleep(500);
     }

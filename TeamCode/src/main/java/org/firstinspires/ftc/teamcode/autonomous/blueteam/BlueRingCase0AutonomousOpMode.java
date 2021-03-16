@@ -45,7 +45,7 @@ public class BlueRingCase0AutonomousOpMode {
     }
 
     private void shootPreloadedRings() {
-        autonomousRobotMover.robot.shootingSystem.operateShooterMotor(1);
+        autonomousRobotMover.robot.shootingSystem.shootHighGoals();
         currOpMode.sleep(500);
         autonomousRobotMover.robot.ringFlipperSystem.pushRing();
         currOpMode.sleep(500);
