@@ -134,7 +134,7 @@ class RedRingCase4AutonomousOpModeRR {
         //Go to the Ring stack and hit it
         TrajectoryConstraints slowConstraints = new MecanumConstraints(DriveConstants.SLOW_1_ROBOT_CONSTRAINTS, DriveConstants.TRACK_WIDTH);
         Trajectory trajForRingStack1 = mecanumDriveRR.trajectoryBuilder(shootingPosition.end())
-                .back(30,slowConstraints).build();
+                .back(28,slowConstraints).build();
         mecanumDriveRR.followTrajectory(trajForRingStack1);
         currOpMode.sleep(500);
 
@@ -144,6 +144,7 @@ class RedRingCase4AutonomousOpModeRR {
         Trajectory trajForRingStack3 = mecanumDriveRR.trajectoryBuilder(trajForRingStack1.end())
                 .splineToLinearHeading(shootingPositionToGoTo,shootingPosition.end().getHeading()).build();
         mecanumDriveRR.followTrajectory(trajForRingStack3);
+        //mecanumDriveRR.turn(-0.1);
 
         ringFlipperSystem.pushRing();
         currOpMode.sleep(500);
@@ -166,7 +167,7 @@ class RedRingCase4AutonomousOpModeRR {
         //Go to the Ring stack and hit it
         TrajectoryConstraints slowConstraints = new MecanumConstraints(DriveConstants.SLOW_1_ROBOT_CONSTRAINTS, DriveConstants.TRACK_WIDTH);
         Trajectory trajForRingStack1 = mecanumDriveRR.trajectoryBuilder(shootingPosition.end())
-                .back(52, slowConstraints).build();
+                .back(42, slowConstraints).build();
         mecanumDriveRR.followTrajectory(trajForRingStack1);
         currOpMode.sleep(500);
 
@@ -174,8 +175,10 @@ class RedRingCase4AutonomousOpModeRR {
         //Move forward to shooting position
         Pose2d shootingPositionToGoTo = shootingPosition.end();
         Trajectory trajForRingStack3 = mecanumDriveRR.trajectoryBuilder(trajForRingStack1.end())
-                .splineToLinearHeading(shootingPositionToGoTo,shootingPosition.end().getHeading()).build();
+                .lineToLinearHeading(RedTeamPositions.SHOOTING_POS_CASE_4).build();
         mecanumDriveRR.followTrajectory(trajForRingStack3);
+        currOpMode.sleep(200);
+        mecanumDriveRR.turn(-0.1);
 
         ringFlipperSystem.pushRing();
         currOpMode.sleep(500);
