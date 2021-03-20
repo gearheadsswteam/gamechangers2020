@@ -62,7 +62,7 @@ public class ShootingSystem {
         operateShooterMotors(0.34, 0.34);
     }
     public void shootPowerShots(){
-        operateShooterMotors(0.3, 0.3);
+        operateShooterMotors(0.33, 0.33);
     }
 
     /**
