@@ -44,7 +44,7 @@ public class BlueRingDetectorOpenCV extends OpenCvPipeline implements RingDetect
         cam.setPipeline(this);
         cam.openCameraDevice();
         cam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
-        cam.setFlashlightEnabled(true);
+        cam.setFlashlightEnabled(false);//Setting flash light off for blue
     }
 
     public int detectRings() {
