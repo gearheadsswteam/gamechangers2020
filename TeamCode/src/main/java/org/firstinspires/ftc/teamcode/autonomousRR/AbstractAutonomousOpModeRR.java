@@ -95,8 +95,16 @@ public abstract class AbstractAutonomousOpModeRR extends LinearOpMode {
      */
     private void waitForDriverAcknowledgement() {
         // Prompt User
-        telemetry.addData(">", "Press start");
-        telemetry.update();
+        int counter = 0;
+
+        while(counter < 5) {
+            int rings = robot.ringDetector.detectRings();
+            telemetry.addData("Rings ", rings);
+            telemetry.addData(">", "Press start");
+            telemetry.update();
+            counter++;
+            sleep(300);
+        }
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
