@@ -1,10 +1,11 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
-import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -80,22 +81,32 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
             operateShooter();
             operateWobblegoalArmSystem();
             operatePowerShot();
-
+            setZeroHeading();
         }
     }
 
     /**
      * Turns robot left or right for power shots
      */
-    private void operatePowerShot(){
-        if(gamepad1.x){
+    private void operatePowerShot() {
+        if (gamepad1.x) {
             mecanumDriveRR.turn(Math.toRadians(8));
-        }else if(gamepad1.b){
-        mecanumDriveRR.turn(Math.toRadians(-8));
+        } else if (gamepad1.b) {
+            mecanumDriveRR.turn(Math.toRadians(-8));
         }
-
-
     }
+
+    /**
+     * Turns robot left or right for power shots
+     */
+    private void setZeroHeading() {
+        if(gamepad1.y) {
+            double angle = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle ;
+            double headingCorrection = -angle;
+            mecanumDriveRR.turn(headingCorrection);
+        }
+    }
+
 
     /**
      * Initialize the opmode
@@ -245,7 +256,6 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
             robot.intakeGaurdServo.setPosition(0.3);//down
         }
     }
-
 
 
     /**
