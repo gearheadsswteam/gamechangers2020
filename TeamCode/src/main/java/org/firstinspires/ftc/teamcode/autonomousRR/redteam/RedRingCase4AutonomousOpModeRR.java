@@ -134,7 +134,7 @@ class RedRingCase4AutonomousOpModeRR {
         //Go to the Ring stack and hit it
         TrajectoryConstraints slowConstraints = new MecanumConstraints(DriveConstants.SLOW_1_ROBOT_CONSTRAINTS, DriveConstants.TRACK_WIDTH);
         Trajectory trajForRingStack1 = mecanumDriveRR.trajectoryBuilder(shootingPosition.end())
-                .back(28,slowConstraints).build();
+                .back(24,slowConstraints).build();
         mecanumDriveRR.followTrajectory(trajForRingStack1);
         currOpMode.sleep(500);
 
@@ -178,7 +178,7 @@ class RedRingCase4AutonomousOpModeRR {
                 .lineToLinearHeading(RedTeamPositions.SHOOTING_POS_CASE_4).build();
         mecanumDriveRR.followTrajectory(trajForRingStack3);
         currOpMode.sleep(200);
-        mecanumDriveRR.turn(-0.1);
+        //mecanumDriveRR.turn(-0.1);
 
         ringFlipperSystem.pushRing();
         currOpMode.sleep(500);
