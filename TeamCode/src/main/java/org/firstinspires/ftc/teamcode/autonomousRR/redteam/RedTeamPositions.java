@@ -9,6 +9,7 @@ public class RedTeamPositions {
     public static final Pose2d INIT_POS = PoseStorage.DEFAULT_AUTONOMOUS_INIT_POSITION;
     public static final Pose2d WG2_START_POS = new Pose2d(-60, -24, 0);;
     public static final Pose2d SHOOTING_POS = new Pose2d(4.21-12, -36.82, 0);
+    public static final Pose2d PARK_RING_DROP_POS = new Pose2d(4.21+24, -36.82, -0.1);
     public static final Pose2d SHOOTING_POS_CASE_1 = new Pose2d(2.21-12, -36.82+3, -0.1);
     public static final Pose2d SHOOTING_POS_CASE_4 = new Pose2d(2.21-12, -36.82+3, -0.1);
     public static final Pose2d PARK_POS_CASE_4 = new Pose2d(4.21, -36.82, 0);
