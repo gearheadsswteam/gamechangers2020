@@ -125,6 +125,15 @@ public abstract class AbstractAutonomousOpModeRR extends LinearOpMode {
         telemetry.addData("End State Team | gyro angle ",  PoseStorage.gyroAngle + " | " + PoseStorage.TEAM_TYPE);
         telemetry.update();
     }
+
+    /**
+     * Turns robot left or right for power shots
+     */
+    private void setZeroHeading() {
+            double angle = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle ;
+            double headingCorrection = -angle;
+            mecanumDriveRR.turn(headingCorrection);
+    }
 }
 
 

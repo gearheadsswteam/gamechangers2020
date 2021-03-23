@@ -9,6 +9,7 @@ public class BlueTeamPositions {
     public static final Pose2d INIT_POS = new Pose2d(-60, 48, 0);
     public static final Pose2d WG2_START_POS = new Pose2d(-60, 24, 0);;
     public static final Pose2d SHOOTING_POS = new Pose2d(4.21-12, 36.82, -0.1);
+    public static final Pose2d PARK_RING_DROP_POS = new Pose2d(4.21+24, 36.82, -0.1);
     public static final Pose2d SHOOTING_POS_CASE_1 = new Pose2d(2.21-12, 36.82, 0);
     public static final Pose2d SHOOTING_POS_CASE_4 = new Pose2d(2.21-12, 38.82, -0.05);
     public static final Pose2d PARK_POS_CASE_4 = new Pose2d(6.21, 36.82, 0);
