@@ -49,7 +49,7 @@ class BlueRingCase1AutonomousOpModeRR {
         //Clear the ring set up position
         Trajectory traj1 = mecanumDriveRR.trajectoryBuilder(initPos, 0)
                 .splineTo(new Vector2d(-24, 56), 0)
-                .splineTo(new Vector2d(3.76 + 24, 62.76 - 24), -0.4)
+                .splineTo(new Vector2d(3.76 + 24, 62.76 - 24 + 8), -0.2)
                 .build();
 
 
@@ -133,7 +133,7 @@ class BlueRingCase1AutonomousOpModeRR {
                 .build();
 
 
-        //To slow down robot, from Wobble goal 2 catch position to Case 0 drop position
+        //To slow down robot, from Wobble goal 2 catch position to Case 1 drop position
         TrajectoryConstraints slowConstraints = new MecanumConstraints(DriveConstants.SLOW_ROBOT_CONSTRAINTS, DriveConstants.TRACK_WIDTH);
         Trajectory traj4 = mecanumDriveRR.trajectoryBuilder(traj3.end())
                 .lineTo(new Vector2d(-51.3, 17.56), slowConstraints)

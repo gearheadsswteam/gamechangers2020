@@ -50,7 +50,7 @@ class RedRingCase1AutonomousOpModeRR {
         //Clear the ring set up position & get to WG 1 drop point
         Trajectory traj1 = mecanumDriveRR.trajectoryBuilder(initPos, 0)
                 .splineTo(new Vector2d(-24, -56), 0)
-                .splineTo(new Vector2d(3.76 +24, -62.76 + 24), 0.4)
+                .splineTo(new Vector2d(3.76 +24, -62.76 + 24-6), 0.4)
                 .build();
 
 

@@ -100,7 +100,7 @@ class RedRingCase0AutonomousOpModeRR {
     private void park(Trajectory shootingPosition){
         //Go to the Ring stack and hit it
         Trajectory trajForRingStack1 = mecanumDriveRR.trajectoryBuilder(shootingPosition.end())
-                .forward(20).build();
+                .forward(20-3).build();
         mecanumDriveRR.followTrajectory(trajForRingStack1);
         currOpMode.sleep(500);
     }

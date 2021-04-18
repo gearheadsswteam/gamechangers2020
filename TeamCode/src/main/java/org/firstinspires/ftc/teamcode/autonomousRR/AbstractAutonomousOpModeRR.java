@@ -134,6 +134,19 @@ public abstract class AbstractAutonomousOpModeRR extends LinearOpMode {
             double headingCorrection = -angle;
             mecanumDriveRR.turn(headingCorrection);
     }
+
+    /**
+     * Turns robot left or right for power shots
+     */
+    private void printHeading() {
+        double gyroHeading = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle ;
+        double odometryHeading = mecanumDriveRR.getPoseEstimate().getHeading();
+
+        // Prompt User
+        telemetry.addData("gyroHeading ", Math.toDegrees(gyroHeading));
+        telemetry.addData("odometryHeading ", Math.toDegrees(odometryHeading));
+        telemetry.update();
+    }
 }
 
 
